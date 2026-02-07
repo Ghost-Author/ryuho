@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Ghost-Author</title>
+  
+  <subtitle>一间可可爱爱的文字小屋</subtitle>
+  <link href="/ryuho/atom.xml" rel="self"/>
+  
+  <link href="https://ghost-author.github.io/ryuho/"/>
+  <updated>2026-02-07T05:53:13.737Z</updated>
+  <id>https://ghost-author.github.io/ryuho/</id>
+  
+  <author>
+    <name>Ghost-Author</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="https://ghost-author.github.io/ryuho/2026/02/07/hello-world/"/>
+    <id>https://ghost-author.github.io/ryuho/2026/02/07/hello-world/</id>
+    <published>2026-02-07T12:00:00.000Z</published>
+    <updated>2026-02-07T05:53:13.737Z</updated>
+    
+    <content type="html"><![CDATA[<p>欢迎来到你的 Hexo 博客。</p><p>你可以用 <code>hexo new post &quot;标题&quot;</code> 创建新文章。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;欢迎来到你的 Hexo 博客。&lt;/p&gt;
+&lt;p&gt;你可以用 &lt;code&gt;hexo new post &amp;quot;标题&amp;quot;&lt;/code&gt; 创建新文章。&lt;/p&gt;
+
+      
+    
+    </summary>
+    
+    
+      <category term="随笔" scheme="https://ghost-author.github.io/ryuho/categories/%E9%9A%8F%E7%AC%94/"/>
+    
+    
+      <category term="生活" scheme="https://ghost-author.github.io/ryuho/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+  </entry>
+  
+</feed>
