@@ -6,7 +6,7 @@
   <link href="/ryuho/atom.xml" rel="self"/>
   
   <link href="https://ghost-author.github.io/ryuho/"/>
-  <updated>2026-02-07T06:21:31.969Z</updated>
+  <updated>2026-02-07T06:25:56.135Z</updated>
   <id>https://ghost-author.github.io/ryuho/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://ghost-author.github.io/ryuho/2026/02/07/hello-world/"/>
     <id>https://ghost-author.github.io/ryuho/2026/02/07/hello-world/</id>
     <published>2026-02-07T12:00:00.000Z</published>
-    <updated>2026-02-07T06:21:31.969Z</updated>
+    <updated>2026-02-07T06:25:56.135Z</updated>
     
     <content type="html"><![CDATA[<p>欢迎来到你的 Hexo 博客。</p><p>你可以用 <code>hexo new post &quot;标题&quot;</code> 创建新文章。</p>]]></content>
     

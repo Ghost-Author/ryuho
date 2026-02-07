@@ -15,8 +15,10 @@
   <link rel="alternate" type="application/atom+xml" title="Ghost-Author" href="/ryuho/atom.xml">
   <link rel="canonical" href="https://ghost-author.github.io/ryuho/ryuho/index.html">
   <link rel="stylesheet" href="/ryuho/css/style.css">
+  <script src="/ryuho/js/main.js" defer></script>
 <meta name="generator" content="Hexo 7.3.0"></head>
 <body>
+  <div class="reading-progress" aria-hidden="true"></div>
   <header class="site-header">
   <div class="container header-inner">
     <a class="logo" href="/ryuho/">
@@ -44,6 +46,10 @@
     <div class="hero-actions">
       <a class="btn primary" href="/ryuho/archives/">最近更新</a>
       <a class="btn ghost" href="/ryuho/about/">认识我</a>
+    </div>
+    <div class="hero-search">
+      <input type="text" placeholder="搜索文章标题..." data-search-input>
+      <a class="rss-link" href="/ryuho/atom.xml">订阅 RSS</a>
     </div>
   </div>
 </section>
@@ -123,9 +129,27 @@
   </div>
 </section>
 
+<section class="timeline">
+  <div class="section-title">
+    <h2>时间线</h2>
+    <a href="/ryuho/archives/">完整归档</a>
+  </div>
+  <div class="timeline-list">
+    
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <time datetime="2026-02-07T12:00:00.000Z">2026-02-07</time>
+          <a href="/ryuho/2026/02/07/hello-world/">Hello World</a>
+        </div>
+      </div>
+    
+  </div>
+</section>
+
 <ul class="post-list">
   
-    <li class="post-item">
+    <li class="post-item" data-post-item data-title="Hello World">
       <div class="post-main">
         <a class="post-link" href="/ryuho/2026/02/07/hello-world/">Hello World</a>
         
@@ -144,5 +168,6 @@
   </div>
 </footer>
 
+  <button class="back-to-top" aria-label="Back to top">↑</button>
 </body>
 </html>
