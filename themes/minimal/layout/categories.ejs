@@ -1,0 +1,11 @@
+<section class="archive">
+  <h1>分类</h1>
+  <div class="tag-cloud">
+    <% site.categories.each(function(cat){ %>
+      <a class="tag" href="<%= url_for(cat.path) %>">
+        <span class="tag-name"><%= cat.name %></span>
+        <span class="tag-count"><%= cat.length %></span>
+      </a>
+    <% }) %>
+  </div>
+</section>

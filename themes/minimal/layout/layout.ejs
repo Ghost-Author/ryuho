@@ -4,7 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><%= page.title ? page.title + ' | ' + config.title : config.title %></title>
-  <meta name="description" content="<%= config.description %>">
+  <meta name="description" content="<%= page.description || config.description %>">
+  <meta name="theme-color" content="#ff7bb2">
+  <meta property="og:title" content="<%= page.title ? page.title + ' | ' + config.title : config.title %>">
+  <meta property="og:description" content="<%= page.description || config.description %>">
+  <meta property="og:type" content="<%= page.layout === 'post' ? 'article' : 'website' %>">
+  <meta property="og:url" content="<%= config.url + url_for(page.path) %>">
+  <meta property="og:site_name" content="<%= config.title %>">
+  <meta name="twitter:card" content="summary">
+  <link rel="alternate" type="application/atom+xml" title="<%= config.title %>" href="<%= url_for('/atom.xml') %>">
+  <link rel="canonical" href="<%= config.url + url_for(page.path) %>">
   <link rel="stylesheet" href="<%= url_for('css/style.css') %>">
 </head>
 <body>

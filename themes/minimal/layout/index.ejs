@@ -1,8 +1,15 @@
 <section class="hero">
-  <h1><%= config.title %></h1>
-  <% if (config.subtitle) { %>
-    <p class="subtitle"><%= config.subtitle %></p>
-  <% } %>
+  <div class="hero-card">
+    <p class="hero-kicker">欢迎来到我的小宇宙</p>
+    <h1><%= config.title %></h1>
+    <% if (config.subtitle) { %>
+      <p class="subtitle"><%= config.subtitle %></p>
+    <% } %>
+    <div class="hero-actions">
+      <a class="btn primary" href="<%= url_for('/archives/') %>">最近更新</a>
+      <a class="btn ghost" href="<%= url_for('/about/') %>">认识我</a>
+    </div>
+  </div>
 </section>
 
 <ul class="post-list">
