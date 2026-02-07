@@ -5,7 +5,6 @@ tags:
   - 生活
 categories:
   - 随笔
-cover: /ryuho/images/hero.jpg
 ---
 
 欢迎来到你的 Hexo 博客。
