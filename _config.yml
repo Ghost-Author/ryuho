@@ -86,3 +86,16 @@ feed:
 sitemap:
   path: sitemap.xml
   rel: true
+
+# Theme custom
+theme_config:
+  avatar_url: /ryuho/images/avatar.png
+  mood: '今日心情：甜甜的草莓汽水。'
+  favorites_tag: '生活'
+  hero_image: /ryuho/images/hero.jpg
+  quote: '把温柔留给生活，把灵感留给自己。'
+  links:
+    - name: '我的朋友圈'
+      url: 'https://ghost-author.github.io/ryuho'
+    - name: '灵感收集站'
+      url: 'https://ghost-author.github.io/ryuho'

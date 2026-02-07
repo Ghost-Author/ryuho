@@ -12,10 +12,94 @@
   </div>
 </section>
 
+<section class="profile-grid">
+  <div class="profile-card">
+    <div class="avatar">
+      <% if (theme.avatar_url) { %>
+        <img src="<%= theme.avatar_url %>" alt="avatar">
+      <% } %>
+    </div>
+    <div>
+      <h2>Ghost-Author</h2>
+      <p class="subtitle">记录生活与灵感的小确幸</p>
+      <div class="chip-row">
+        <span class="chip">可爱主义</span>
+        <span class="chip">生活随笔</span>
+        <span class="chip">阅读笔记</span>
+      </div>
+    </div>
+  </div>
+  <div class="stats-card">
+    <div class="stat">
+      <span class="stat-label">文章</span>
+      <span class="stat-value"><%= site.posts.length %></span>
+    </div>
+    <div class="stat">
+      <span class="stat-label">标签</span>
+      <span class="stat-value"><%= site.tags.length %></span>
+    </div>
+    <div class="stat">
+      <span class="stat-label">分类</span>
+      <span class="stat-value"><%= site.categories.length %></span>
+    </div>
+  </div>
+</section>
+
+<section class="mood-links">
+  <div class="mood-card">
+    <h3>今日一句</h3>
+    <p><%= theme.mood || '今日心情：一切都刚刚好。' %></p>
+  </div>
+  <div class="photo-card">
+    <% if (theme.hero_image) { %>
+      <img src="<%= theme.hero_image %>" alt="hero" loading="lazy">
+    <% } %>
+    <div class="photo-caption"><%= theme.quote || '把温柔留给生活，把灵感留给自己。' %></div>
+  </div>
+  <div class="links-card">
+    <h3>友情链接</h3>
+    <div class="links-grid">
+      <% (theme.links || []).forEach(function(link){ %>
+        <a class="link-pill" href="<%= link.url %>" target="_blank" rel="noopener"><%= link.name %></a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="featured">
+  <div class="section-title">
+    <h2>精选小卡片</h2>
+    <a href="<%= url_for('/archives/') %>">查看全部</a>
+  </div>
+  <div class="featured-grid">
+    <% 
+      const favoritesTag = theme.favorites_tag || '';
+      const candidates = favoritesTag ? site.posts.filter(function(p){ 
+        return p.tags && p.tags.find(function(t){ return t.name === favoritesTag; });
+      }) : page.posts;
+      const pick = (candidates.length ? candidates : page.posts).slice(0, 3);
+    %>
+    <% pick.forEach(function(post){ %>
+      <article class="featured-card">
+        <a href="<%= url_for(post.path) %>">
+          <h3><%= post.title %></h3>
+          <p class="featured-excerpt"><%= post.excerpt ? strip_html(post.excerpt).slice(0, 80) : '点进来看看这篇小故事～' %></p>
+          <time datetime="<%= date_xml(post.date) %>"><%= date(post.date, 'YYYY-MM-DD') %></time>
+        </a>
+      </article>
+    <% }) %>
+  </div>
+</section>
+
 <ul class="post-list">
   <% page.posts.each(function(post){ %>
     <li class="post-item">
-      <a class="post-link" href="<%= url_for(post.path) %>"><%= post.title %></a>
+      <div class="post-main">
+        <a class="post-link" href="<%= url_for(post.path) %>"><%= post.title %></a>
+        <% if (post.cover) { %>
+          <img class="post-cover" src="<%= post.cover %>" alt="<%= post.title %>" loading="lazy">
+        <% } %>
+      </div>
       <time class="post-date" datetime="<%= date_xml(post.date) %>"><%= date(post.date, 'YYYY-MM-DD') %></time>
     </li>
   <% }) %>

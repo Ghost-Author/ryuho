@@ -3,6 +3,9 @@
     <h1><%= page.title %></h1>
     <time datetime="<%= date_xml(page.date) %>"><%= date(page.date, 'YYYY-MM-DD') %></time>
   </header>
+  <% if (page.cover) { %>
+    <img class="post-hero" src="<%= page.cover %>" alt="<%= page.title %>" loading="lazy">
+  <% } %>
   <% if (page.tags && page.tags.length) { %>
     <div class="post-meta">
       <% page.tags.each(function(tag){ %>
