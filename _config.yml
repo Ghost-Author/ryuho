@@ -86,8 +86,3 @@ feed:
 sitemap:
   path: sitemap.xml
   rel: true
-robots:
-  useragent: '*'
-  allow:
-    - /
-  sitemap: https://ghost-author.github.io/ryuho/sitemap.xml
