@@ -9,6 +9,10 @@
       <a class="btn primary" href="<%= url_for('/archives/') %>">最近更新</a>
       <a class="btn ghost" href="<%= url_for('/about/') %>">认识我</a>
     </div>
+    <div class="hero-search">
+      <input type="text" placeholder="搜索文章标题..." data-search-input>
+      <a class="rss-link" href="<%= url_for('/atom.xml') %>">订阅 RSS</a>
+    </div>
   </div>
 </section>
 
@@ -91,9 +95,27 @@
   </div>
 </section>
 
+<section class="timeline">
+  <div class="section-title">
+    <h2>时间线</h2>
+    <a href="<%= url_for('/archives/') %>">完整归档</a>
+  </div>
+  <div class="timeline-list">
+    <% page.posts.slice(0, 5).forEach(function(post){ %>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <time datetime="<%= date_xml(post.date) %>"><%= date(post.date, 'YYYY-MM-DD') %></time>
+          <a href="<%= url_for(post.path) %>"><%= post.title %></a>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</section>
+
 <ul class="post-list">
   <% page.posts.each(function(post){ %>
-    <li class="post-item">
+    <li class="post-item" data-post-item data-title="<%= post.title %>">
       <div class="post-main">
         <a class="post-link" href="<%= url_for(post.path) %>"><%= post.title %></a>
         <% if (post.cover) { %>

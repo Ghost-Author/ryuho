@@ -15,12 +15,15 @@
   <link rel="alternate" type="application/atom+xml" title="<%= config.title %>" href="<%= url_for('/atom.xml') %>">
   <link rel="canonical" href="<%= config.url + url_for(page.path) %>">
   <link rel="stylesheet" href="<%= url_for('css/style.css') %>">
+  <script src="<%= url_for('js/main.js') %>" defer></script>
 </head>
 <body>
+  <div class="reading-progress" aria-hidden="true"></div>
   <%- partial('_partial/header') %>
   <main class="container">
     <%- body %>
   </main>
   <%- partial('_partial/footer') %>
+  <button class="back-to-top" aria-label="Back to top">↑</button>
 </body>
 </html>
