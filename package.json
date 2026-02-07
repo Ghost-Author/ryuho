@@ -7,6 +7,7 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "new": "hexo new post",
+    "daily": "node scripts/daily.js",
     "server": "hexo server"
   },
   "dependencies": {
