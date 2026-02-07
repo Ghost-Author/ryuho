@@ -1,0 +1,21 @@
+<section class="hero">
+  <h1><%= config.title %></h1>
+  <% if (config.subtitle) { %>
+    <p class="subtitle"><%= config.subtitle %></p>
+  <% } %>
+</section>
+
+<ul class="post-list">
+  <% page.posts.each(function(post){ %>
+    <li class="post-item">
+      <a class="post-link" href="<%= url_for(post.path) %>"><%= post.title %></a>
+      <time class="post-date" datetime="<%= date_xml(post.date) %>"><%= date(post.date, 'YYYY-MM-DD') %></time>
+    </li>
+  <% }) %>
+</ul>
+
+<% if (page.total > page.current) { %>
+  <nav class="pagination">
+    <a class="next" href="<%= url_for(page.next_link) %>">下一页</a>
+  </nav>
+<% } %>

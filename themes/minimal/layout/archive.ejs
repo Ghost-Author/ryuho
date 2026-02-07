@@ -1,0 +1,11 @@
+<section class="archive">
+  <h1>归档</h1>
+  <ul class="post-list">
+    <% page.posts.each(function(post){ %>
+      <li class="post-item">
+        <a class="post-link" href="<%= url_for(post.path) %>"><%= post.title %></a>
+        <time class="post-date" datetime="<%= date_xml(post.date) %>"><%= date(post.date, 'YYYY-MM-DD') %></time>
+      </li>
+    <% }) %>
+  </ul>
+</section>
