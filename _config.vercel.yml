@@ -1,0 +1,4 @@
+# Hexo config for Vercel (root deploy)
+
+url: https://ryuho-kappa.vercel.app
+root: /

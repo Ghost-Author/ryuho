@@ -89,10 +89,10 @@ sitemap:
 
 # Theme custom
 theme_config:
-  avatar_url: /ryuho/images/avatar.png
+  avatar_url: /images/avatar.png
   mood: '今日心情：甜甜的草莓汽水。'
   favorites_tag: '生活'
-  hero_image: /ryuho/images/hero.jpg
+  hero_image: /images/hero.jpg
   quote: '把温柔留给生活，把灵感留给自己。'
   links:
     - name: '我的朋友圈'
