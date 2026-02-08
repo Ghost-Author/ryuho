@@ -53,12 +53,16 @@ cover: /images/hero.jpg
 ---
 
 今日一句：
+-
 
-今日小事：
+今日小确幸：
+- 
 
-今日感受：
+今天心里的一盏小灯：
+-
 
-明天想做的事：
+明天给自己的一个小约定：
+-
 `;
 
 fs.writeFileSync(filepath, content, 'utf8');
