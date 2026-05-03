@@ -379,6 +379,64 @@ body::after {
   margin: 8px 0 32px;
 }
 
+.discover {
+  margin: 8px 0 32px;
+}
+
+.discover-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.discover-panel {
+  background: var(--card);
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  box-shadow: 0 14px 28px var(--shadow);
+  padding: 20px;
+}
+
+.discover-panel h3 {
+  margin: 0 0 12px;
+}
+
+.compact-links {
+  display: grid;
+  gap: 8px;
+}
+
+.compact-links a,
+.latest-link {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  min-height: 38px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: var(--soft);
+  border: 1px solid var(--line-strong);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.compact-links strong {
+  color: var(--accent);
+}
+
+.compact-note,
+.latest-link time {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.latest-link {
+  min-height: 72px;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
 .mood-card,
 .links-card {
   background: var(--card);
@@ -978,6 +1036,10 @@ body::after {
   padding: 12px 0 32px;
 }
 
+.tag-index {
+  align-items: stretch;
+}
+
 .tag {
   display: inline-flex;
   align-items: center;
@@ -1068,6 +1130,10 @@ body::after {
   }
 
   .mood-links {
+    grid-template-columns: 1fr;
+  }
+
+  .discover-grid {
     grid-template-columns: 1fr;
   }
 
