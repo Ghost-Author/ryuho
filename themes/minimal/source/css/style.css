@@ -732,6 +732,38 @@ body::after {
   font-size: 21px;
 }
 
+.post-content h2,
+.post-content h3,
+.post-content h4,
+.page-content h2,
+.page-content h3,
+.page-content h4 {
+  scroll-margin-top: 96px;
+}
+
+.heading-anchor {
+  margin-left: 8px;
+  color: var(--muted);
+  font-size: 0.75em;
+  opacity: 0;
+  text-decoration: none;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.post-content h2:hover .heading-anchor,
+.post-content h3:hover .heading-anchor,
+.post-content h4:hover .heading-anchor,
+.page-content h2:hover .heading-anchor,
+.page-content h3:hover .heading-anchor,
+.page-content h4:hover .heading-anchor,
+.heading-anchor:focus {
+  opacity: 1;
+}
+
+.heading-anchor:hover {
+  color: var(--accent);
+}
+
 .post-content a,
 .page-content a {
   color: var(--accent);
@@ -760,7 +792,7 @@ body::after {
 .post-content pre,
 .page-content pre {
   overflow: auto;
-  margin: 24px 0;
+  margin: 0;
   padding: 18px;
   border-radius: 16px;
   background: #211827;
@@ -774,6 +806,32 @@ body::after {
   border: 0;
   background: transparent;
   color: inherit;
+}
+
+.code-block {
+  position: relative;
+  margin: 24px 0;
+}
+
+.code-copy {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+  min-height: 30px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.1);
+  color: #f7eef8;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+.code-copy:hover {
+  background: rgba(255, 255, 255, 0.18);
 }
 
 .post-content hr,
