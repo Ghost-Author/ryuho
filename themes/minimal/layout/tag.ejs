@@ -1,11 +1,25 @@
 <section class="archive">
-  <h1>标签：<%= page.tag %></h1>
+  <header class="archive-header">
+    <h1>标签：<%= page.tag %></h1>
+    <p>这个标签下有 <strong><%= page.posts.length %></strong> 篇文章。</p>
+  </header>
   <ul class="post-list">
-    <% page.posts.each(function(post){ %>
-      <li class="post-item">
-        <a class="post-link" href="<%= url_for(post.path) %>"><%= post.title %></a>
-        <time class="post-date" datetime="<%= date_xml(post.date) %>"><%= date(post.date, 'YYYY-MM-DD') %></time>
+    <% if (page.posts.length) { %>
+      <% page.posts.each(function(post){ %>
+      <li class="post-item rich-post-item">
+        <div class="post-main">
+          <div>
+            <a class="post-link" href="<%= url_for(post.path) %>"><%= post.title %></a>
+            <p class="post-excerpt"><%= strip_html(post.excerpt || post.content || '').replace(/\s+/g, ' ').trim().slice(0, 96) %></p>
+          </div>
+        </div>
+        <div class="post-side">
+          <time class="post-date" datetime="<%= date_xml(post.date) %>"><%= date(post.date, 'YYYY-MM-DD') %></time>
+        </div>
       </li>
-    <% }) %>
+      <% }) %>
+    <% } else { %>
+      <li class="empty-state">这个标签下暂时没有文章。</li>
+    <% } %>
   </ul>
 </section>

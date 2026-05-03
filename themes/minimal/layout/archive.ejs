@@ -1,11 +1,42 @@
 <section class="archive">
-  <h1>归档</h1>
-  <ul class="post-list">
-    <% page.posts.each(function(post){ %>
-      <li class="post-item">
-        <a class="post-link" href="<%= url_for(post.path) %>"><%= post.title %></a>
-        <time class="post-date" datetime="<%= date_xml(post.date) %>"><%= date(post.date, 'YYYY-MM-DD') %></time>
-      </li>
-    <% }) %>
-  </ul>
+  <header class="archive-header">
+    <h1>归档</h1>
+    <p>共收录 <strong><%= page.posts.length %></strong> 篇文章。</p>
+  </header>
+  <% if (page.posts.length) { %>
+    <%
+      const groups = {};
+      page.posts.each(function(post) {
+        const year = date(post.date, 'YYYY');
+        if (!groups[year]) groups[year] = [];
+        groups[year].push(post);
+      });
+    %>
+    <div class="archive-groups">
+      <% Object.keys(groups).forEach(function(year) { %>
+        <section class="archive-year">
+          <h2><%= year %></h2>
+          <ul class="post-list">
+            <% groups[year].forEach(function(post) { %>
+            <li class="post-item archive-post-item">
+              <div>
+                <a class="post-link" href="<%= url_for(post.path) %>"><%= post.title %></a>
+                <% if (post.tags && post.tags.length) { %>
+                  <div class="mini-tags" aria-label="文章标签">
+                    <% post.tags.each(function(tag){ %>
+                      <a href="<%= url_for(tag.path) %>">#<%= tag.name %></a>
+                    <% }) %>
+                  </div>
+                <% } %>
+              </div>
+              <time class="post-date" datetime="<%= date_xml(post.date) %>"><%= date(post.date, 'MM-DD') %></time>
+            </li>
+            <% }); %>
+          </ul>
+        </section>
+      <% }); %>
+    </div>
+  <% } else { %>
+    <p class="empty-state">还没有归档文章。</p>
+  <% } %>
 </section>

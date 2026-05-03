@@ -5,9 +5,11 @@
   "scripts": {
     "build": "hexo generate",
     "clean": "hexo clean",
+    "check": "npm run clean && npm run build",
     "deploy": "hexo deploy",
     "new": "hexo new post",
     "daily": "node tools/daily.js",
+    "start": "hexo server",
     "server": "hexo server"
   },
   "dependencies": {

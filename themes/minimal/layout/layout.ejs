@@ -1,29 +1,85 @@
 <!doctype html>
 <html lang="<%= config.language %>">
 <head>
+  <%
+    const rawTitle = page.title ? page.title + ' | ' + config.title : config.title;
+    const rawBody = page.excerpt || (page.layout === 'post' ? page.content : '');
+    const rawDescription = page.description || (rawBody ? strip_html(rawBody) : config.description);
+    const metaDescription = String(rawDescription || '').replace(/\s+/g, ' ').trim().slice(0, 160);
+    const canonicalUrl = (page.canonical_path ? full_url_for(page.canonical_path) : (page.permalink || full_url_for(page.path || ''))).replace(/index\.html$/, '');
+    const imagePath = page.cover || theme.og_image || theme.hero_image || theme.avatar_url;
+    const ogImage = imagePath ? full_url_for(imagePath) : '';
+  %>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><%= page.title ? page.title + ' | ' + config.title : config.title %></title>
-  <meta name="description" content="<%= page.description || config.description %>">
-  <meta name="theme-color" content="#ff7bb2">
-  <meta property="og:title" content="<%= page.title ? page.title + ' | ' + config.title : config.title %>">
-  <meta property="og:description" content="<%= page.description || config.description %>">
+  <title><%= rawTitle %></title>
+  <meta name="description" content="<%= metaDescription %>">
+  <% if (canonicalUrl.indexOf('/404.html') !== -1) { %>
+    <meta name="robots" content="noindex, follow">
+  <% } %>
+  <meta name="author" content="<%= config.author %>">
+  <meta name="generator" content="Hexo">
+  <meta name="theme-color" content="#ff7bb2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#211827" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="<%= rawTitle %>">
+  <meta property="og:description" content="<%= metaDescription %>">
   <meta property="og:type" content="<%= page.layout === 'post' ? 'article' : 'website' %>">
-  <meta property="og:url" content="<%= config.url + url_for(page.path) %>">
+  <meta property="og:url" content="<%= canonicalUrl %>">
   <meta property="og:site_name" content="<%= config.title %>">
+  <% if (ogImage) { %>
+    <meta property="og:image" content="<%= ogImage %>">
+  <% } %>
   <meta name="twitter:card" content="summary">
-  <link rel="alternate" type="application/atom+xml" title="<%= config.title %>" href="<%= url_for('/atom.xml') %>">
-  <link rel="canonical" href="<%= config.url + url_for(page.path) %>">
+  <% if (page.layout === 'post') { %>
+    <meta property="article:published_time" content="<%= date_xml(page.date) %>">
+    <% if (page.updated) { %>
+      <meta property="article:modified_time" content="<%= date_xml(page.updated) %>">
+    <% } %>
+  <% } %>
+  <link rel="alternate" type="application/atom+xml" title="<%= config.title %>" href="<%= full_url_for('/atom.xml') %>">
+  <link rel="canonical" href="<%= canonicalUrl %>">
+  <link rel="manifest" href="<%= url_for('/site.webmanifest') %>">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = saved || (prefersDark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
   <link rel="stylesheet" href="<%= url_for('css/style.css') %>">
   <script src="<%= url_for('js/main.js') %>" defer></script>
+  <script type="application/ld+json">
+    <%- JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': page.layout === 'post' ? 'BlogPosting' : 'WebSite',
+      headline: page.title || config.title,
+      name: page.title || config.title,
+      description: metaDescription,
+      url: canonicalUrl,
+      image: ogImage || undefined,
+      author: {
+        '@type': 'Person',
+        name: config.author
+      },
+      publisher: {
+        '@type': 'Person',
+        name: config.author
+      },
+      datePublished: page.layout === 'post' ? date_xml(page.date) : undefined,
+      dateModified: page.layout === 'post' && page.updated ? date_xml(page.updated) : undefined
+    }).replace(/</g, '\\u003c') %>
+  </script>
 </head>
 <body>
   <div class="reading-progress" aria-hidden="true"></div>
+  <a class="skip-link" href="#content">跳到正文</a>
   <%- partial('_partial/header') %>
-  <main class="container">
+  <main class="container" id="content" tabindex="-1">
     <%- body %>
   </main>
   <%- partial('_partial/footer') %>
-  <button class="back-to-top" aria-label="Back to top">↑</button>
+  <button class="back-to-top" type="button" aria-label="回到顶部">↑</button>
 </body>
 </html>

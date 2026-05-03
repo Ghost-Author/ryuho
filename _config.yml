@@ -6,7 +6,7 @@ subtitle: '一间可可爱爱的文字小屋'
 description: 'Ghost-Author 的个人博客，记录生活与灵感。'
 author: Ghost-Author
 language: zh-CN
-timezone: ''
+timezone: Asia/Shanghai
 
 # URL
 url: https://ghost-author.github.io/ryuho
@@ -93,6 +93,7 @@ theme_config:
   mood: '今日心情：甜甜的草莓汽水。'
   favorites_tag: '生活'
   hero_image: /images/hero.jpg
+  og_image: /images/hero.jpg
   quote: '把温柔留给生活，把灵感留给自己。'
   links:
     - name: '我的朋友圈'

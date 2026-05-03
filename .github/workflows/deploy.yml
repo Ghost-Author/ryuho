@@ -22,10 +22,10 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
 
       - name: Generate Site
-        run: npx hexo generate
+        run: npm run build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4

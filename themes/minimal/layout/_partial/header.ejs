@@ -1,15 +1,25 @@
 <header class="site-header">
+  <%
+    const currentPath = page.path || '';
+    function isActive(target) {
+      if (target === '/') return currentPath === '' || currentPath === 'index.html';
+      return currentPath.indexOf(target.replace(/^\/|\/$/g, '') + '/') === 0;
+    }
+  %>
   <div class="container header-inner">
     <a class="logo" href="<%= url_for('/') %>">
       <span class="logo-dot"></span>
       <span><%= config.title %></span>
     </a>
-    <nav class="nav">
-      <a href="<%= url_for('/') %>">首页</a>
-      <a href="<%= url_for('/about/') %>">关于</a>
-      <a href="<%= url_for('/tags/') %>">标签</a>
-      <a href="<%= url_for('/categories/') %>">分类</a>
-      <a href="<%= url_for('/archives/') %>">归档</a>
+    <nav class="nav" aria-label="主导航">
+      <a href="<%= url_for('/') %>" <%- isActive('/') ? 'aria-current="page"' : '' %>>首页</a>
+      <a href="<%= url_for('/about/') %>" <%- isActive('/about/') ? 'aria-current="page"' : '' %>>关于</a>
+      <a href="<%= url_for('/tags/') %>" <%- isActive('/tags/') ? 'aria-current="page"' : '' %>>标签</a>
+      <a href="<%= url_for('/categories/') %>" <%- isActive('/categories/') ? 'aria-current="page"' : '' %>>分类</a>
+      <a href="<%= url_for('/archives/') %>" <%- isActive('/archives/') ? 'aria-current="page"' : '' %>>归档</a>
     </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换深色模式" aria-pressed="false">
+      <span aria-hidden="true" data-theme-icon>☾</span>
+    </button>
   </div>
 </header>

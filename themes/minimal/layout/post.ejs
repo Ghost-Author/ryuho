@@ -1,8 +1,17 @@
 <article class="post post-layout">
   <header class="post-header">
     <h1><%= page.title %></h1>
-    <time datetime="<%= date_xml(page.date) %>"><%= date(page.date, 'YYYY-MM-DD') %></time>
+    <div class="post-meta-line">
+      <time datetime="<%= date_xml(page.date) %>"><%= date(page.date, 'YYYY-MM-DD') %></time>
+      <span><%= Math.max(1, Math.ceil(strip_html(page.content || '').length / 500)) %> 分钟阅读</span>
+      <% if (page.updated && date(page.updated, 'YYYY-MM-DD') !== date(page.date, 'YYYY-MM-DD')) { %>
+        <span>更新于 <time datetime="<%= date_xml(page.updated) %>"><%= date(page.updated, 'YYYY-MM-DD') %></time></span>
+      <% } %>
+    </div>
   </header>
+  <% if (page.cover) { %>
+    <img class="post-hero" src="<%= url_for(page.cover) %>" alt="" loading="eager">
+  <% } %>
   <% if (page.tags && page.tags.length) { %>
     <div class="post-meta">
       <% page.tags.each(function(tag){ %>
@@ -12,15 +21,29 @@
       <% }) %>
     </div>
   <% } %>
+  <div class="post-actions" aria-label="文章操作">
+    <button class="text-action" type="button" data-copy-link data-copy-text="复制链接" data-copied-text="已复制">复制链接</button>
+    <a class="text-action" href="<%= url_for('/archives/') %>">查看归档</a>
+  </div>
   <div class="post-body">
     <div class="post-content">
       <%- page.content %>
     </div>
-    <aside class="post-toc">
-      <h3>目录</h3>
-      <div class="toc-inner">
-        <%- toc(page.content) %>
-      </div>
-    </aside>
+    <% if (toc(page.content)) { %>
+      <aside class="post-toc" aria-label="文章目录">
+        <h3>目录</h3>
+        <div class="toc-inner">
+          <%- toc(page.content) %>
+        </div>
+      </aside>
+    <% } %>
   </div>
+  <nav class="post-nav" aria-label="文章翻页">
+    <% if (page.prev) { %>
+      <a href="<%= url_for(page.prev.path) %>">上一篇：<%= page.prev.title %></a>
+    <% } %>
+    <% if (page.next) { %>
+      <a href="<%= url_for(page.next.path) %>">下一篇：<%= page.next.title %></a>
+    <% } %>
+  </nav>
 </article>
