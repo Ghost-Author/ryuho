@@ -1,0 +1,23 @@
+{
+  "name": "Ghost-Author",
+  "short_name": "Ryuho",
+  "description": "Ghost-Author 的个人博客，记录生活与灵感。",
+  "lang": "zh-CN",
+  "start_url": "/ryuho/",
+  "scope": "/ryuho/",
+  "display": "standalone",
+  "background_color": "#fff4fb",
+  "theme_color": "#ff7bb2",
+  "icons": [
+    {
+      "src": "/ryuho/images/avatar.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/ryuho/images/avatar.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

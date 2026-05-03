@@ -1,41 +1,68 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
+  
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>分类 | Ghost-Author</title>
   <meta name="description" content="Ghost-Author 的个人博客，记录生活与灵感。">
-  <meta name="theme-color" content="#ff7bb2">
+  
+  <meta name="author" content="Ghost-Author">
+  <meta name="generator" content="Hexo">
+  <meta name="theme-color" content="#ff7bb2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#211827" media="(prefers-color-scheme: dark)">
   <meta property="og:title" content="分类 | Ghost-Author">
   <meta property="og:description" content="Ghost-Author 的个人博客，记录生活与灵感。">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://ghost-author.github.io/ryuho/ryuho/categories/index.html">
+  <meta property="og:url" content="https://ghost-author.github.io/ryuho/categories/">
   <meta property="og:site_name" content="Ghost-Author">
+  
+    <meta property="og:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
   <meta name="twitter:card" content="summary">
-  <link rel="alternate" type="application/atom+xml" title="Ghost-Author" href="/ryuho/atom.xml">
-  <link rel="canonical" href="https://ghost-author.github.io/ryuho/ryuho/categories/index.html">
+  
+  <link rel="alternate" type="application/atom+xml" title="Ghost-Author" href="https://ghost-author.github.io/ryuho/atom.xml">
+  <link rel="canonical" href="https://ghost-author.github.io/ryuho/categories/">
+  <link rel="manifest" href="/ryuho/site.webmanifest">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = saved || (prefersDark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
   <link rel="stylesheet" href="/ryuho/css/style.css">
   <script src="/ryuho/js/main.js" defer></script>
-<meta name="generator" content="Hexo 7.3.0"></head>
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebSite","headline":"分类","name":"分类","description":"Ghost-Author 的个人博客，记录生活与灵感。","url":"https://ghost-author.github.io/ryuho/categories/","image":"https://ghost-author.github.io/ryuho/images/hero.jpg","author":{"@type":"Person","name":"Ghost-Author"},"publisher":{"@type":"Person","name":"Ghost-Author"}}
+  </script>
+</head>
 <body>
   <div class="reading-progress" aria-hidden="true"></div>
+  <a class="skip-link" href="#content">跳到正文</a>
   <header class="site-header">
+  
   <div class="container header-inner">
     <a class="logo" href="/ryuho/">
       <span class="logo-dot"></span>
       <span>Ghost-Author</span>
     </a>
-    <nav class="nav">
-      <a href="/ryuho/">首页</a>
-      <a href="/ryuho/about/">关于</a>
-      <a href="/ryuho/tags/">标签</a>
-      <a href="/ryuho/categories/">分类</a>
-      <a href="/ryuho/archives/">归档</a>
+    <nav class="nav" aria-label="主导航">
+      <a href="/ryuho/" >首页</a>
+      <a href="/ryuho/about/" >关于</a>
+      <a href="/ryuho/tags/" >标签</a>
+      <a href="/ryuho/categories/" aria-current="page">分类</a>
+      <a href="/ryuho/archives/" >归档</a>
     </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换深色模式" aria-pressed="false">
+      <span aria-hidden="true" data-theme-icon>☾</span>
+    </button>
   </div>
 </header>
 
-  <main class="container">
+  <main class="container" id="content" tabindex="-1">
     <section class="archive">
   <h1>分类</h1>
   <div class="tag-cloud">
@@ -55,11 +82,12 @@
 
   </main>
   <footer class="site-footer">
-  <div class="container">
+  <div class="container footer-inner">
     <span>© 2026 Ghost-Author.</span>
+    <span>Built with Hexo. <a href="/ryuho/atom.xml">RSS</a></span>
   </div>
 </footer>
 
-  <button class="back-to-top" aria-label="Back to top">↑</button>
+  <button class="back-to-top" type="button" aria-label="回到顶部">↑</button>
 </body>
 </html>

@@ -1,41 +1,68 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
+  
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>关于我 | Ghost-Author</title>
   <meta name="description" content="Ghost-Author 的个人博客，记录生活与灵感。">
-  <meta name="theme-color" content="#ff7bb2">
+  
+  <meta name="author" content="Ghost-Author">
+  <meta name="generator" content="Hexo">
+  <meta name="theme-color" content="#ff7bb2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#211827" media="(prefers-color-scheme: dark)">
   <meta property="og:title" content="关于我 | Ghost-Author">
   <meta property="og:description" content="Ghost-Author 的个人博客，记录生活与灵感。">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://ghost-author.github.io/ryuho/ryuho/about/index.html">
+  <meta property="og:url" content="https://ghost-author.github.io/ryuho/about/">
   <meta property="og:site_name" content="Ghost-Author">
+  
+    <meta property="og:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
   <meta name="twitter:card" content="summary">
-  <link rel="alternate" type="application/atom+xml" title="Ghost-Author" href="/ryuho/atom.xml">
-  <link rel="canonical" href="https://ghost-author.github.io/ryuho/ryuho/about/index.html">
+  
+  <link rel="alternate" type="application/atom+xml" title="Ghost-Author" href="https://ghost-author.github.io/ryuho/atom.xml">
+  <link rel="canonical" href="https://ghost-author.github.io/ryuho/about/">
+  <link rel="manifest" href="/ryuho/site.webmanifest">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = saved || (prefersDark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
   <link rel="stylesheet" href="/ryuho/css/style.css">
   <script src="/ryuho/js/main.js" defer></script>
-<meta name="generator" content="Hexo 7.3.0"></head>
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebSite","headline":"关于我","name":"关于我","description":"Ghost-Author 的个人博客，记录生活与灵感。","url":"https://ghost-author.github.io/ryuho/about/","image":"https://ghost-author.github.io/ryuho/images/hero.jpg","author":{"@type":"Person","name":"Ghost-Author"},"publisher":{"@type":"Person","name":"Ghost-Author"}}
+  </script>
+</head>
 <body>
   <div class="reading-progress" aria-hidden="true"></div>
+  <a class="skip-link" href="#content">跳到正文</a>
   <header class="site-header">
+  
   <div class="container header-inner">
     <a class="logo" href="/ryuho/">
       <span class="logo-dot"></span>
       <span>Ghost-Author</span>
     </a>
-    <nav class="nav">
-      <a href="/ryuho/">首页</a>
-      <a href="/ryuho/about/">关于</a>
-      <a href="/ryuho/tags/">标签</a>
-      <a href="/ryuho/categories/">分类</a>
-      <a href="/ryuho/archives/">归档</a>
+    <nav class="nav" aria-label="主导航">
+      <a href="/ryuho/" >首页</a>
+      <a href="/ryuho/about/" aria-current="page">关于</a>
+      <a href="/ryuho/tags/" >标签</a>
+      <a href="/ryuho/categories/" >分类</a>
+      <a href="/ryuho/archives/" >归档</a>
     </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换深色模式" aria-pressed="false">
+      <span aria-hidden="true" data-theme-icon>☾</span>
+    </button>
   </div>
 </header>
 
-  <main class="container">
+  <main class="container" id="content" tabindex="-1">
     <article class="page">
   <header class="page-header">
     <h1>关于我</h1>
@@ -51,7 +78,7 @@
 <p>如果你也喜欢温柔克制的文字、慢慢展开的日常和一点点小浪漫，我们可以在这里相遇、慢慢交换心情。</p>
 <p>联系方式：</p>
 <ul>
-<li>邮箱：<a href="mailto:&#x6c;&#x69;&#117;&#x70;&#x67;&#x67;&#x67;&#x40;&#103;&#x6d;&#97;&#105;&#108;&#x2e;&#x63;&#111;&#109;">liupggg@gmail.com</a></li>
+<li>邮箱：<a href="mailto:&#108;&#105;&#x75;&#x70;&#x67;&#103;&#103;&#x40;&#103;&#109;&#97;&#105;&#x6c;&#46;&#99;&#x6f;&#x6d;">liupggg@gmail.com</a></li>
 </ul>
 
   </div>
@@ -59,11 +86,12 @@
 
   </main>
   <footer class="site-footer">
-  <div class="container">
+  <div class="container footer-inner">
     <span>© 2026 Ghost-Author.</span>
+    <span>Built with Hexo. <a href="/ryuho/atom.xml">RSS</a></span>
   </div>
 </footer>
 
-  <button class="back-to-top" aria-label="Back to top">↑</button>
+  <button class="back-to-top" type="button" aria-label="回到顶部">↑</button>
 </body>
 </html>
