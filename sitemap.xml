@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://ghost-author.github.io/ryuho/tags/index.html</loc>
+    
+    <lastmod>2026-05-03</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://ghost-author.github.io/ryuho/2026/02/07/hello-world/</loc>
     
     <lastmod>2026-05-03</lastmod>
@@ -11,7 +20,7 @@
   </url>
   
   <url>
-    <loc>https://ghost-author.github.io/ryuho/2026/02/08/%E6%97%A5%E8%AE%B0-2026-02-08/</loc>
+    <loc>https://ghost-author.github.io/ryuho/2026/02/07/%E6%97%A5%E8%AE%B0-2026-02-07/</loc>
     
     <lastmod>2026-05-03</lastmod>
     
@@ -20,7 +29,7 @@
   </url>
   
   <url>
-    <loc>https://ghost-author.github.io/ryuho/2026/02/07/%E6%97%A5%E8%AE%B0-2026-02-07/</loc>
+    <loc>https://ghost-author.github.io/ryuho/2026/02/08/%E6%97%A5%E8%AE%B0-2026-02-08/</loc>
     
     <lastmod>2026-05-03</lastmod>
     
@@ -48,15 +57,6 @@
   
   <url>
     <loc>https://ghost-author.github.io/ryuho/categories/index.html</loc>
-    
-    <lastmod>2026-05-03</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ghost-author.github.io/ryuho/tags/index.html</loc>
     
     <lastmod>2026-05-03</lastmod>
     

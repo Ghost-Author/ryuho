@@ -75,6 +75,47 @@
       table.parentNode.insertBefore(wrapper, table);
       wrapper.appendChild(table);
     });
+
+    Array.from(content.querySelectorAll('h2[id], h3[id], h4[id]')).forEach(function (heading) {
+      if (heading.querySelector('.heading-anchor')) return;
+      const anchor = document.createElement('a');
+      anchor.className = 'heading-anchor';
+      anchor.href = '#' + heading.id;
+      anchor.setAttribute('aria-label', '复制或打开这一段链接');
+      anchor.textContent = '#';
+      heading.appendChild(anchor);
+    });
+
+    Array.from(content.querySelectorAll('pre')).forEach(function (pre) {
+      if (pre.parentElement && pre.parentElement.classList.contains('code-block')) return;
+      const wrapper = document.createElement('div');
+      wrapper.className = 'code-block';
+      const button = document.createElement('button');
+      button.className = 'code-copy';
+      button.type = 'button';
+      button.textContent = '复制';
+      pre.parentNode.insertBefore(wrapper, pre);
+      wrapper.appendChild(button);
+      wrapper.appendChild(pre);
+
+      button.addEventListener('click', function () {
+        const code = pre.textContent || '';
+        const reset = function () {
+          window.setTimeout(function () {
+            button.textContent = '复制';
+          }, 1600);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(code).then(function () {
+            button.textContent = '已复制';
+            reset();
+          }).catch(function () {
+            button.textContent = '复制失败';
+            reset();
+          });
+        }
+      });
+    });
   }
 
   const copyLink = document.querySelector('[data-copy-link]');
