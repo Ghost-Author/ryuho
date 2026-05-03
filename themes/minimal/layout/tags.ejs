@@ -1,11 +1,18 @@
 <section class="archive">
-  <h1>标签</h1>
-  <div class="tag-cloud">
-    <% site.tags.each(function(tag){ %>
-      <a class="tag" href="<%= url_for(tag.path) %>">
-        <span class="tag-name"><%= tag.name %></span>
-        <span class="tag-count"><%= tag.length %></span>
-      </a>
-    <% }) %>
-  </div>
+  <header class="archive-header">
+    <h1>标签</h1>
+    <p>用关键词重新发现文章，共 <strong><%= site.tags.length %></strong> 个标签。</p>
+  </header>
+  <% if (site.tags.length) { %>
+    <div class="tag-cloud tag-index">
+      <% site.tags.each(function(tag){ %>
+        <a class="tag" href="<%= url_for(tag.path) %>">
+          <span class="tag-name"><%= tag.name %></span>
+          <span class="tag-count"><%= tag.length %></span>
+        </a>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <p class="empty-state">还没有标签。</p>
+  <% } %>
 </section>

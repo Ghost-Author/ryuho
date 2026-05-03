@@ -25,7 +25,7 @@
       <% } %>
     </div>
     <div>
-      <h2>Ghost-Author</h2>
+      <h2><%= config.author %></h2>
       <p class="subtitle">记录生活与灵感的小确幸</p>
       <div class="chip-row">
         <span class="chip">可爱主义</span>
@@ -47,6 +47,65 @@
       <span class="stat-label">分类</span>
       <span class="stat-value"><%= site.categories.length %></span>
     </div>
+  </div>
+</section>
+
+<section class="discover">
+  <div class="section-title">
+    <h2>探索小站</h2>
+    <a href="<%= url_for('/tags/') %>">所有标签</a>
+  </div>
+  <%
+    const tagList = [];
+    const categoryList = [];
+    site.tags.each(function(tag) { tagList.push(tag); });
+    site.categories.each(function(cat) { categoryList.push(cat); });
+    tagList.sort(function(a, b) { return b.length - a.length; });
+    categoryList.sort(function(a, b) { return b.length - a.length; });
+    const latestPost = page.posts.length ? page.posts.slice(0, 1)[0] : null;
+  %>
+  <div class="discover-grid">
+    <article class="discover-panel">
+      <h3>热门标签</h3>
+      <% if (tagList.length) { %>
+        <div class="compact-links">
+          <% tagList.slice(0, 8).forEach(function(tag) { %>
+            <a href="<%= url_for(tag.path) %>">
+              <span>#<%= tag.name %></span>
+              <strong><%= tag.length %></strong>
+            </a>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <p class="compact-note">还没有标签。</p>
+      <% } %>
+    </article>
+    <article class="discover-panel">
+      <h3>分类导航</h3>
+      <% if (categoryList.length) { %>
+        <div class="compact-links">
+          <% categoryList.slice(0, 8).forEach(function(cat) { %>
+            <a href="<%= url_for(cat.path) %>">
+              <span><%= cat.name %></span>
+              <strong><%= cat.length %></strong>
+            </a>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <p class="compact-note">还没有分类。</p>
+      <% } %>
+    </article>
+    <article class="discover-panel latest-panel">
+      <h3>最近更新</h3>
+      <% if (latestPost) { %>
+        <a class="latest-link" href="<%= url_for(latestPost.path) %>">
+          <span><%= latestPost.title %></span>
+          <time datetime="<%= date_xml(latestPost.date) %>"><%= date(latestPost.date, 'YYYY-MM-DD') %></time>
+        </a>
+      <% } else { %>
+        <p class="compact-note">第一篇文章正在路上。</p>
+      <% } %>
+    </article>
   </div>
 </section>
 

@@ -1,11 +1,18 @@
 <section class="archive">
-  <h1>分类</h1>
-  <div class="tag-cloud">
-    <% site.categories.each(function(cat){ %>
-      <a class="tag" href="<%= url_for(cat.path) %>">
-        <span class="tag-name"><%= cat.name %></span>
-        <span class="tag-count"><%= cat.length %></span>
-      </a>
-    <% }) %>
-  </div>
+  <header class="archive-header">
+    <h1>分类</h1>
+    <p>按主题整理文章，共 <strong><%= site.categories.length %></strong> 个分类。</p>
+  </header>
+  <% if (site.categories.length) { %>
+    <div class="tag-cloud tag-index">
+      <% site.categories.each(function(cat){ %>
+        <a class="tag" href="<%= url_for(cat.path) %>">
+          <span class="tag-name"><%= cat.name %></span>
+          <span class="tag-count"><%= cat.length %></span>
+        </a>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <p class="empty-state">还没有分类。</p>
+  <% } %>
 </section>
