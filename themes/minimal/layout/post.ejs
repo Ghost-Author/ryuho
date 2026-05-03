@@ -1,9 +1,14 @@
 <article class="post post-layout">
+  <%
+    const wordCount = strip_html(page.content || '').replace(/\s+/g, '').length;
+    const readingMinutes = Math.max(1, Math.ceil(wordCount / 500));
+  %>
   <header class="post-header">
     <h1><%= page.title %></h1>
     <div class="post-meta-line">
       <time datetime="<%= date_xml(page.date) %>"><%= date(page.date, 'YYYY-MM-DD') %></time>
-      <span><%= Math.max(1, Math.ceil(strip_html(page.content || '').length / 500)) %> 分钟阅读</span>
+      <span><%= readingMinutes %> 分钟阅读</span>
+      <span><%= wordCount %> 字</span>
       <% if (page.updated && date(page.updated, 'YYYY-MM-DD') !== date(page.date, 'YYYY-MM-DD')) { %>
         <span>更新于 <time datetime="<%= date_xml(page.updated) %>"><%= date(page.updated, 'YYYY-MM-DD') %></time></span>
       <% } %>
@@ -38,6 +43,35 @@
       </aside>
     <% } %>
   </div>
+  <footer class="post-end">
+    <div class="post-end-card">
+      <h2>读完这篇</h2>
+      <dl class="post-facts">
+        <div>
+          <dt>字数</dt>
+          <dd><%= wordCount %></dd>
+        </div>
+        <div>
+          <dt>阅读</dt>
+          <dd><%= readingMinutes %> 分钟</dd>
+        </div>
+        <% if (page.categories && page.categories.length) { %>
+          <div>
+            <dt>分类</dt>
+            <dd>
+              <% page.categories.each(function(cat, index){ %>
+                <a href="<%= url_for(cat.path) %>"><%= cat.name %></a><%= index < page.categories.length - 1 ? '、' : '' %>
+              <% }) %>
+            </dd>
+          </div>
+        <% } %>
+      </dl>
+      <div class="post-end-actions">
+        <a class="text-action" href="<%= url_for('/') %>">回到首页</a>
+        <a class="text-action" href="<%= url_for('/tags/') %>">浏览标签</a>
+      </div>
+    </div>
+  </footer>
   <nav class="post-nav" aria-label="文章翻页">
     <% if (page.prev) { %>
       <a href="<%= url_for(page.prev.path) %>">上一篇：<%= page.prev.title %></a>

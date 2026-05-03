@@ -1,6 +1,7 @@
 ---
 title: 关于我
 date: 2026-02-07 12:00:00
+description: 关于 Ghost-Author 的生活记录、兴趣和联系方式。
 ---
 
 你好呀，我是 Ghost-Author，一名努力打工的小牛马。
