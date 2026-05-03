@@ -900,6 +900,13 @@ body::after {
   margin-top: 8px;
 }
 
+.page-description {
+  max-width: 680px;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.7;
+}
+
 .post-actions {
   display: flex;
   gap: 10px;
@@ -1016,6 +1023,59 @@ body::after {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
   margin-top: 36px;
+}
+
+.post-end {
+  margin-top: 36px;
+}
+
+.post-end-card {
+  padding: 20px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  box-shadow: 0 12px 26px var(--shadow);
+}
+
+.post-end-card h2 {
+  margin: 0 0 14px;
+  font-size: 20px;
+}
+
+.post-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0 0 16px;
+}
+
+.post-facts div {
+  padding: 12px;
+  border-radius: 14px;
+  background: var(--soft);
+  border: 1px solid var(--line-strong);
+}
+
+.post-facts dt {
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.post-facts dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+.post-facts a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.post-end-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .post-nav a {
@@ -1210,6 +1270,10 @@ body::after {
   }
 
   .post-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .post-facts {
     grid-template-columns: 1fr;
   }
 }
