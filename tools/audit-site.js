@@ -186,6 +186,21 @@ const leakedFiles = htmlFiles.filter((file) => {
 
 addCheck('html has no undefined/null leaks', leakedFiles.length === 0, leakedFiles.map((file) => path.relative(publicDir, file)).join(', '));
 
+const placeholderPatterns = [
+  /欢迎来到你的 Hexo 博客/,
+  /hexo new post/,
+  /今日一句：\s*<\/p>/,
+  /今日小事：\s*<\/p>/,
+  /今日感受：\s*<\/p>/,
+  /明天想做的事：\s*<\/p>/
+];
+const placeholderFiles = htmlFiles.filter((file) => {
+  const content = fs.readFileSync(file, 'utf8');
+  return placeholderPatterns.some((pattern) => pattern.test(content));
+});
+
+addCheck('html has no starter or empty diary content', placeholderFiles.length === 0, placeholderFiles.map((file) => path.relative(publicDir, file)).join(', '));
+
 const manifestIconProblems = (manifest.icons || []).flatMap((icon) => {
   const iconPath = toInternalPath(icon.src || '', siteOrigin, siteBase) || icon.src || '';
   const relativePath = toPublicRelative(iconPath, siteBase);
