@@ -6,7 +6,7 @@
   <link href="/ryuho/atom.xml" rel="self"/>
   
   <link href="https://ghost-author.github.io/ryuho/"/>
-  <updated>2026-05-13T12:21:47.795Z</updated>
+  <updated>2026-05-13T12:26:17.905Z</updated>
   <id>https://ghost-author.github.io/ryuho/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://ghost-author.github.io/ryuho/2026/02/08/%E6%97%A5%E8%AE%B0-2026-02-08/"/>
     <id>https://ghost-author.github.io/ryuho/2026/02/08/%E6%97%A5%E8%AE%B0-2026-02-08/</id>
     <published>2026-02-08T04:30:00.000Z</published>
-    <updated>2026-05-13T12:21:47.795Z</updated>
+    <updated>2026-05-13T12:26:17.905Z</updated>
     
     <content type="html"><![CDATA[<p>今日一句：<br>把生活过成一朵柔软的云。</p><p>今日小事：<br>给博客换了更可爱的风格，首页多了心情卡片和时间线，读起来更有温度。</p><p>今日感受：<br>少量的改动就能让页面更舒服，像整理房间一样，心情也被顺带整理好。</p><p>明天想做的事：<br>写一篇关于「最近在看的书」的小短文。</p>]]></content>
     
@@ -50,20 +50,13 @@
     <link href="https://ghost-author.github.io/ryuho/2026/02/07/%E6%97%A5%E8%AE%B0-2026-02-07/"/>
     <id>https://ghost-author.github.io/ryuho/2026/02/07/%E6%97%A5%E8%AE%B0-2026-02-07/</id>
     <published>2026-02-07T07:59:10.000Z</published>
-    <updated>2026-05-13T12:21:47.795Z</updated>
+    <updated>2026-05-13T12:26:17.905Z</updated>
     
-    <content type="html"><![CDATA[<p>今日一句：</p><p>今日小事：</p><p>今日感受：</p><p>明天想做的事：</p>]]></content>
+    <content type="html"><![CDATA[<p>今日一句：<br>给生活留一个可以慢慢说话的角落。</p><p>今日小事：<br>把博客的基础结构搭起来，整理了首页、标签、分类和关于页面，也给未来的日记准备了固定的位置。</p><p>今日感受：<br>一个小站开始有了自己的样子。虽然内容还不多，但只要入口清楚、节奏舒服，就会让人愿意继续写下去。</p><p>明天想做的事：<br>补一篇更完整的日记，把今天没有展开的想法慢慢写完。</p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;今日一句：&lt;/p&gt;
-&lt;p&gt;今日小事：&lt;/p&gt;
-&lt;p&gt;今日感受：&lt;/p&gt;
-&lt;p&gt;明天想做的事：&lt;/p&gt;
-
-      
+      第一次认真整理这个小站，给生活记录留出一个安静、可持续的位置。
     
     </summary>
     
@@ -76,22 +69,17 @@
   </entry>
   
   <entry>
-    <title>Hello World</title>
+    <title>小站开张：从这里开始</title>
     <link href="https://ghost-author.github.io/ryuho/2026/02/07/hello-world/"/>
     <id>https://ghost-author.github.io/ryuho/2026/02/07/hello-world/</id>
     <published>2026-02-07T04:00:00.000Z</published>
-    <updated>2026-05-13T12:21:47.794Z</updated>
+    <updated>2026-05-13T12:26:17.904Z</updated>
     
-    <content type="html"><![CDATA[<p>欢迎来到你的 Hexo 博客。</p><p>你可以用 <code>hexo new post &quot;标题&quot;</code> 创建新文章。</p>]]></content>
+    <content type="html"><![CDATA[<p>这个小站从一篇很轻的记录开始。</p><p>我想把这里当作一个安静的收纳盒：放一些生活里的小事、路上的风景、读到的句子，也放那些突然冒出来但暂时还不知道会长成什么的念头。</p><p>以后你大概会在这里看到三类内容：</p><ul><li>日常里的小确幸</li><li>阅读、旅行和钓鱼相关的片段</li><li>对博客本身的整理和改进记录</li></ul><p>不追求很快，也不急着把每件事都讲完整。能稳定地写下去，就已经是一件温柔的小事。</p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;欢迎来到你的 Hexo 博客。&lt;/p&gt;
-&lt;p&gt;你可以用 &lt;code&gt;hexo new post &amp;quot;标题&amp;quot;&lt;/code&gt; 创建新文章。&lt;/p&gt;
-
-      
+      这个小站的第一篇记录，写给正在慢慢成形的生活、阅读和灵感。
     
     </summary>
     
