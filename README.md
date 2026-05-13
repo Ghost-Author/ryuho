@@ -15,7 +15,10 @@ npm run server
 npm run daily   # 创建当天日记
 npm run build   # 生成静态站点
 npm run clean   # 清理 public 与缓存
-npm run check   # 清理后重新生成，用于提交前检查
+npm run audit   # 检查生成后的站点产物
+npm run check   # 使用 GitHub Pages 配置清理、生成并审计
+npm run check:vercel # 使用 Vercel 根路径配置清理、生成并审计
+npm run build:vercel # Vercel 构建命令
 ```
 
 ## Writing
@@ -30,7 +33,19 @@ npm run new "文章标题"
 
 ## Deploy
 
-Push 到 `main` 后，GitHub Actions 会使用 `npm ci` 安装锁定依赖、运行 `npm run build` 生成站点，并发布 `public` 到 GitHub Pages。
+Push 到 `main` 后，GitHub Actions 会使用 `npm ci` 安装锁定依赖、运行 `npm run check` 生成并审计站点，然后发布 `public` 到 GitHub Pages。
+
+Vercel 部署使用 `npm run build:vercel`，会合并 `_config.yml` 和 `_config.vercel.yml`，并在生成后运行站点审计。
+
+`robots.txt` 和 `site.webmanifest` 会根据当前 Hexo 的 `url/root` 自动生成，因此 GitHub Pages 子路径和 Vercel 根路径都能得到正确的地址。
+
+提交前建议运行：
+
+```bash
+npm run check
+```
+
+这个命令会重新生成站点并审计关键产物：主页 SEO、404 noindex、RSS、sitemap、manifest、canonical、内部链接、静态资源引用，以及 HTML 中是否出现 `undefined`/`null` 这类模板泄漏。
 
 ## Theme
 

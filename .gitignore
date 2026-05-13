@@ -3,3 +3,5 @@ public/
 .deploy_git/
 .DS_Store
 db.json
+_multiconfig.yml
+.codex/

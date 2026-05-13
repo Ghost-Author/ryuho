@@ -4,8 +4,12 @@
   "private": true,
   "scripts": {
     "build": "hexo generate",
+    "build:github": "hexo generate",
     "clean": "hexo clean",
-    "check": "npm run clean && npm run build",
+    "audit": "node tools/audit-site.js",
+    "check": "npm run clean && npm run build:github && npm run audit",
+    "check:vercel": "npm run build:vercel",
+    "build:vercel": "hexo clean && hexo generate --config _config.yml,_config.vercel.yml && npm run audit",
     "deploy": "hexo deploy",
     "new": "hexo new post",
     "daily": "node tools/daily.js",

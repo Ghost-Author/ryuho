@@ -25,12 +25,12 @@
       <% } %>
     </div>
     <div>
-      <h2><%= config.author %></h2>
-      <p class="subtitle">记录生活与灵感的小确幸</p>
+      <h2><%= theme.profile_title || config.author %></h2>
+      <p class="subtitle"><%= theme.profile_subtitle || config.description %></p>
       <div class="chip-row">
-        <span class="chip">可爱主义</span>
-        <span class="chip">生活随笔</span>
-        <span class="chip">阅读笔记</span>
+        <% (theme.profile_chips || []).forEach(function(chip){ %>
+          <span class="chip"><%= chip %></span>
+        <% }) %>
       </div>
     </div>
   </div>

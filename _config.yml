@@ -90,6 +90,12 @@ sitemap:
 # Theme custom
 theme_config:
   avatar_url: /images/avatar.png
+  profile_title: Ghost-Author
+  profile_subtitle: '记录生活与灵感的小确幸'
+  profile_chips:
+    - '可爱主义'
+    - '生活随笔'
+    - '阅读笔记'
   mood: '今日心情：甜甜的草莓汽水。'
   favorites_tag: '生活'
   hero_image: /images/hero.jpg
