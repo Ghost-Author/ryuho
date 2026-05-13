@@ -284,7 +284,72 @@ body::after {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 18px;
-  margin: 24px 0 36px;
+  margin: 24px 0 32px;
+}
+
+.latest-spotlight {
+  margin: 24px 0 32px;
+}
+
+.spotlight-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  padding: 22px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  box-shadow: 0 14px 28px var(--shadow);
+}
+
+.spotlight-main {
+  min-width: 0;
+}
+
+.spotlight-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.spotlight-card h3 {
+  margin: 8px 0;
+  font-size: 26px;
+  line-height: 1.25;
+}
+
+.spotlight-card h3 a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.spotlight-card h3 a:hover {
+  color: var(--accent);
+}
+
+.spotlight-card p {
+  max-width: 680px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.spotlight-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: 0 10px 20px var(--shadow);
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
 }
 
 .profile-card,
@@ -483,6 +548,38 @@ body::after {
   background: var(--soft);
   border: 1px solid var(--line-strong);
   font-size: 13px;
+}
+
+.subscribe-band {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 8px 0 32px;
+  padding: 22px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  box-shadow: 0 14px 28px var(--shadow);
+}
+
+.subscribe-band h2 {
+  margin: 0 0 6px;
+  font-size: 22px;
+}
+
+.subscribe-band p {
+  max-width: 620px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.subscribe-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .post-list {
@@ -1243,6 +1340,15 @@ body::after {
     grid-template-columns: 1fr;
   }
 
+  .spotlight-card {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .spotlight-action {
+    justify-self: start;
+  }
+
   .featured-grid {
     grid-template-columns: 1fr;
   }
@@ -1253,6 +1359,15 @@ body::after {
 
   .discover-grid {
     grid-template-columns: 1fr;
+  }
+
+  .subscribe-band {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .subscribe-actions {
+    justify-content: flex-start;
   }
 
   .post-main {

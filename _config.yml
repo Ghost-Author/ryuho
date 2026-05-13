@@ -101,6 +101,7 @@ theme_config:
   hero_image: /images/hero.jpg
   og_image: /images/hero.jpg
   quote: '把温柔留给生活，把灵感留给自己。'
+  contact_email: liupggg@gmail.com
   links:
     - name: '我的朋友圈'
       url: 'https://ghost-author.github.io/ryuho'

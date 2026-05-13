@@ -137,6 +137,7 @@ const manifest = JSON.parse(readPublic('site.webmanifest'));
 const siteBase = getSiteBase(manifest);
 const indexHtml = readPublic('index.html');
 const notFoundHtml = readPublic('404.html');
+const atom = readPublic('atom.xml');
 const robots = readPublic('robots.txt');
 const sitemap = readPublic('sitemap.xml');
 const sitemapLocations = Array.from(sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)).map((match) => match[1]);
@@ -207,6 +208,10 @@ const htmlWithoutDescription = [];
 const htmlWithoutOgUrl = [];
 const imagesWithoutSize = [];
 const brokenReferences = [];
+const feedHasEntries = /<entry>/i.test(atom);
+const latestCtaMatch = indexHtml.match(/<a\s+class=["']btn primary["']\s+href=["']([^"']+)["']>\s*阅读最新文章\s*<\/a>/i);
+const latestCtaPath = latestCtaMatch ? latestCtaMatch[1] : '';
+const latestCtaInternalPath = latestCtaPath ? toInternalPath(latestCtaPath, siteOrigin, siteBase) : '';
 
 htmlFiles.forEach((file) => {
   const content = fs.readFileSync(file, 'utf8');
@@ -248,6 +253,11 @@ addCheck('html pages have descriptions', htmlWithoutDescription.length === 0, ht
 addCheck('html pages have Open Graph URLs', htmlWithoutOgUrl.length === 0, htmlWithoutOgUrl.join(', '));
 addCheck('manifest icons match declared types', manifestIconProblems.length === 0, manifestIconProblems.join(', '));
 addCheck('html images declare dimensions', imagesWithoutSize.length === 0, Array.from(new Set(imagesWithoutSize)).join(', '));
+addCheck(
+  'home latest article CTA resolves',
+  !feedHasEntries || Boolean(latestCtaInternalPath && !/\/archives\/?$/.test(latestCtaInternalPath) && pathExists(latestCtaInternalPath, siteBase)),
+  latestCtaPath || 'missing CTA'
+);
 addCheck('internal links and assets resolve', brokenReferences.length === 0, brokenReferences.slice(0, 8).join(', '));
 addCheck('sitemap targets resolve', missingSitemapTargets.length === 0, missingSitemapTargets.join(', '));
 

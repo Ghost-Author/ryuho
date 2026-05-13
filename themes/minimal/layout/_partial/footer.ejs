@@ -1,6 +1,12 @@
 <footer class="site-footer">
   <div class="container footer-inner">
-    <span>© <%= new Date().getFullYear() %> <%= config.author %>.</span>
-    <span>Built with Hexo. <a href="<%= url_for('/atom.xml') %>">RSS</a></span>
+    <span>© <%= new Date().getFullYear() %> <%= config.author %>. 记录生活与灵感。</span>
+    <span>
+      <a href="<%= url_for('/atom.xml') %>">RSS</a>
+      <% if (theme.contact_email) { %>
+        · <a href="mailto:<%= theme.contact_email %>">Email</a>
+      <% } %>
+      · <a href="<%= url_for('/archives/') %>">归档</a>
+    </span>
   </div>
 </footer>

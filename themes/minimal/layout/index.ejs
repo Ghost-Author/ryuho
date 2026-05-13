@@ -1,13 +1,28 @@
+<%
+  const tagList = [];
+  const categoryList = [];
+  site.tags.each(function(tag) { tagList.push(tag); });
+  site.categories.each(function(cat) { categoryList.push(cat); });
+  tagList.sort(function(a, b) { return b.length - a.length; });
+  categoryList.sort(function(a, b) { return b.length - a.length; });
+
+  const orderedPosts = [];
+  site.posts.sort('date', -1).each(function(post) { orderedPosts.push(post); });
+  const latestPost = orderedPosts[0] || null;
+  const latestExcerpt = latestPost ? strip_html(latestPost.excerpt || latestPost.content || '').replace(/\s+/g, ' ').trim() : '';
+  const latestReadingMinutes = latestPost ? Math.max(1, Math.ceil(strip_html(latestPost.content || '').length / 500)) : 0;
+%>
+
 <section class="hero">
   <div class="hero-card">
-    <p class="hero-kicker">欢迎来到我的小宇宙</p>
+    <p class="hero-kicker">个人博客 · 生活记录 · 灵感收集</p>
     <h1><%= config.title %></h1>
     <% if (config.subtitle) { %>
       <p class="subtitle"><%= config.subtitle %></p>
     <% } %>
     <div class="hero-actions">
-      <a class="btn primary" href="<%= url_for('/archives/') %>">最近更新</a>
-      <a class="btn ghost" href="<%= url_for('/about/') %>">认识我</a>
+      <a class="btn primary" href="<%= latestPost ? url_for(latestPost.path) : url_for('/archives/') %>">阅读最新文章</a>
+      <a class="btn ghost" href="<%= url_for('/tags/') %>">按标签浏览</a>
     </div>
     <div class="hero-search">
       <label class="search-label" for="home-search">搜索文章</label>
@@ -15,6 +30,37 @@
       <a class="rss-link" href="<%= url_for('/atom.xml') %>" target="_blank" rel="noopener">订阅 RSS</a>
     </div>
   </div>
+</section>
+
+<section class="latest-spotlight" aria-labelledby="latest-title">
+  <div class="section-title">
+    <h2 id="latest-title">刚刚更新</h2>
+    <a href="<%= url_for('/archives/') %>">完整归档</a>
+  </div>
+  <% if (latestPost) { %>
+    <article class="spotlight-card">
+      <div class="spotlight-main">
+        <div class="spotlight-meta">
+          <time datetime="<%= date_xml(latestPost.date) %>"><%= date(latestPost.date, 'YYYY-MM-DD') %></time>
+          <span><%= latestReadingMinutes %> 分钟阅读</span>
+        </div>
+        <h3><a href="<%= url_for(latestPost.path) %>"><%= latestPost.title %></a></h3>
+        <% if (latestExcerpt) { %>
+          <p><%= latestExcerpt.slice(0, 128) %></p>
+        <% } %>
+        <% if (latestPost.tags && latestPost.tags.length) { %>
+          <div class="mini-tags" aria-label="最新文章标签">
+            <% latestPost.tags.each(function(tag){ %>
+              <a href="<%= url_for(tag.path) %>">#<%= tag.name %></a>
+            <% }) %>
+          </div>
+        <% } %>
+      </div>
+      <a class="spotlight-action" href="<%= url_for(latestPost.path) %>">继续阅读</a>
+    </article>
+  <% } else { %>
+    <p class="empty-state">第一篇文章正在路上。</p>
+  <% } %>
 </section>
 
 <section class="profile-grid">
@@ -55,15 +101,6 @@
     <h2>探索小站</h2>
     <a href="<%= url_for('/tags/') %>">所有标签</a>
   </div>
-  <%
-    const tagList = [];
-    const categoryList = [];
-    site.tags.each(function(tag) { tagList.push(tag); });
-    site.categories.each(function(cat) { categoryList.push(cat); });
-    tagList.sort(function(a, b) { return b.length - a.length; });
-    categoryList.sort(function(a, b) { return b.length - a.length; });
-    const latestPost = page.posts.length ? page.posts.slice(0, 1)[0] : null;
-  %>
   <div class="discover-grid">
     <article class="discover-panel">
       <h3>热门标签</h3>
@@ -130,9 +167,20 @@
   </div>
 </section>
 
+<section class="subscribe-band">
+  <div>
+    <h2>想持续收到更新？</h2>
+    <p>可以订阅 RSS，也可以从关于页找到联系方式。这里会继续收集日常、阅读、旅行和灵感片段。</p>
+  </div>
+  <div class="subscribe-actions">
+    <a class="btn primary" href="<%= url_for('/atom.xml') %>" target="_blank" rel="noopener">订阅 RSS</a>
+    <a class="btn ghost" href="<%= url_for('/about/') %>">联系作者</a>
+  </div>
+</section>
+
 <section class="featured">
   <div class="section-title">
-    <h2>精选小卡片</h2>
+    <h2>推荐阅读</h2>
     <a href="<%= url_for('/archives/') %>">查看全部</a>
   </div>
   <div class="featured-grid">
