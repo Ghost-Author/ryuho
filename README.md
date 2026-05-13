@@ -37,6 +37,17 @@ Push 到 `main` 后，GitHub Actions 会使用 `npm ci` 安装锁定依赖、运
 
 Vercel 部署使用 `npm run build:vercel`，会合并 `_config.yml` 和 `_config.vercel.yml`，并在生成后运行站点审计。
 
+Vercel 项目必须连接源码分支 `main`，不要选择 `gh-pages`。`gh-pages` 是 GitHub Actions 发布后的静态产物分支，不包含 `package.json`、`vercel.json` 和 Hexo 源文件；如果 Vercel 克隆 `gh-pages`，会出现 `No Output Directory named "public"` 这类构建错误。
+
+推荐 Vercel 设置：
+
+```text
+Production Branch: main
+Install Command: npm ci
+Build Command: npm run build:vercel
+Output Directory: public
+```
+
 `robots.txt` 和 `site.webmanifest` 会根据当前 Hexo 的 `url/root` 自动生成，因此 GitHub Pages 子路径和 Vercel 根路径都能得到正确的地址。
 
 提交前建议运行：
