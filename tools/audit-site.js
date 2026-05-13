@@ -48,7 +48,7 @@ function getSiteBase(manifest) {
   return startUrl.endsWith('/') ? startUrl : `${startUrl}/`;
 }
 
-function pathExists(sitePath, siteBase) {
+function toPublicRelative(sitePath, siteBase) {
   let pathname = decodeURIComponent(String(sitePath || '/').split(/[?#]/)[0]);
   if (!pathname.startsWith('/')) pathname = `/${pathname}`;
 
@@ -60,7 +60,11 @@ function pathExists(sitePath, siteBase) {
     pathname = `/${pathname.slice(siteBase.length)}`;
   }
 
-  const relativePath = pathname.replace(/^\/+/, '');
+  return pathname.replace(/^\/+/, '');
+}
+
+function pathExists(sitePath, siteBase) {
+  const relativePath = toPublicRelative(sitePath, siteBase);
   if (!relativePath) return publicFiles.has('index.html');
   if (publicFiles.has(relativePath)) return true;
   if (publicFiles.has(`${stripTrailingSlash(relativePath)}/index.html`)) return true;
@@ -75,6 +79,27 @@ function collectUrls(content) {
     urls.push(match[1]);
   }
   return urls;
+}
+
+function collectImageTags(content) {
+  return Array.from(content.matchAll(/<img\b[^>]*>/gi)).map((match) => match[0]);
+}
+
+function detectMime(relativePath) {
+  const file = path.join(publicDir, relativePath);
+  if (!fs.existsSync(file)) return '';
+
+  const signature = fs.readFileSync(file).subarray(0, 12);
+  if (signature.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))) {
+    return 'image/png';
+  }
+  if (signature[0] === 0xff && signature[1] === 0xd8 && signature[2] === 0xff) {
+    return 'image/jpeg';
+  }
+  if (signature.toString('utf8').startsWith('<svg')) {
+    return 'image/svg+xml';
+  }
+  return '';
 }
 
 function isSkippableUrl(value) {
@@ -160,9 +185,27 @@ const leakedFiles = htmlFiles.filter((file) => {
 
 addCheck('html has no undefined/null leaks', leakedFiles.length === 0, leakedFiles.map((file) => path.relative(publicDir, file)).join(', '));
 
+const manifestIconProblems = (manifest.icons || []).flatMap((icon) => {
+  const iconPath = toInternalPath(icon.src || '', siteOrigin, siteBase) || icon.src || '';
+  const relativePath = toPublicRelative(iconPath, siteBase);
+  const problems = [];
+
+  if (!pathExists(iconPath, siteBase)) {
+    problems.push(`missing ${icon.src}`);
+  }
+
+  const actualType = relativePath ? detectMime(relativePath) : '';
+  if (icon.type && actualType && icon.type !== actualType) {
+    problems.push(`${icon.src} declares ${icon.type}, got ${actualType}`);
+  }
+
+  return problems;
+});
+
 const htmlWithoutCanonical = [];
 const htmlWithoutDescription = [];
 const htmlWithoutOgUrl = [];
+const imagesWithoutSize = [];
 const brokenReferences = [];
 
 htmlFiles.forEach((file) => {
@@ -182,6 +225,12 @@ htmlFiles.forEach((file) => {
     htmlWithoutOgUrl.push(relativeFile);
   }
 
+  collectImageTags(content).forEach((tag) => {
+    if (!/\swidth=["']?\d+/i.test(tag) || !/\sheight=["']?\d+/i.test(tag)) {
+      imagesWithoutSize.push(relativeFile);
+    }
+  });
+
   collectUrls(content).forEach((url) => {
     const internalPath = toInternalPath(url, siteOrigin, siteBase);
     if (!internalPath) return;
@@ -197,6 +246,8 @@ const missingSitemapTargets = sitemapPaths.filter((pathname) => !pathExists(path
 addCheck('html pages have canonical URLs', htmlWithoutCanonical.length === 0, htmlWithoutCanonical.join(', '));
 addCheck('html pages have descriptions', htmlWithoutDescription.length === 0, htmlWithoutDescription.join(', '));
 addCheck('html pages have Open Graph URLs', htmlWithoutOgUrl.length === 0, htmlWithoutOgUrl.join(', '));
+addCheck('manifest icons match declared types', manifestIconProblems.length === 0, manifestIconProblems.join(', '));
+addCheck('html images declare dimensions', imagesWithoutSize.length === 0, Array.from(new Set(imagesWithoutSize)).join(', '));
 addCheck('internal links and assets resolve', brokenReferences.length === 0, brokenReferences.slice(0, 8).join(', '));
 addCheck('sitemap targets resolve', missingSitemapTargets.length === 0, missingSitemapTargets.join(', '));
 

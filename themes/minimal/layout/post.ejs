@@ -15,7 +15,7 @@
     </div>
   </header>
   <% if (page.cover) { %>
-    <img class="post-hero" src="<%= url_for(page.cover) %>" alt="" loading="eager">
+    <img class="post-hero" src="<%= url_for(page.cover) %>" alt="" width="1920" height="1080" loading="eager" decoding="async">
   <% } %>
   <% if (page.tags && page.tags.length) { %>
     <div class="post-meta">
