@@ -582,6 +582,35 @@ body::after {
   justify-content: flex-end;
 }
 
+.focus-areas {
+  margin: 8px 0 32px;
+}
+
+.focus-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.focus-card {
+  min-height: 148px;
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  box-shadow: 0 14px 28px var(--shadow);
+}
+
+.focus-card h3 {
+  margin: 0 0 10px;
+}
+
+.focus-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
 .post-list {
   list-style: none;
   padding: 0;
@@ -1368,6 +1397,10 @@ body::after {
 
   .subscribe-actions {
     justify-content: flex-start;
+  }
+
+  .focus-grid {
+    grid-template-columns: 1fr;
   }
 
   .post-main {

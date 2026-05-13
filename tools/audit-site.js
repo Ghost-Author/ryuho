@@ -227,6 +227,11 @@ const feedHasEntries = /<entry>/i.test(atom);
 const latestCtaMatch = indexHtml.match(/<a\s+class=["']btn primary["']\s+href=["']([^"']+)["']>\s*阅读最新文章\s*<\/a>/i);
 const latestCtaPath = latestCtaMatch ? latestCtaMatch[1] : '';
 const latestCtaInternalPath = latestCtaPath ? toInternalPath(latestCtaPath, siteOrigin, siteBase) : '';
+const hasEngineeringCategory = htmlFiles.some((file) => {
+  const relativeFile = toPosix(path.relative(publicDir, file));
+  return relativeFile.startsWith('categories/') && fs.readFileSync(file, 'utf8').includes('工程实践');
+});
+const hasTechnicalTag = ['工程实践', 'Hexo', 'CI/CD', 'SEO', '系统设计'].some((tag) => indexHtml.includes(tag) || atom.includes(tag));
 
 htmlFiles.forEach((file) => {
   const content = fs.readFileSync(file, 'utf8');
@@ -273,6 +278,7 @@ addCheck(
   !feedHasEntries || Boolean(latestCtaInternalPath && !/\/archives\/?$/.test(latestCtaInternalPath) && pathExists(latestCtaInternalPath, siteBase)),
   latestCtaPath || 'missing CTA'
 );
+addCheck('site has IT writing signals', hasEngineeringCategory && hasTechnicalTag, 'expected engineering category and technical tags');
 addCheck('internal links and assets resolve', brokenReferences.length === 0, brokenReferences.slice(0, 8).join(', '));
 addCheck('sitemap targets resolve', missingSitemapTargets.length === 0, missingSitemapTargets.join(', '));
 

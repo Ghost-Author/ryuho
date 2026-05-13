@@ -2,8 +2,8 @@
 
 # Site
 title: Ghost-Author
-subtitle: '一间可可爱爱的文字小屋'
-description: 'Ghost-Author 的个人博客，记录生活与灵感。'
+subtitle: '工程实践、系统思考与长期主义写作'
+description: 'Ghost-Author 的 IT 个人博客，记录工程实践、技术学习、系统设计和个人成长。'
 author: Ghost-Author
 language: zh-CN
 timezone: Asia/Shanghai
@@ -91,19 +91,26 @@ sitemap:
 theme_config:
   avatar_url: /images/avatar.png
   profile_title: Ghost-Author
-  profile_subtitle: '记录生活与灵感的小确幸'
+  profile_subtitle: '用工程化方式沉淀技术、项目经验和长期思考。'
   profile_chips:
-    - '可爱主义'
-    - '生活随笔'
-    - '阅读笔记'
-  mood: '今日心情：甜甜的草莓汽水。'
-  favorites_tag: '生活'
+    - '工程实践'
+    - '系统设计'
+    - '效率工具'
+  mood: '当前关注：把个人博客当作一个持续迭代的产品来维护。'
+  favorites_tag: '工程实践'
   hero_image: /images/hero.jpg
   og_image: /images/hero.jpg
-  quote: '把温柔留给生活，把灵感留给自己。'
+  quote: '技术写作不是展示懂了什么，而是复盘如何把问题真正解决。'
   contact_email: liupggg@gmail.com
+  focus_areas:
+    - title: '工程实践'
+      description: '记录从需求、架构、实现到上线验证的完整链路。'
+    - title: '系统设计'
+      description: '拆解可维护性、性能、可观测性和安全边界。'
+    - title: '效率工具'
+      description: '沉淀脚本、自动化、AI 协作和个人工作流。'
   links:
-    - name: '我的朋友圈'
+    - name: 'GitHub Pages'
       url: 'https://ghost-author.github.io/ryuho'
-    - name: '灵感收集站'
+    - name: 'Vercel 站点'
       url: 'https://ghost-author.github.io/ryuho'

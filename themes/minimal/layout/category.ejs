@@ -10,7 +10,7 @@
         <div class="post-main">
           <div>
             <a class="post-link" href="<%= url_for(post.path) %>"><%= post.title %></a>
-            <p class="post-excerpt"><%= strip_html(post.excerpt || post.content || '').replace(/\s+/g, ' ').trim().slice(0, 96) %></p>
+            <p class="post-excerpt"><%= (post.description || strip_html(post.excerpt || post.content || '').replace(/\s+/g, ' ').trim()).slice(0, 96) %></p>
           </div>
         </div>
         <div class="post-side">
