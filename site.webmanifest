@@ -1,7 +1,7 @@
 {
   "name": "Ghost-Author",
   "short_name": "Ryuho",
-  "description": "Ghost-Author 的 IT 个人博客，记录工程实践、技术学习、系统设计和个人成长。",
+  "description": "Ghost-Author 的 IT 个人博客，记录 AI 工程实践、技术学习、系统设计和个人成长。",
   "lang": "zh-CN",
   "start_url": "/ryuho/",
   "scope": "/ryuho/",

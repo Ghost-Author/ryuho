@@ -4,19 +4,17 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>页面走丢了 | Ghost-Author</title>
-  <meta name="description" content="这个页面不存在，你可以回到首页或归档继续阅读。">
-  
-    <meta name="robots" content="noindex, follow">
+  <title>搜索 | Ghost-Author</title>
+  <meta name="description" content="在博客中搜索文章">
   
   <meta name="author" content="Ghost-Author">
   <meta name="generator" content="Hexo">
   <meta name="theme-color" content="#ff7bb2" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#211827" media="(prefers-color-scheme: dark)">
-  <meta property="og:title" content="页面走丢了 | Ghost-Author">
-  <meta property="og:description" content="这个页面不存在，你可以回到首页或归档继续阅读。">
+  <meta property="og:title" content="搜索 | Ghost-Author">
+  <meta property="og:description" content="在博客中搜索文章">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://ghost-author.github.io/ryuho/404.html">
+  <meta property="og:url" content="https://ghost-author.github.io/ryuho/search/">
   <meta property="og:site_name" content="Ghost-Author">
   
     <meta property="og:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
@@ -24,7 +22,7 @@
   <meta name="twitter:card" content="summary">
   
   <link rel="alternate" type="application/atom+xml" title="Ghost-Author" href="https://ghost-author.github.io/ryuho/atom.xml">
-  <link rel="canonical" href="https://ghost-author.github.io/ryuho/404.html">
+  <link rel="canonical" href="https://ghost-author.github.io/ryuho/search/">
   <link rel="manifest" href="/ryuho/site.webmanifest">
   <script>
     (function () {
@@ -39,7 +37,7 @@
   <script src="/ryuho/js/main.js" defer></script>
   
   <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"WebSite","headline":"页面走丢了","name":"页面走丢了","description":"这个页面不存在，你可以回到首页或归档继续阅读。","url":"https://ghost-author.github.io/ryuho/404.html","image":"https://ghost-author.github.io/ryuho/images/hero.jpg","author":{"@type":"Person","name":"Ghost-Author"},"publisher":{"@type":"Person","name":"Ghost-Author"}}
+    {"@context":"https://schema.org","@type":"WebSite","headline":"搜索","name":"搜索","description":"在博客中搜索文章","url":"https://ghost-author.github.io/ryuho/search/","image":"https://ghost-author.github.io/ryuho/images/hero.jpg","author":{"@type":"Person","name":"Ghost-Author"},"publisher":{"@type":"Person","name":"Ghost-Author"}}
   </script>
 </head>
 <body>
@@ -54,7 +52,7 @@
     </a>
     <nav class="nav" aria-label="主导航">
       <a href="/ryuho/" >首页</a>
-      <a href="/ryuho/search/" >搜索</a>
+      <a href="/ryuho/search/" aria-current="page">搜索</a>
       <a href="/ryuho/about/" >关于</a>
       <a href="/ryuho/tags/" >标签</a>
       <a href="/ryuho/categories/" >分类</a>
@@ -69,14 +67,64 @@
   <main class="container" id="content" tabindex="-1">
     <article class="page">
   <header class="page-header">
-    <h1>页面走丢了</h1>
+    <h1>搜索</h1>
     
-      <p class="page-description">这个页面不存在，你可以回到首页或归档继续阅读。</p>
+      <p class="page-description">在博客中搜索文章</p>
     
   </header>
   <div class="page-content">
-    <p>这里没有找到你要访问的页面。</p>
-<p>也许文章换了地址，或者链接里藏了一个小小的错别字。你可以通过上方导航回到首页，或去归档找一篇最近的文章。</p>
+    <div class="search-container">
+  <input type="text" id="search-input" placeholder="输入关键词搜索..." aria-label="搜索输入框">
+  <div id="search-results" class="search-results" aria-live="polite"></div>
+</div>
+
+<script src="https://unpkg.com/lunr@2.3.9/lunr.min.js"></script>
+<script>
+(function() {
+  let searchIndex;
+  let searchResults;
+
+  fetch('../search-index.json')
+    .then(response => response.json())
+    .then(data => {
+      searchIndex = lunr.Index.load(data);
+      searchResults = data.documents;
+    })
+    .catch(err => console.error('Failed to load search index:', err));
+
+  const searchInput = document.getElementById('search-input');
+  const resultsContainer = document.getElementById('search-results');
+
+  function performSearch(query) {
+    if (!searchIndex || !query.trim()) {
+      resultsContainer.innerHTML = '';
+      return;
+    }
+
+    const results = searchIndex.search(query);
+    const html = results.map(result => {
+      const doc = searchResults.find(d => d.id === result.ref);
+      if (!doc) return '';
+
+      return `
+        <article class="search-result">
+          <h3><a href="${doc.url}">${doc.title}</a></h3>
+          <p>${doc.excerpt || doc.content.substring(0, 150) + '...'}</p>
+          <time>${doc.date}</time>
+        </article>
+      `;
+    }).join('');
+
+    resultsContainer.innerHTML = html || '<p>没有找到相关结果</p>';
+  }
+
+  let debounceTimer;
+  searchInput.addEventListener('input', function() {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => performSearch(this.value), 300);
+  });
+})();
+</script>
 
   </div>
 </article>

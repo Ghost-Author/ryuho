@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RAG 不是把资料塞进向量库 | Ghost-Author</title>
+  <meta name="description" content="一个可用的 RAG 系统，重点不只是向量检索，而是围绕问题、资料、召回、排序和回答边界建立完整链路。">
+  
+  <meta name="author" content="Ghost-Author">
+  <meta name="generator" content="Hexo">
+  <meta name="theme-color" content="#ff7bb2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#211827" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="RAG 不是把资料塞进向量库 | Ghost-Author">
+  <meta property="og:description" content="一个可用的 RAG 系统，重点不只是向量检索，而是围绕问题、资料、召回、排序和回答边界建立完整链路。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://ghost-author.github.io/ryuho/2026/06/05/RAG%E4%B8%8D%E6%98%AF%E6%8A%8A%E8%B5%84%E6%96%99%E5%A1%9E%E8%BF%9B%E5%90%91%E9%87%8F%E5%BA%93/">
+  <meta property="og:site_name" content="Ghost-Author">
+  
+    <meta property="og:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  <meta name="twitter:card" content="summary">
+  
+    <meta property="article:published_time" content="2026-06-05T02:00:00.000Z">
+    
+      <meta property="article:modified_time" content="2026-06-05T10:23:29.451Z">
+    
+  
+  <link rel="alternate" type="application/atom+xml" title="Ghost-Author" href="https://ghost-author.github.io/ryuho/atom.xml">
+  <link rel="canonical" href="https://ghost-author.github.io/ryuho/2026/06/05/RAG%E4%B8%8D%E6%98%AF%E6%8A%8A%E8%B5%84%E6%96%99%E5%A1%9E%E8%BF%9B%E5%90%91%E9%87%8F%E5%BA%93/">
+  <link rel="manifest" href="/ryuho/site.webmanifest">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = saved || (prefersDark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="/ryuho/css/style.css">
+  <script src="/ryuho/js/main.js" defer></script>
+  
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"BlogPosting","headline":"RAG 不是把资料塞进向量库","name":"RAG 不是把资料塞进向量库","description":"一个可用的 RAG 系统，重点不只是向量检索，而是围绕问题、资料、召回、排序和回答边界建立完整链路。","url":"https://ghost-author.github.io/ryuho/2026/06/05/RAG%E4%B8%8D%E6%98%AF%E6%8A%8A%E8%B5%84%E6%96%99%E5%A1%9E%E8%BF%9B%E5%90%91%E9%87%8F%E5%BA%93/","image":"https://ghost-author.github.io/ryuho/images/hero.jpg","author":{"@type":"Person","name":"Ghost-Author"},"publisher":{"@type":"Person","name":"Ghost-Author"},"datePublished":"2026-06-05T02:00:00.000Z","dateModified":"2026-06-05T10:23:29.451Z"}
+  </script>
+</head>
+<body>
+  <div class="reading-progress" aria-hidden="true"></div>
+  <a class="skip-link" href="#content">跳到正文</a>
+  <header class="site-header">
+  
+  <div class="container header-inner">
+    <a class="logo" href="/ryuho/">
+      <span class="logo-dot"></span>
+      <span>Ghost-Author</span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="/ryuho/" >首页</a>
+      <a href="/ryuho/search/" >搜索</a>
+      <a href="/ryuho/about/" >关于</a>
+      <a href="/ryuho/tags/" >标签</a>
+      <a href="/ryuho/categories/" >分类</a>
+      <a href="/ryuho/archives/" >归档</a>
+    </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换深色模式" aria-pressed="false">
+      <span aria-hidden="true" data-theme-icon>☾</span>
+    </button>
+  </div>
+</header>
+
+  <main class="container" id="content" tabindex="-1">
+    <article class="post post-layout">
+  
+  <header class="post-header">
+    <h1>RAG 不是把资料塞进向量库</h1>
+    <div class="post-meta-line">
+      <time datetime="2026-06-05T02:00:00.000Z">2026-06-05</time>
+      <span>2 分钟阅读</span>
+      <span>869 字</span>
+      
+    </div>
+  </header>
+  
+    <img class="post-hero" src="/ryuho/images/hero.jpg" alt="" width="1920" height="1080" loading="eager" decoding="async">
+  
+  
+    <div class="post-meta">
+      
+        <a class="tag" href="/ryuho/tags/AI-%E5%B7%A5%E7%A8%8B/">
+          <span class="tag-name">AI 工程</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BA%94%E7%94%A8/">
+          <span class="tag-name">大模型应用</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/RAG/">
+          <span class="tag-name">RAG</span>
+        </a>
+      
+    </div>
+  
+  <div class="post-actions" aria-label="文章操作">
+    <button class="text-action" type="button" data-copy-link data-copy-text="复制链接" data-copied-text="已复制">复制链接</button>
+    <a class="text-action" href="/ryuho/archives/">查看归档</a>
+  </div>
+  <div class="post-body">
+    <div class="post-content">
+      <p>很多人第一次做 RAG，会把它理解成“把文档切块、向量化、塞进数据库，再让模型回答”。这个流程能跑起来，但离可用还差很远。</p>
+<p>RAG 的核心不是向量库，而是让模型在正确材料上回答正确问题。</p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>RAG 常见失败并不是模型不会说话，而是上下文链路出了问题：</p>
+<ul>
+<li>文档切块太碎，答案需要的信息被拆散。</li>
+<li>切块太大，召回内容噪声太多。</li>
+<li>只做向量召回，关键词、编号、专有名词匹配不稳定。</li>
+<li>没有重排序，真正相关内容排在后面。</li>
+<li>没有引用和边界，模型容易把检索内容和猜测混在一起。</li>
+</ul>
+<p>这些问题都不是一句“换更强模型”能彻底解决的。</p>
+<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><p>我更愿意把 RAG 拆成六个环节：</p>
+<ol>
+<li>问题理解：用户到底想查事实、找流程，还是让系统做判断？</li>
+<li>文档治理：资料是否可信、过期、重复、冲突？</li>
+<li>切分策略：每个片段是否保留足够语义和来源信息？</li>
+<li>召回策略：向量、关键词、元数据过滤是否组合使用？</li>
+<li>排序压缩：进入模型前的上下文是否足够集中？</li>
+<li>回答约束：是否要求引用来源、说明不确定性、拒绝编造？</li>
+</ol>
+<p>把这六层分开看，问题就会清楚很多。</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>一个最小可用 RAG，可以先从简单但可解释的结构开始：</p>
+<ul>
+<li>文档入库时保留标题、章节、更新时间、来源 URL。</li>
+<li>切块时尽量按标题层级或段落结构切，不只按固定字数切。</li>
+<li>查询时同时做向量召回和关键词召回。</li>
+<li>把召回片段按相关性、更新时间、来源可信度重新排序。</li>
+<li>回答时要求模型只基于给定材料，并列出引用片段。</li>
+</ul>
+<p>提示词里要明确边界：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">如果资料中没有答案，请直接说“当前资料不足”，不要补充猜测。<br>回答必须包含依据片段，不能使用未提供的外部事实。<br></code></pre></td></tr></table></figure>
+
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>RAG 的评测不能只看回答是否流畅，要至少看四个指标：</p>
+<ul>
+<li>召回率：正确材料有没有被找出来？</li>
+<li>精确率：进入上下文的材料噪声多不多？</li>
+<li>忠实度：回答是否严格基于材料？</li>
+<li>可操作性：用户拿到答案后能不能继续行动？</li>
+</ul>
+<p>如果回答错了，要先判断是“没召回”“召回了但没用上”“资料本身有问题”，还是“模型编造”。这四类问题的修法完全不同。</p>
+<h2 id="复盘"><a href="#复盘" class="headerlink" title="复盘"></a>复盘</h2><p>RAG 是一个信息系统，不只是一个模型调用。</p>
+<p>向量库只是其中一环。真正决定体验的，是资料质量、检索策略、上下文组织和回答边界。把这些环节工程化，RAG 才能从 Demo 走向生产。</p>
+
+    </div>
+    
+      <aside class="post-toc" aria-label="文章目录">
+        <h3>目录</h3>
+        <div class="toc-inner">
+          <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%A1%88"><span class="toc-number">2.</span> <span class="toc-text">方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.</span> <span class="toc-text">实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81"><span class="toc-number">4.</span> <span class="toc-text">验证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E7%9B%98"><span class="toc-number">5.</span> <span class="toc-text">复盘</span></a></li></ol>
+        </div>
+      </aside>
+    
+  </div>
+  <footer class="post-end">
+    <div class="post-end-card">
+      <h2>读完这篇</h2>
+      <dl class="post-facts">
+        <div>
+          <dt>字数</dt>
+          <dd>869</dd>
+        </div>
+        <div>
+          <dt>阅读</dt>
+          <dd>2 分钟</dd>
+        </div>
+        
+          <div>
+            <dt>分类</dt>
+            <dd>
+              
+                <a href="/ryuho/categories/AI-%E5%B7%A5%E7%A8%8B/">AI 工程</a>
+              
+            </dd>
+          </div>
+        
+      </dl>
+      <div class="post-end-actions">
+        <a class="text-action" href="/ryuho/">回到首页</a>
+        <a class="text-action" href="/ryuho/tags/">浏览标签</a>
+      </div>
+    </div>
+  </footer>
+
+  
+
+  <nav class="post-nav" aria-label="文章翻页">
+    
+      <a href="/ryuho/2026/06/05/%E5%92%8CAI%E7%BC%96%E7%A8%8B%E5%8A%A9%E6%89%8B%E5%8D%8F%E4%BD%9C%E7%9A%84%E5%B7%A5%E7%A8%8B%E8%BE%B9%E7%95%8C/">上一篇：和 AI 编程助手协作的工程边界</a>
+    
+    
+      <a href="/ryuho/2026/06/05/AI%E5%8A%9F%E8%83%BD%E4%B8%8A%E7%BA%BF%E5%89%8D%E5%85%88%E5%86%99%E8%AF%84%E6%B5%8B%E9%9B%86/">下一篇：AI 功能上线前，先写评测集</a>
+    
+  </nav>
+</article>
+
+  </main>
+  <footer class="site-footer">
+  <div class="container footer-inner">
+    <span>© 2026 Ghost-Author. 记录 AI 工程与长期思考。</span>
+    <span>
+      <a href="/ryuho/atom.xml">RSS</a>
+      
+        · <a href="mailto:liupggg@gmail.com">Email</a>
+      
+      · <a href="/ryuho/archives/">归档</a>
+    </span>
+  </div>
+</footer>
+
+  <button class="back-to-top" type="button" aria-label="回到顶部">↑</button>
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI 功能上线前，先写评测集 | Ghost-Author</title>
+  <meta name="description" content="AI 功能不能只靠主观体验判断好坏，最小可用评测集是上线前最重要的工程资产。">
+  
+  <meta name="author" content="Ghost-Author">
+  <meta name="generator" content="Hexo">
+  <meta name="theme-color" content="#ff7bb2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#211827" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="AI 功能上线前，先写评测集 | Ghost-Author">
+  <meta property="og:description" content="AI 功能不能只靠主观体验判断好坏，最小可用评测集是上线前最重要的工程资产。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://ghost-author.github.io/ryuho/2026/06/05/AI%E5%8A%9F%E8%83%BD%E4%B8%8A%E7%BA%BF%E5%89%8D%E5%85%88%E5%86%99%E8%AF%84%E6%B5%8B%E9%9B%86/">
+  <meta property="og:site_name" content="Ghost-Author">
+  
+    <meta property="og:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  <meta name="twitter:card" content="summary">
+  
+    <meta property="article:published_time" content="2026-06-05T01:00:00.000Z">
+    
+      <meta property="article:modified_time" content="2026-06-05T10:23:29.450Z">
+    
+  
+  <link rel="alternate" type="application/atom+xml" title="Ghost-Author" href="https://ghost-author.github.io/ryuho/atom.xml">
+  <link rel="canonical" href="https://ghost-author.github.io/ryuho/2026/06/05/AI%E5%8A%9F%E8%83%BD%E4%B8%8A%E7%BA%BF%E5%89%8D%E5%85%88%E5%86%99%E8%AF%84%E6%B5%8B%E9%9B%86/">
+  <link rel="manifest" href="/ryuho/site.webmanifest">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = saved || (prefersDark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="/ryuho/css/style.css">
+  <script src="/ryuho/js/main.js" defer></script>
+  
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"BlogPosting","headline":"AI 功能上线前，先写评测集","name":"AI 功能上线前，先写评测集","description":"AI 功能不能只靠主观体验判断好坏，最小可用评测集是上线前最重要的工程资产。","url":"https://ghost-author.github.io/ryuho/2026/06/05/AI%E5%8A%9F%E8%83%BD%E4%B8%8A%E7%BA%BF%E5%89%8D%E5%85%88%E5%86%99%E8%AF%84%E6%B5%8B%E9%9B%86/","image":"https://ghost-author.github.io/ryuho/images/hero.jpg","author":{"@type":"Person","name":"Ghost-Author"},"publisher":{"@type":"Person","name":"Ghost-Author"},"datePublished":"2026-06-05T01:00:00.000Z","dateModified":"2026-06-05T10:23:29.450Z"}
+  </script>
+</head>
+<body>
+  <div class="reading-progress" aria-hidden="true"></div>
+  <a class="skip-link" href="#content">跳到正文</a>
+  <header class="site-header">
+  
+  <div class="container header-inner">
+    <a class="logo" href="/ryuho/">
+      <span class="logo-dot"></span>
+      <span>Ghost-Author</span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="/ryuho/" >首页</a>
+      <a href="/ryuho/search/" >搜索</a>
+      <a href="/ryuho/about/" >关于</a>
+      <a href="/ryuho/tags/" >标签</a>
+      <a href="/ryuho/categories/" >分类</a>
+      <a href="/ryuho/archives/" >归档</a>
+    </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换深色模式" aria-pressed="false">
+      <span aria-hidden="true" data-theme-icon>☾</span>
+    </button>
+  </div>
+</header>
+
+  <main class="container" id="content" tabindex="-1">
+    <article class="post post-layout">
+  
+  <header class="post-header">
+    <h1>AI 功能上线前，先写评测集</h1>
+    <div class="post-meta-line">
+      <time datetime="2026-06-05T01:00:00.000Z">2026-06-05</time>
+      <span>3 分钟阅读</span>
+      <span>1091 字</span>
+      
+    </div>
+  </header>
+  
+    <img class="post-hero" src="/ryuho/images/hero.jpg" alt="" width="1920" height="1080" loading="eager" decoding="async">
+  
+  
+    <div class="post-meta">
+      
+        <a class="tag" href="/ryuho/tags/AI-%E5%B7%A5%E7%A8%8B/">
+          <span class="tag-name">AI 工程</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/%E8%AF%84%E6%B5%8B/">
+          <span class="tag-name">评测</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BA%94%E7%94%A8/">
+          <span class="tag-name">大模型应用</span>
+        </a>
+      
+    </div>
+  
+  <div class="post-actions" aria-label="文章操作">
+    <button class="text-action" type="button" data-copy-link data-copy-text="复制链接" data-copied-text="已复制">复制链接</button>
+    <a class="text-action" href="/ryuho/archives/">查看归档</a>
+  </div>
+  <div class="post-body">
+    <div class="post-content">
+      <p>很多 AI 功能刚做出来时都会有一种错觉：看几个 Demo 效果不错，就觉得可以上线了。</p>
+<p>但 AI 功能和传统功能最大的差异在于，它不是每次都给出完全确定的输出。模型、提示词、上下文、检索结果、用户输入方式，都会影响最终表现。如果没有评测集，后续每一次优化都很容易变成“凭感觉调参”。</p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>一个面向真实用户的 AI 功能，通常会经历这些变化：</p>
+<ul>
+<li>提示词改写</li>
+<li>模型版本切换</li>
+<li>检索策略调整</li>
+<li>上下文窗口变化</li>
+<li>业务规则补充</li>
+<li>安全策略收紧</li>
+</ul>
+<p>这些变化看起来都不大，但可能悄悄破坏已有能力。最危险的不是功能报错，而是它看起来仍然能回答，只是质量下降了。</p>
+<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><p>上线前至少准备一个最小评测集。它不需要一开始就很复杂，但要覆盖真实场景。</p>
+<p>我一般会把评测样本分成五类：</p>
+<ol>
+<li>核心成功样本：功能最应该答好的问题。</li>
+<li>边界样本：信息缺失、表达模糊、输入不完整。</li>
+<li>反例样本：用户要求做不该做的事。</li>
+<li>长尾样本：低频但业务上很重要的问题。</li>
+<li>回归样本：曾经出过问题，修复后必须一直守住。</li>
+</ol>
+<p>每条样本至少包含：</p>
+<ul>
+<li>用户输入</li>
+<li>期望行为</li>
+<li>不可接受行为</li>
+<li>评分标准</li>
+<li>相关上下文或检索材料</li>
+</ul>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>最小评测集可以先用表格或 JSON 管理，不必一开始就搭复杂平台。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;support-001&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;input&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;我的订单一直没发货怎么办？&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;expected&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;先确认订单状态，再给出可执行的查询或联系路径&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;bad_cases&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;编造物流信息&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;承诺无法保证的赔付&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;rubric&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;grounded&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">3</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;actionable&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">3</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;safe&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">3</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>评测方式也可以从人工开始。先让人按标准打分，等样本稳定后，再逐步加入自动化脚本、规则校验和模型辅助评审。</p>
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>评测集真正有用，关键看它能不能回答三个问题：</p>
+<ul>
+<li>新版本是否比旧版本更好？</li>
+<li>有没有破坏过去已经解决的问题？</li>
+<li>哪些问题不该继续靠提示词硬补，而应该改产品逻辑？</li>
+</ul>
+<p>如果一次提示词修改只能靠肉眼看几个样例，那它还不是工程流程；如果能跑一组稳定样本，并看到通过率、失败原因和变化趋势，才开始进入可维护状态。</p>
+<h2 id="复盘"><a href="#复盘" class="headerlink" title="复盘"></a>复盘</h2><p>AI 功能上线前最应该先补的不是更多提示词技巧，而是评测能力。</p>
+<p>评测集是团队对“什么叫好”的共同定义。没有这个定义，AI 功能会越调越玄学；有了它，优化才会变成可以讨论、可以回归、可以持续演进的工程问题。</p>
+
+    </div>
+    
+      <aside class="post-toc" aria-label="文章目录">
+        <h3>目录</h3>
+        <div class="toc-inner">
+          <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%A1%88"><span class="toc-number">2.</span> <span class="toc-text">方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.</span> <span class="toc-text">实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81"><span class="toc-number">4.</span> <span class="toc-text">验证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E7%9B%98"><span class="toc-number">5.</span> <span class="toc-text">复盘</span></a></li></ol>
+        </div>
+      </aside>
+    
+  </div>
+  <footer class="post-end">
+    <div class="post-end-card">
+      <h2>读完这篇</h2>
+      <dl class="post-facts">
+        <div>
+          <dt>字数</dt>
+          <dd>1091</dd>
+        </div>
+        <div>
+          <dt>阅读</dt>
+          <dd>3 分钟</dd>
+        </div>
+        
+          <div>
+            <dt>分类</dt>
+            <dd>
+              
+                <a href="/ryuho/categories/AI-%E5%B7%A5%E7%A8%8B/">AI 工程</a>
+              
+            </dd>
+          </div>
+        
+      </dl>
+      <div class="post-end-actions">
+        <a class="text-action" href="/ryuho/">回到首页</a>
+        <a class="text-action" href="/ryuho/tags/">浏览标签</a>
+      </div>
+    </div>
+  </footer>
+
+  
+
+  <nav class="post-nav" aria-label="文章翻页">
+    
+      <a href="/ryuho/2026/06/05/RAG%E4%B8%8D%E6%98%AF%E6%8A%8A%E8%B5%84%E6%96%99%E5%A1%9E%E8%BF%9B%E5%90%91%E9%87%8F%E5%BA%93/">上一篇：RAG 不是把资料塞进向量库</a>
+    
+    
+      <a href="/ryuho/2026/02/09/%E6%8A%8A%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E5%BD%93%E4%BD%9C%E5%B7%A5%E7%A8%8B%E9%A1%B9%E7%9B%AE%E7%BB%B4%E6%8A%A4/">下一篇：把个人博客当作工程项目维护</a>
+    
+  </nav>
+</article>
+
+  </main>
+  <footer class="site-footer">
+  <div class="container footer-inner">
+    <span>© 2026 Ghost-Author. 记录 AI 工程与长期思考。</span>
+    <span>
+      <a href="/ryuho/atom.xml">RSS</a>
+      
+        · <a href="mailto:liupggg@gmail.com">Email</a>
+      
+      · <a href="/ryuho/archives/">归档</a>
+    </span>
+  </div>
+</footer>
+
+  <button class="back-to-top" type="button" aria-label="回到顶部">↑</button>
+</body>
+</html>
