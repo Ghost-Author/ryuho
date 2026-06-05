@@ -72,6 +72,28 @@
       </div>
     </div>
   </footer>
+
+  <% if (theme.comments && theme.comments.enable) { %>
+    <section class="post-comments" aria-label="文章评论">
+      <h2>评论</h2>
+      <script src="https://giscus.app/client.js"
+              data-repo="<%= theme.comments.giscus.repo %>"
+              data-repo-id="<%= theme.comments.giscus.repo_id %>"
+              data-category="<%= theme.comments.giscus.category %>"
+              data-category-id="<%= theme.comments.giscus.category_id %>"
+              data-mapping="<%= theme.comments.giscus.mapping || 'pathname' %>"
+              data-strict="<%= theme.comments.giscus.strict || '0' %>"
+              data-reactions-enabled="<%= theme.comments.giscus.reactions_enabled || '1' %>"
+              data-emit-metadata="<%= theme.comments.giscus.emit_metadata || '0' %>"
+              data-input-position="<%= theme.comments.giscus.input_position || 'bottom' %>"
+              data-theme="<%= theme.comments.giscus.theme || 'light' %>"
+              data-lang="<%= theme.comments.giscus.lang || 'zh-CN' %>"
+              crossorigin="anonymous"
+              async>
+      </script>
+    </section>
+  <% } %>
+
   <nav class="post-nav" aria-label="文章翻页">
     <% if (page.prev) { %>
       <a href="<%= url_for(page.prev.path) %>">上一篇：<%= page.prev.title %></a>

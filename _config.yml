@@ -2,8 +2,8 @@
 
 # Site
 title: Ghost-Author
-subtitle: '工程实践、系统思考与长期主义写作'
-description: 'Ghost-Author 的 IT 个人博客，记录工程实践、技术学习、系统设计和个人成长。'
+subtitle: 'AI 工程、系统思考与长期主义写作'
+description: 'Ghost-Author 的 IT 个人博客，记录 AI 工程实践、技术学习、系统设计和个人成长。'
 author: Ghost-Author
 language: zh-CN
 timezone: Asia/Shanghai
@@ -93,22 +93,36 @@ theme_config:
   profile_title: Ghost-Author
   profile_subtitle: '用工程化方式沉淀技术、项目经验和长期思考。'
   profile_chips:
+    - 'AI 工程'
     - '工程实践'
     - '系统设计'
-    - '效率工具'
-  mood: '当前关注：把个人博客当作一个持续迭代的产品来维护。'
-  favorites_tag: '工程实践'
+  mood: '当前关注：把 AI 能力变成可评测、可上线、可维护的产品功能。'
+  favorites_tag: 'AI 工程'
+  comments:
+    enable: false
+    giscus:
+      repo: 'ghost-author/ryuho'
+      repo_id: ''
+      category: 'General'
+      category_id: ''
+      mapping: 'pathname'
+      strict: '0'
+      reactions_enabled: '1'
+      emit_metadata: '0'
+      input_position: 'bottom'
+      theme: 'light'
+      lang: 'zh-CN'
   hero_image: /images/hero.jpg
   og_image: /images/hero.jpg
   quote: '技术写作不是展示懂了什么，而是复盘如何把问题真正解决。'
   contact_email: liupggg@gmail.com
   focus_areas:
+    - title: 'AI 工程'
+      description: '关注 RAG、智能体、评测、提示词和 AI 产品落地路径。'
     - title: '工程实践'
       description: '记录从需求、架构、实现到上线验证的完整链路。'
     - title: '系统设计'
       description: '拆解可维护性、性能、可观测性和安全边界。'
-    - title: '效率工具'
-      description: '沉淀脚本、自动化、AI 协作和个人工作流。'
   links:
     - name: 'GitHub Pages'
       url: 'https://ghost-author.github.io/ryuho'

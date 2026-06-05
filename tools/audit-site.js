@@ -13,6 +13,8 @@ const requiredFiles = [
   'sitemap.xml',
   'robots.txt',
   'site.webmanifest',
+  'search/index.html',
+  'search-index.json',
   'css/style.css',
   'js/main.js'
 ];
@@ -72,6 +74,10 @@ function pathExists(sitePath, siteBase) {
 }
 
 function collectUrls(content) {
+  // Remove script and style content to avoid false positives
+  content = content.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
+  content = content.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '');
+
   const urls = [];
   const attrPattern = /\s(?:href|src)=["']([^"']+)["']/gi;
   let match;
@@ -137,6 +143,7 @@ const manifest = JSON.parse(readPublic('site.webmanifest'));
 const siteBase = getSiteBase(manifest);
 const indexHtml = readPublic('index.html');
 const notFoundHtml = readPublic('404.html');
+const searchHtml = readPublic('search/index.html');
 const atom = readPublic('atom.xml');
 const robots = readPublic('robots.txt');
 const sitemap = readPublic('sitemap.xml');
@@ -155,6 +162,7 @@ addCheck(
 
 addCheck('home links web manifest', indexHtml.includes('site.webmanifest'));
 addCheck('404 is noindex', notFoundHtml.includes('name="robots" content="noindex, follow"'));
+addCheck('search loads index with relative path', searchHtml.includes("fetch('../search-index.json')"));
 addCheck('robots links sitemap', robots.includes('Sitemap:'));
 addCheck('robots sitemap does not duplicate root', !/\/ryuho\/ryuho\//.test(robots));
 addCheck('manifest has app identity', Boolean(manifest.name && manifest.short_name && manifest.start_url));
@@ -231,7 +239,15 @@ const hasEngineeringCategory = htmlFiles.some((file) => {
   const relativeFile = toPosix(path.relative(publicDir, file));
   return relativeFile.startsWith('categories/') && fs.readFileSync(file, 'utf8').includes('工程实践');
 });
-const hasTechnicalTag = ['工程实践', 'Hexo', 'CI/CD', 'SEO', '系统设计'].some((tag) => indexHtml.includes(tag) || atom.includes(tag));
+const hasAiCategory = htmlFiles.some((file) => {
+  const relativeFile = toPosix(path.relative(publicDir, file));
+  return relativeFile.startsWith('categories/') && fs.readFileSync(file, 'utf8').includes('AI 工程');
+});
+const hasTechnicalTag = ['AI 工程', '大模型应用', 'RAG', '智能体', '评测', '工程实践', 'Hexo', 'CI/CD', 'SEO', '系统设计'].some((tag) => indexHtml.includes(tag) || atom.includes(tag));
+const giscusPlaceholderFiles = htmlFiles.filter((file) => {
+  const content = fs.readFileSync(file, 'utf8');
+  return /your-repo-id|your-category-id/.test(content);
+});
 
 htmlFiles.forEach((file) => {
   const content = fs.readFileSync(file, 'utf8');
@@ -279,6 +295,8 @@ addCheck(
   latestCtaPath || 'missing CTA'
 );
 addCheck('site has IT writing signals', hasEngineeringCategory && hasTechnicalTag, 'expected engineering category and technical tags');
+addCheck('site has AI writing signals', hasAiCategory && hasTechnicalTag, 'expected AI category and AI tags');
+addCheck('comments have no placeholder config', giscusPlaceholderFiles.length === 0, giscusPlaceholderFiles.map((file) => path.relative(publicDir, file)).join(', '));
 addCheck('internal links and assets resolve', brokenReferences.length === 0, brokenReferences.slice(0, 8).join(', '));
 addCheck('sitemap targets resolve', missingSitemapTargets.length === 0, missingSitemapTargets.join(', '));
 

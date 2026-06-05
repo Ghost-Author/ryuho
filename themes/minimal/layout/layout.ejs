@@ -50,6 +50,9 @@
   </script>
   <link rel="stylesheet" href="<%= url_for('css/style.css') %>">
   <script src="<%= url_for('js/main.js') %>" defer></script>
+  <% if (theme.analytics && theme.analytics.plausible && theme.analytics.plausible.domain) { %>
+    <script defer data-domain="<%= theme.analytics.plausible.domain %>" src="https://plausible.io/js/script.js"></script>
+  <% } %>
   <script type="application/ld+json">
     <%- JSON.stringify({
       '@context': 'https://schema.org',

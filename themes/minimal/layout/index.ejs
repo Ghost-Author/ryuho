@@ -3,7 +3,7 @@
   const categoryList = [];
   site.tags.each(function(tag) { tagList.push(tag); });
   site.categories.each(function(cat) { categoryList.push(cat); });
-  const preferredNames = ['工程实践', '系统设计', '效率工具', 'Hexo', 'CI/CD', 'SEO'];
+  const preferredNames = ['AI 工程', '大模型应用', 'RAG', '智能体', '评测', 'Prompt', '工程实践', '系统设计', '效率工具', 'Hexo', 'CI/CD', 'SEO'];
   function sortByProductPriority(a, b) {
     const aIndex = preferredNames.indexOf(a.name);
     const bIndex = preferredNames.indexOf(b.name);
@@ -26,7 +26,7 @@
 
 <section class="hero">
   <div class="hero-card">
-    <p class="hero-kicker">IT 个人博客 · 工程实践 · 系统思考</p>
+    <p class="hero-kicker">IT 个人博客 · AI 工程 · 系统思考</p>
     <h1><%= config.title %></h1>
     <% if (config.subtitle) { %>
       <p class="subtitle"><%= config.subtitle %></p>
@@ -198,7 +198,7 @@
 <section class="subscribe-band">
   <div>
     <h2>想持续收到更新？</h2>
-    <p>可以订阅 RSS，也可以从关于页找到联系方式。这里会持续沉淀工程实践、技术复盘和个人效率工具。</p>
+    <p>可以订阅 RSS，也可以从关于页找到联系方式。这里会持续沉淀 AI 工程、技术复盘和个人效率工具。</p>
   </div>
   <div class="subscribe-actions">
     <a class="btn primary" href="<%= url_for('/atom.xml') %>" target="_blank" rel="noopener">订阅 RSS</a>
