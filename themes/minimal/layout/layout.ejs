@@ -50,6 +50,13 @@
   </script>
   <link rel="stylesheet" href="<%= url_for('css/style.css') %>">
   <script src="<%= url_for('js/main.js') %>" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('<%= url_for('/sw.js') %>').catch(function () {});
+      });
+    }
+  </script>
   <% if (theme.analytics && theme.analytics.plausible && theme.analytics.plausible.domain) { %>
     <script defer data-domain="<%= theme.analytics.plausible.domain %>" src="https://plausible.io/js/script.js"></script>
   <% } %>

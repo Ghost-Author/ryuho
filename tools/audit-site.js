@@ -13,6 +13,7 @@ const requiredFiles = [
   'sitemap.xml',
   'robots.txt',
   'site.webmanifest',
+  'sw.js',
   'search/index.html',
   'search-index.json',
   'css/style.css',
@@ -144,6 +145,7 @@ const siteBase = getSiteBase(manifest);
 const indexHtml = readPublic('index.html');
 const notFoundHtml = readPublic('404.html');
 const searchHtml = readPublic('search/index.html');
+const serviceWorker = readPublic('sw.js');
 const atom = readPublic('atom.xml');
 const robots = readPublic('robots.txt');
 const sitemap = readPublic('sitemap.xml');
@@ -161,8 +163,10 @@ addCheck(
 );
 
 addCheck('home links web manifest', indexHtml.includes('site.webmanifest'));
+addCheck('home registers service worker', indexHtml.includes("serviceWorker' in navigator") && indexHtml.includes('sw.js'));
 addCheck('404 is noindex', notFoundHtml.includes('name="robots" content="noindex, follow"'));
 addCheck('search loads index with relative path', searchHtml.includes("fetch('../search-index.json')"));
+addCheck('service worker precaches core routes', includesAll(serviceWorker, ['CACHE_NAME', 'PRECACHE_URLS', 'search-index.json', 'css/style.css', 'js/main.js']));
 addCheck('robots links sitemap', robots.includes('Sitemap:'));
 addCheck('robots sitemap does not duplicate root', !/\/ryuho\/ryuho\//.test(robots));
 addCheck('manifest has app identity', Boolean(manifest.name && manifest.short_name && manifest.start_url));
