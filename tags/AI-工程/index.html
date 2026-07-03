@@ -35,6 +35,13 @@
   </script>
   <link rel="stylesheet" href="/ryuho/css/style.css">
   <script src="/ryuho/js/main.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/ryuho/sw.js').catch(function () {});
+      });
+    }
+  </script>
   
   <script type="application/ld+json">
     {"@context":"https://schema.org","@type":"WebSite","headline":"Ghost-Author","name":"Ghost-Author","description":"Ghost-Author 的 IT 个人博客，记录 AI 工程实践、技术学习、系统设计和个人成长。","url":"https://ghost-author.github.io/ryuho/tags/AI-%E5%B7%A5%E7%A8%8B/","image":"https://ghost-author.github.io/ryuho/images/hero.jpg","author":{"@type":"Person","name":"Ghost-Author"},"publisher":{"@type":"Person","name":"Ghost-Author"}}

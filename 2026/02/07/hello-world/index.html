@@ -23,7 +23,7 @@
   
     <meta property="article:published_time" content="2026-02-07T04:00:00.000Z">
     
-      <meta property="article:modified_time" content="2026-07-03T12:49:25.015Z">
+      <meta property="article:modified_time" content="2026-07-03T12:59:48.972Z">
     
   
   <link rel="alternate" type="application/atom+xml" title="Ghost-Author" href="https://ghost-author.github.io/ryuho/atom.xml">
@@ -40,9 +40,16 @@
   </script>
   <link rel="stylesheet" href="/ryuho/css/style.css">
   <script src="/ryuho/js/main.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/ryuho/sw.js').catch(function () {});
+      });
+    }
+  </script>
   
   <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"BlogPosting","headline":"小站开张：从这里开始","name":"小站开张：从这里开始","description":"这个小站的第一篇记录，写给正在慢慢成形的生活、阅读和灵感。","url":"https://ghost-author.github.io/ryuho/2026/02/07/hello-world/","image":"https://ghost-author.github.io/ryuho/images/hero.jpg","author":{"@type":"Person","name":"Ghost-Author"},"publisher":{"@type":"Person","name":"Ghost-Author"},"datePublished":"2026-02-07T04:00:00.000Z","dateModified":"2026-07-03T12:49:25.015Z"}
+    {"@context":"https://schema.org","@type":"BlogPosting","headline":"小站开张：从这里开始","name":"小站开张：从这里开始","description":"这个小站的第一篇记录，写给正在慢慢成形的生活、阅读和灵感。","url":"https://ghost-author.github.io/ryuho/2026/02/07/hello-world/","image":"https://ghost-author.github.io/ryuho/images/hero.jpg","author":{"@type":"Person","name":"Ghost-Author"},"publisher":{"@type":"Person","name":"Ghost-Author"},"datePublished":"2026-02-07T04:00:00.000Z","dateModified":"2026-07-03T12:59:48.972Z"}
   </script>
 </head>
 <body>
@@ -79,7 +86,7 @@
       <span>1 分钟阅读</span>
       <span>166 字</span>
       
-        <span>更新于 <time datetime="2026-07-03T12:49:25.015Z">2026-07-03</time></span>
+        <span>更新于 <time datetime="2026-07-03T12:59:48.972Z">2026-07-03</time></span>
       
     </div>
   </header>

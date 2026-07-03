@@ -23,7 +23,7 @@
   
     <meta property="article:published_time" content="2026-06-05T03:00:00.000Z">
     
-      <meta property="article:modified_time" content="2026-07-03T12:49:25.015Z">
+      <meta property="article:modified_time" content="2026-07-03T12:59:48.972Z">
     
   
   <link rel="alternate" type="application/atom+xml" title="Ghost-Author" href="https://ghost-author.github.io/ryuho/atom.xml">
@@ -40,9 +40,16 @@
   </script>
   <link rel="stylesheet" href="/ryuho/css/style.css">
   <script src="/ryuho/js/main.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/ryuho/sw.js').catch(function () {});
+      });
+    }
+  </script>
   
   <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"BlogPosting","headline":"和 AI 编程助手协作的工程边界","name":"和 AI 编程助手协作的工程边界","description":"AI 编程助手适合加速探索、改造和验证，但工程师仍然要守住需求判断、代码边界和质量责任。","url":"https://ghost-author.github.io/ryuho/2026/06/05/%E5%92%8CAI%E7%BC%96%E7%A8%8B%E5%8A%A9%E6%89%8B%E5%8D%8F%E4%BD%9C%E7%9A%84%E5%B7%A5%E7%A8%8B%E8%BE%B9%E7%95%8C/","image":"https://ghost-author.github.io/ryuho/images/hero.jpg","author":{"@type":"Person","name":"Ghost-Author"},"publisher":{"@type":"Person","name":"Ghost-Author"},"datePublished":"2026-06-05T03:00:00.000Z","dateModified":"2026-07-03T12:49:25.015Z"}
+    {"@context":"https://schema.org","@type":"BlogPosting","headline":"和 AI 编程助手协作的工程边界","name":"和 AI 编程助手协作的工程边界","description":"AI 编程助手适合加速探索、改造和验证，但工程师仍然要守住需求判断、代码边界和质量责任。","url":"https://ghost-author.github.io/ryuho/2026/06/05/%E5%92%8CAI%E7%BC%96%E7%A8%8B%E5%8A%A9%E6%89%8B%E5%8D%8F%E4%BD%9C%E7%9A%84%E5%B7%A5%E7%A8%8B%E8%BE%B9%E7%95%8C/","image":"https://ghost-author.github.io/ryuho/images/hero.jpg","author":{"@type":"Person","name":"Ghost-Author"},"publisher":{"@type":"Person","name":"Ghost-Author"},"datePublished":"2026-06-05T03:00:00.000Z","dateModified":"2026-07-03T12:59:48.972Z"}
   </script>
 </head>
 <body>
@@ -79,7 +86,7 @@
       <span>2 分钟阅读</span>
       <span>813 字</span>
       
-        <span>更新于 <time datetime="2026-07-03T12:49:25.015Z">2026-07-03</time></span>
+        <span>更新于 <time datetime="2026-07-03T12:59:48.972Z">2026-07-03</time></span>
       
     </div>
   </header>
