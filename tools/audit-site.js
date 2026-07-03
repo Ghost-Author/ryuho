@@ -209,6 +209,13 @@ const placeholderFiles = htmlFiles.filter((file) => {
 
 addCheck('html has no starter or empty diary content', placeholderFiles.length === 0, placeholderFiles.map((file) => path.relative(publicDir, file)).join(', '));
 
+const disallowedCdnFiles = htmlFiles.filter((file) => {
+  const content = fs.readFileSync(file, 'utf8');
+  return /https:\/\/(?:unpkg\.com|cdn\.jsdelivr\.net)\//.test(content);
+});
+
+addCheck('html avoids temporary CDN dependencies', disallowedCdnFiles.length === 0, disallowedCdnFiles.map((file) => path.relative(publicDir, file)).join(', '));
+
 const manifestIconProblems = (manifest.icons || []).flatMap((icon) => {
   const iconPath = toInternalPath(icon.src || '', siteOrigin, siteBase) || icon.src || '';
   const relativePath = toPublicRelative(iconPath, siteBase);
