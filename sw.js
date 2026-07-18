@@ -1,4 +1,4 @@
-const CACHE_NAME = "ryuho-static-1783083597636";
+const CACHE_NAME = "ryuho-static-1784337745670";
 const PRECACHE_URLS = [
   "/ryuho/",
   "/ryuho/archives/",
