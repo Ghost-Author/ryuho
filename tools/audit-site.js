@@ -6,6 +6,7 @@ const path = require('path');
 const root = path.resolve(__dirname, '..');
 const publicDir = path.join(root, 'public');
 const postsDir = path.join(root, 'source', '_posts');
+const scaffoldsDir = path.join(root, 'scaffolds');
 
 const requiredFiles = [
   'index.html',
@@ -266,6 +267,25 @@ postSourceFiles.forEach((file) => {
 });
 
 addCheck('post source metadata is production-ready', postMetadataProblems.length === 0, postMetadataProblems.slice(0, 8).join(', '));
+
+const scaffoldProblems = fs.existsSync(scaffoldsDir)
+  ? fs.readdirSync(scaffoldsDir)
+      .filter((file) => file.endsWith('.md'))
+      .flatMap((file) => {
+        const fullPath = path.join(scaffoldsDir, file);
+        const content = fs.readFileSync(fullPath, 'utf8');
+        const relativeFile = toPosix(path.relative(root, fullPath));
+        const problems = [];
+
+        if (/description:\s*(?:\n|$)/.test(content)) problems.push(`${relativeFile}: empty description`);
+        if ((file === 'post.md' || file === 'draft.md') && /cover:\s*(?:\n|$)/.test(content)) problems.push(`${relativeFile}: empty cover`);
+        if ((file === 'post.md' || file === 'draft.md') && /tags:\s*\ncategories:/m.test(content)) problems.push(`${relativeFile}: empty tags`);
+        if ((file === 'post.md' || file === 'draft.md') && /categories:\s*\ndescription:/m.test(content)) problems.push(`${relativeFile}: empty categories`);
+        return problems;
+      })
+  : [];
+
+addCheck('scaffolds create production-ready metadata', scaffoldProblems.length === 0, scaffoldProblems.join(', '));
 
 const postHtmlFiles = htmlFiles.filter((file) => /\d{4}\/\d{2}\/\d{2}\//.test(toPosix(path.relative(publicDir, file))));
 const postsWithoutRelated = postHtmlFiles.filter((file) => {

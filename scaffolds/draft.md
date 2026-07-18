@@ -2,9 +2,12 @@
 title: {{ title }}
 date: {{ date }}
 tags:
+  - 工程实践
+  - 技术写作
 categories:
-description:
-cover:
+  - 工程实践
+description: 用一句话说明这篇草稿的目标读者、问题背景和核心判断。
+cover: /images/hero.jpg
 ---
 
 ## 想法

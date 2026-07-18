@@ -29,7 +29,7 @@ function slugify(title) {
 
 const now = new Date();
 const today = formatDate(now);
-const title = `日记-${today}`;
+const title = `工程日志-${today}`;
 const filename = `${slugify(title)}.md`;
 const filepath = path.join(postsDir, filename);
 
@@ -45,24 +45,30 @@ if (fs.existsSync(filepath)) {
 const content = `---
 title: ${title}
 date: ${formatDateTime(now)}
+description: 记录 ${today} 的工程实践、技术判断和可复盘的改进事项。
 tags:
-  - 日记
+  - 工程实践
+  - 技术写作
 categories:
-  - 日常
+  - 工程实践
 cover: /images/hero.jpg
 ---
 
-今日一句：
--
+## 今日目标
 
-今日小确幸：
+今天要推进什么工程问题？期望交付是什么？
+
+## 关键动作
+
 - 
 
-今天心里的一盏小灯：
--
+## 验证结果
 
-明天给自己的一个小约定：
--
+如何确认今天的改动真的有效？
+
+## 复盘
+
+有哪些判断、风险或经验值得沉淀？
 `;
 
 fs.writeFileSync(filepath, content, 'utf8');

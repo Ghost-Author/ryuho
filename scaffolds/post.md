@@ -2,9 +2,12 @@
 title: {{ title }}
 date: {{ date }}
 tags:
+  - 工程实践
+  - 技术写作
 categories:
-description:
-cover:
+  - 工程实践
+description: 用一句话说明这篇文章解决的问题、核心观点和读者能带走什么。
+cover: /images/hero.jpg
 ---
 
 ## 背景
