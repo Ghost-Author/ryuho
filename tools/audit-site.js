@@ -7,6 +7,7 @@ const root = path.resolve(__dirname, '..');
 const publicDir = path.join(root, 'public');
 const postsDir = path.join(root, 'source', '_posts');
 const scaffoldsDir = path.join(root, 'scaffolds');
+const readmePath = path.join(root, 'README.md');
 
 const requiredFiles = [
   'index.html',
@@ -301,6 +302,12 @@ const disallowedCdnFiles = htmlFiles.filter((file) => {
 });
 
 addCheck('html avoids temporary CDN dependencies', disallowedCdnFiles.length === 0, disallowedCdnFiles.map((file) => path.relative(publicDir, file)).join(', '));
+
+const readme = fs.existsSync(readmePath) ? fs.readFileSync(readmePath, 'utf8') : '';
+addCheck(
+  'README documents current product surface',
+  includesAll(readme, ['AI 工程专题', '项目与实践', 'service worker', '站点和内容质量审计']) && !/基于 Lunr\.js|创建当天日记/.test(readme)
+);
 
 const manifestIconProblems = (manifest.icons || []).flatMap((icon) => {
   const iconPath = toInternalPath(icon.src || '', siteOrigin, siteBase) || icon.src || '';
