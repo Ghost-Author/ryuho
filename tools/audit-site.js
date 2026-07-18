@@ -213,6 +213,14 @@ const placeholderFiles = htmlFiles.filter((file) => {
 
 addCheck('html has no starter or empty diary content', placeholderFiles.length === 0, placeholderFiles.map((file) => path.relative(publicDir, file)).join(', '));
 
+const postHtmlFiles = htmlFiles.filter((file) => /\d{4}\/\d{2}\/\d{2}\//.test(toPosix(path.relative(publicDir, file))));
+const postsWithoutRelated = postHtmlFiles.filter((file) => {
+  const content = fs.readFileSync(file, 'utf8');
+  return !content.includes('class="related-posts"') || !content.includes('相关推荐');
+});
+
+addCheck('post pages include related reading', postsWithoutRelated.length === 0, postsWithoutRelated.map((file) => path.relative(publicDir, file)).join(', '));
+
 const disallowedCdnFiles = htmlFiles.filter((file) => {
   const content = fs.readFileSync(file, 'utf8');
   return /https:\/\/(?:unpkg\.com|cdn\.jsdelivr\.net)\//.test(content);

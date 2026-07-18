@@ -1151,6 +1151,69 @@ body::after {
   margin-top: 36px;
 }
 
+.related-posts {
+  margin-top: 36px;
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.related-card {
+  min-height: 190px;
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  box-shadow: 0 12px 26px var(--shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.related-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 30px var(--shadow);
+}
+
+.related-card a {
+  display: grid;
+  gap: 8px;
+  height: 100%;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.related-score {
+  justify-self: start;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: var(--soft);
+  border: 1px solid var(--line-strong);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.related-card h3 {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.35;
+}
+
+.related-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.related-card time {
+  align-self: end;
+  color: var(--muted);
+  font-size: 13px;
+}
+
 .post-end {
   margin-top: 36px;
 }
@@ -1479,6 +1542,10 @@ body::after {
   }
 
   .post-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .related-grid {
     grid-template-columns: 1fr;
   }
 

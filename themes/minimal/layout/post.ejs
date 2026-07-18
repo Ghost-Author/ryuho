@@ -2,6 +2,35 @@
   <%
     const wordCount = strip_html(page.content || '').replace(/\s+/g, '').length;
     const readingMinutes = Math.max(1, Math.ceil(wordCount / 500));
+    const currentTags = [];
+    const currentCategories = [];
+    if (page.tags) page.tags.each(function(tag) { currentTags.push(tag.name); });
+    if (page.categories) page.categories.each(function(cat) { currentCategories.push(cat.name); });
+
+    const relatedPosts = [];
+    site.posts.sort('date', -1).each(function(post) {
+      if (post.path === page.path) return;
+
+      let score = 0;
+      if (post.tags) {
+        post.tags.each(function(tag) {
+          if (currentTags.indexOf(tag.name) !== -1) score += 2;
+        });
+      }
+      if (post.categories) {
+        post.categories.each(function(cat) {
+          if (currentCategories.indexOf(cat.name) !== -1) score += 1;
+        });
+      }
+
+      relatedPosts.push({ post: post, score: score });
+    });
+
+    relatedPosts.sort(function(a, b) {
+      if (b.score !== a.score) return b.score - a.score;
+      return b.post.date.valueOf() - a.post.date.valueOf();
+    });
+    const relatedPick = relatedPosts.slice(0, 3);
   %>
   <header class="post-header">
     <h1><%= page.title %></h1>
@@ -43,6 +72,26 @@
       </aside>
     <% } %>
   </div>
+  <% if (relatedPick.length) { %>
+    <section class="related-posts" aria-labelledby="related-title">
+      <div class="section-title">
+        <h2 id="related-title">相关推荐</h2>
+        <a href="<%= url_for('/archives/') %>">完整归档</a>
+      </div>
+      <div class="related-grid">
+        <% relatedPick.forEach(function(item){ %>
+          <article class="related-card">
+            <a href="<%= url_for(item.post.path) %>">
+              <span class="related-score"><%= item.score > 0 ? '同主题' : '最近更新' %></span>
+              <h3><%= item.post.title %></h3>
+              <p><%= (item.post.description || strip_html(item.post.excerpt || item.post.content || '').replace(/\s+/g, ' ').trim()).slice(0, 72) %></p>
+              <time datetime="<%= date_xml(item.post.date) %>"><%= date(item.post.date, 'YYYY-MM-DD') %></time>
+            </a>
+          </article>
+        <% }) %>
+      </div>
+    </section>
+  <% } %>
   <footer class="post-end">
     <div class="post-end-card">
       <h2>读完这篇</h2>
