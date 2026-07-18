@@ -5,6 +5,7 @@ const path = require('path');
 
 const root = path.resolve(__dirname, '..');
 const publicDir = path.join(root, 'public');
+const postsDir = path.join(root, 'source', '_posts');
 
 const requiredFiles = [
   'index.html',
@@ -109,6 +110,32 @@ function detectMime(relativePath) {
     return 'image/svg+xml';
   }
   return '';
+}
+
+function readMarkdownFrontMatter(file) {
+  const content = fs.readFileSync(file, 'utf8');
+  const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  if (!match) return { data: {}, body: content };
+
+  const data = {};
+  let currentKey = '';
+  match[1].split(/\r?\n/).forEach((line) => {
+    const keyValue = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+    if (keyValue) {
+      currentKey = keyValue[1];
+      const value = keyValue[2].trim().replace(/^['"]|['"]$/g, '');
+      data[currentKey] = value ? value : [];
+      return;
+    }
+
+    const listItem = line.match(/^\s+-\s+(.+)$/);
+    if (listItem && currentKey) {
+      if (!Array.isArray(data[currentKey])) data[currentKey] = [];
+      data[currentKey].push(listItem[1].trim().replace(/^['"]|['"]$/g, ''));
+    }
+  });
+
+  return { data, body: match[2] };
 }
 
 function isSkippableUrl(value) {
@@ -216,6 +243,29 @@ const placeholderFiles = htmlFiles.filter((file) => {
 });
 
 addCheck('html has no starter or empty diary content', placeholderFiles.length === 0, placeholderFiles.map((file) => path.relative(publicDir, file)).join(', '));
+
+const postSourceFiles = fs.existsSync(postsDir)
+  ? fs.readdirSync(postsDir)
+      .filter((file) => file.endsWith('.md'))
+      .map((file) => path.join(postsDir, file))
+  : [];
+
+const postMetadataProblems = [];
+postSourceFiles.forEach((file) => {
+  const { data, body } = readMarkdownFrontMatter(file);
+  const relativeFile = toPosix(path.relative(root, file));
+  const bodyLength = body.replace(/```[\s\S]*?```/g, '').replace(/<[^>]+>/g, '').replace(/\s+/g, '').length;
+
+  if (!data.title) postMetadataProblems.push(`${relativeFile}: missing title`);
+  if (!data.date) postMetadataProblems.push(`${relativeFile}: missing date`);
+  if (!data.description || String(data.description).length < 24) postMetadataProblems.push(`${relativeFile}: weak description`);
+  if (!Array.isArray(data.tags) || data.tags.length < 2) postMetadataProblems.push(`${relativeFile}: needs at least 2 tags`);
+  if (!Array.isArray(data.categories) || data.categories.length < 1) postMetadataProblems.push(`${relativeFile}: missing category`);
+  if (!data.cover) postMetadataProblems.push(`${relativeFile}: missing cover`);
+  if (bodyLength < 260) postMetadataProblems.push(`${relativeFile}: article body is too short`);
+});
+
+addCheck('post source metadata is production-ready', postMetadataProblems.length === 0, postMetadataProblems.slice(0, 8).join(', '));
 
 const postHtmlFiles = htmlFiles.filter((file) => /\d{4}\/\d{2}\/\d{2}\//.test(toPosix(path.relative(publicDir, file))));
 const postsWithoutRelated = postHtmlFiles.filter((file) => {
