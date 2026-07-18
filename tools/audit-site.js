@@ -14,6 +14,7 @@ const requiredFiles = [
   'robots.txt',
   'site.webmanifest',
   'sw.js',
+  'series/ai-engineering/index.html',
   'projects/index.html',
   'search/index.html',
   'search-index.json',
@@ -166,9 +167,10 @@ addCheck(
 addCheck('home links web manifest', indexHtml.includes('site.webmanifest'));
 addCheck('home registers service worker', indexHtml.includes("serviceWorker' in navigator") && indexHtml.includes('sw.js'));
 addCheck('home links projects page', indexHtml.includes('/projects/') && indexHtml.includes('项目'));
+addCheck('home links AI series page', indexHtml.includes('/series/ai-engineering/') && indexHtml.includes('专题'));
 addCheck('404 is noindex', notFoundHtml.includes('name="robots" content="noindex, follow"'));
 addCheck('search loads index with relative path', searchHtml.includes("fetch('../search-index.json')"));
-addCheck('service worker precaches core routes', includesAll(serviceWorker, ['CACHE_NAME', 'PRECACHE_URLS', 'projects/', 'search-index.json', 'css/style.css', 'js/main.js']));
+addCheck('service worker precaches core routes', includesAll(serviceWorker, ['CACHE_NAME', 'PRECACHE_URLS', 'series/ai-engineering/', 'projects/', 'search-index.json', 'css/style.css', 'js/main.js']));
 addCheck('robots links sitemap', robots.includes('Sitemap:'));
 addCheck('robots sitemap does not duplicate root', !/\/ryuho\/ryuho\//.test(robots));
 addCheck('manifest has app identity', Boolean(manifest.name && manifest.short_name && manifest.start_url));

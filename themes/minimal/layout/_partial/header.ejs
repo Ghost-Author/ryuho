@@ -14,6 +14,7 @@
     <nav class="nav" aria-label="主导航">
       <a href="<%= url_for('/') %>" <%- isActive('/') ? 'aria-current="page"' : '' %>>首页</a>
       <a href="<%= url_for('/search/') %>" <%- isActive('/search/') ? 'aria-current="page"' : '' %>>搜索</a>
+      <a href="<%= url_for('/series/ai-engineering/') %>" <%- isActive('/series/') ? 'aria-current="page"' : '' %>>专题</a>
       <a href="<%= url_for('/projects/') %>" <%- isActive('/projects/') ? 'aria-current="page"' : '' %>>项目</a>
       <a href="<%= url_for('/about/') %>" <%- isActive('/about/') ? 'aria-current="page"' : '' %>>关于</a>
       <a href="<%= url_for('/tags/') %>" <%- isActive('/tags/') ? 'aria-current="page"' : '' %>>标签</a>
