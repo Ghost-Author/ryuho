@@ -6,7 +6,7 @@
   <link href="/ryuho/atom.xml" rel="self"/>
   
   <link href="https://ghost-author.github.io/ryuho/"/>
-  <updated>2026-07-18T01:22:16.164Z</updated>
+  <updated>2026-07-18T01:25:16.636Z</updated>
   <id>https://ghost-author.github.io/ryuho/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://ghost-author.github.io/ryuho/2026/06/05/%E6%99%BA%E8%83%BD%E4%BD%93%E4%BA%A7%E5%93%81%E5%88%AB%E5%85%88%E8%BF%BD%E6%B1%82%E5%85%A8%E8%87%AA%E5%8A%A8/"/>
     <id>https://ghost-author.github.io/ryuho/2026/06/05/%E6%99%BA%E8%83%BD%E4%BD%93%E4%BA%A7%E5%93%81%E5%88%AB%E5%85%88%E8%BF%BD%E6%B1%82%E5%85%A8%E8%87%AA%E5%8A%A8/</id>
     <published>2026-06-05T04:00:00.000Z</published>
-    <updated>2026-07-18T01:22:16.164Z</updated>
+    <updated>2026-07-18T01:25:16.636Z</updated>
     
     <content type="html"><![CDATA[<p>很多智能体产品一开始就想做“全自动”：用户说一句话，系统自己规划、自己调用工具、自己完成任务。</p><p>这个方向很吸引人，但工程上风险很高。真正可落地的智能体，往往不是从全自动开始，而是从可控的半自动流程开始。</p><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>智能体比普通问答复杂，因为它不只生成文本，还可能调用工具、读写数据、触发外部动作。</p><p>风险也随之增加：</p><ul><li>目标理解错了，却继续执行。</li><li>工具调用参数不对，影响真实数据。</li><li>中间步骤不可见，用户不知道它为什么这么做。</li><li>失败后无法恢复，也无法定位责任。</li></ul><p>如果这些问题没有处理好，自动化越强，事故半径越大。</p><h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><p>我更推荐把智能体能力分成四级：</p><ol><li>建议型：只给方案，不执行动作。</li><li>草稿型：生成可审阅的草稿、命令或配置。</li><li>确认型：执行前让用户确认关键步骤。</li><li>自动型：只在低风险、高确定性的任务上自动执行。</li></ol><p>大多数产品早期应该停在第二级或第三级。先把“计划是否合理”“工具参数是否正确”“失败是否可恢复”做扎实，再考虑更高自动化。</p><h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>设计智能体时，可以给每个工具定义权限级别：</p><ul><li>只读工具：搜索、查询、总结。</li><li>草稿工具：生成文档、生成配置、生成代码片段。</li><li>低风险写入：创建草稿、写入临时区、保存待审核内容。</li><li>高风险写入：删除、支付、发布、修改生产数据。</li></ul><p>高风险工具默认不让模型直接调用，必须经过显式确认。</p><p>同时，智能体每一步都应该留下轨迹：</p><ul><li>当前目标</li><li>使用了什么工具</li><li>输入参数是什么</li><li>得到了什么结果</li><li>下一步计划是什么</li></ul><p>这不是为了让界面复杂，而是为了让系统可解释、可恢复、可审计。</p><h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>智能体评测不能只看最终答案，还要看过程质量：</p><ul><li>是否正确拆解任务？</li><li>是否选择了合适工具？</li><li>是否在信息不足时追问？</li><li>是否避免高风险操作？</li><li>失败时是否能停止并说明原因？</li></ul><p>只有过程可控，结果才值得信任。</p><h2 id="复盘"><a href="#复盘" class="headerlink" title="复盘"></a>复盘</h2><p>智能体产品的关键不是让模型“看起来很自主”，而是让自动化处在可控边界内。</p><p>先做半自动，不代表保守；它是一种更工程化的路径。等任务类型、权限模型、评测集和回滚机制都稳定后，再逐步提高自动化程度，才更容易走向生产可用。</p>]]></content>
     
@@ -48,7 +48,7 @@
     <link href="https://ghost-author.github.io/ryuho/2026/06/05/%E5%92%8CAI%E7%BC%96%E7%A8%8B%E5%8A%A9%E6%89%8B%E5%8D%8F%E4%BD%9C%E7%9A%84%E5%B7%A5%E7%A8%8B%E8%BE%B9%E7%95%8C/"/>
     <id>https://ghost-author.github.io/ryuho/2026/06/05/%E5%92%8CAI%E7%BC%96%E7%A8%8B%E5%8A%A9%E6%89%8B%E5%8D%8F%E4%BD%9C%E7%9A%84%E5%B7%A5%E7%A8%8B%E8%BE%B9%E7%95%8C/</id>
     <published>2026-06-05T03:00:00.000Z</published>
-    <updated>2026-07-18T01:22:16.164Z</updated>
+    <updated>2026-07-18T01:25:16.636Z</updated>
     
     <content type="html"><![CDATA[<p>AI 编程助手已经能完成很多代码工作，但它并不会自动理解项目长期目标，也不会替团队承担质量责任。</p><p>真正高效的协作方式，不是把任务全部丢给 AI，而是把它放进工程流程里：让它加速搜索、生成、重构和验证，同时由人来控制边界。</p><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>AI 写代码最容易出现三类问题：</p><ul><li>局部正确：单个函数能跑，但不符合项目结构。</li><li>过度抽象：为了显得完整，引入不必要的层和概念。</li><li>验证不足：看起来改完了，但没有覆盖真实路径。</li></ul><p>这些问题不一定来自模型能力不足，更多来自任务描述不清、上下文不完整和验收标准缺失。</p><h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><p>我会把 AI 编程协作分成四种模式：</p><ol><li>探索：让 AI 帮忙读代码、找入口、梳理依赖。</li><li>草稿：让 AI 先给出实现方案或局部代码。</li><li>执行：让 AI 在明确边界内修改文件。</li><li>复核：让 AI 从测试、风险、回归角度做检查。</li></ol><p>不同模式要给不同权限。探索阶段可以开放问题，执行阶段必须收紧范围。</p><h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>一个比较稳的任务描述通常包含：</p><ul><li>目标：这次要解决什么用户问题？</li><li>范围：允许改哪些文件，不改哪些文件？</li><li>风格：遵循项目已有模式，不引入新框架。</li><li>验证：改完后跑哪些命令，怎样算通过？</li><li>风险：哪些行为不能破坏？</li></ul><p>例如：</p><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">请只修改主题模板和 CSS，不改构建配置。<br>目标是让首页最新文章卡片优先展示 description。<br>完成后运行 npm run check 和 npm run check:vercel。<br></code></pre></td></tr></table></figure><p>这类约束会让 AI 更像团队成员，而不是随机生成器。</p><h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>AI 参与编码后，验证要更严格，而不是更松。</p><p>至少要做三件事：</p><ul><li>看 diff：有没有无关重构、格式噪音、配置漂移？</li><li>跑测试或构建：有没有真实产物验证？</li><li>看行为路径：用户实际点击、搜索、阅读时是否符合预期？</li></ul><p>如果项目没有测试，就先补最小审计脚本或构建检查。让 AI 改代码之前，最好先让它帮你把验收线立起来。</p><h2 id="复盘"><a href="#复盘" class="headerlink" title="复盘"></a>复盘</h2><p>AI 编程助手最适合放大工程师的判断，而不是替代判断。</p><p>工程师的核心价值会越来越像“定义问题、拆分边界、设计验证、承担结果”。谁能把 AI 放进稳定流程里，谁就能更快地把想法变成可维护的软件。</p>]]></content>
     
@@ -64,9 +64,9 @@
     
       <category term="AI 工程" scheme="https://ghost-author.github.io/ryuho/tags/AI-%E5%B7%A5%E7%A8%8B/"/>
     
-      <category term="AI 编程" scheme="https://ghost-author.github.io/ryuho/tags/AI-%E7%BC%96%E7%A8%8B/"/>
-    
       <category term="工程实践" scheme="https://ghost-author.github.io/ryuho/tags/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/"/>
+    
+      <category term="AI 编程" scheme="https://ghost-author.github.io/ryuho/tags/AI-%E7%BC%96%E7%A8%8B/"/>
     
   </entry>
   
@@ -75,7 +75,7 @@
     <link href="https://ghost-author.github.io/ryuho/2026/06/05/RAG%E4%B8%8D%E6%98%AF%E6%8A%8A%E8%B5%84%E6%96%99%E5%A1%9E%E8%BF%9B%E5%90%91%E9%87%8F%E5%BA%93/"/>
     <id>https://ghost-author.github.io/ryuho/2026/06/05/RAG%E4%B8%8D%E6%98%AF%E6%8A%8A%E8%B5%84%E6%96%99%E5%A1%9E%E8%BF%9B%E5%90%91%E9%87%8F%E5%BA%93/</id>
     <published>2026-06-05T02:00:00.000Z</published>
-    <updated>2026-07-18T01:22:16.164Z</updated>
+    <updated>2026-07-18T01:25:16.636Z</updated>
     
     <content type="html"><![CDATA[<p>很多人第一次做 RAG，会把它理解成“把文档切块、向量化、塞进数据库，再让模型回答”。这个流程能跑起来，但离可用还差很远。</p><p>RAG 的核心不是向量库，而是让模型在正确材料上回答正确问题。</p><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>RAG 常见失败并不是模型不会说话，而是上下文链路出了问题：</p><ul><li>文档切块太碎，答案需要的信息被拆散。</li><li>切块太大，召回内容噪声太多。</li><li>只做向量召回，关键词、编号、专有名词匹配不稳定。</li><li>没有重排序，真正相关内容排在后面。</li><li>没有引用和边界，模型容易把检索内容和猜测混在一起。</li></ul><p>这些问题都不是一句“换更强模型”能彻底解决的。</p><h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><p>我更愿意把 RAG 拆成六个环节：</p><ol><li>问题理解：用户到底想查事实、找流程，还是让系统做判断？</li><li>文档治理：资料是否可信、过期、重复、冲突？</li><li>切分策略：每个片段是否保留足够语义和来源信息？</li><li>召回策略：向量、关键词、元数据过滤是否组合使用？</li><li>排序压缩：进入模型前的上下文是否足够集中？</li><li>回答约束：是否要求引用来源、说明不确定性、拒绝编造？</li></ol><p>把这六层分开看，问题就会清楚很多。</p><h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>一个最小可用 RAG，可以先从简单但可解释的结构开始：</p><ul><li>文档入库时保留标题、章节、更新时间、来源 URL。</li><li>切块时尽量按标题层级或段落结构切，不只按固定字数切。</li><li>查询时同时做向量召回和关键词召回。</li><li>把召回片段按相关性、更新时间、来源可信度重新排序。</li><li>回答时要求模型只基于给定材料，并列出引用片段。</li></ul><p>提示词里要明确边界：</p><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">如果资料中没有答案，请直接说“当前资料不足”，不要补充猜测。<br>回答必须包含依据片段，不能使用未提供的外部事实。<br></code></pre></td></tr></table></figure><h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>RAG 的评测不能只看回答是否流畅，要至少看四个指标：</p><ul><li>召回率：正确材料有没有被找出来？</li><li>精确率：进入上下文的材料噪声多不多？</li><li>忠实度：回答是否严格基于材料？</li><li>可操作性：用户拿到答案后能不能继续行动？</li></ul><p>如果回答错了，要先判断是“没召回”“召回了但没用上”“资料本身有问题”，还是“模型编造”。这四类问题的修法完全不同。</p><h2 id="复盘"><a href="#复盘" class="headerlink" title="复盘"></a>复盘</h2><p>RAG 是一个信息系统，不只是一个模型调用。</p><p>向量库只是其中一环。真正决定体验的，是资料质量、检索策略、上下文组织和回答边界。把这些环节工程化，RAG 才能从 Demo 走向生产。</p>]]></content>
     
@@ -102,7 +102,7 @@
     <link href="https://ghost-author.github.io/ryuho/2026/06/05/AI%E5%8A%9F%E8%83%BD%E4%B8%8A%E7%BA%BF%E5%89%8D%E5%85%88%E5%86%99%E8%AF%84%E6%B5%8B%E9%9B%86/"/>
     <id>https://ghost-author.github.io/ryuho/2026/06/05/AI%E5%8A%9F%E8%83%BD%E4%B8%8A%E7%BA%BF%E5%89%8D%E5%85%88%E5%86%99%E8%AF%84%E6%B5%8B%E9%9B%86/</id>
     <published>2026-06-05T01:00:00.000Z</published>
-    <updated>2026-07-18T01:22:16.164Z</updated>
+    <updated>2026-07-18T01:25:16.636Z</updated>
     
     <content type="html"><![CDATA[<p>很多 AI 功能刚做出来时都会有一种错觉：看几个 Demo 效果不错，就觉得可以上线了。</p><p>但 AI 功能和传统功能最大的差异在于，它不是每次都给出完全确定的输出。模型、提示词、上下文、检索结果、用户输入方式，都会影响最终表现。如果没有评测集，后续每一次优化都很容易变成“凭感觉调参”。</p><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>一个面向真实用户的 AI 功能，通常会经历这些变化：</p><ul><li>提示词改写</li><li>模型版本切换</li><li>检索策略调整</li><li>上下文窗口变化</li><li>业务规则补充</li><li>安全策略收紧</li></ul><p>这些变化看起来都不大，但可能悄悄破坏已有能力。最危险的不是功能报错，而是它看起来仍然能回答，只是质量下降了。</p><h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><p>上线前至少准备一个最小评测集。它不需要一开始就很复杂，但要覆盖真实场景。</p><p>我一般会把评测样本分成五类：</p><ol><li>核心成功样本：功能最应该答好的问题。</li><li>边界样本：信息缺失、表达模糊、输入不完整。</li><li>反例样本：用户要求做不该做的事。</li><li>长尾样本：低频但业务上很重要的问题。</li><li>回归样本：曾经出过问题，修复后必须一直守住。</li></ol><p>每条样本至少包含：</p><ul><li>用户输入</li><li>期望行为</li><li>不可接受行为</li><li>评分标准</li><li>相关上下文或检索材料</li></ul><h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>最小评测集可以先用表格或 JSON 管理，不必一开始就搭复杂平台。</p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;support-001&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;input&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;我的订单一直没发货怎么办？&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;expected&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;先确认订单状态，再给出可执行的查询或联系路径&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;bad_cases&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;编造物流信息&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;承诺无法保证的赔付&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;rubric&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;grounded&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">3</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;actionable&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">3</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;safe&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">3</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure><p>评测方式也可以从人工开始。先让人按标准打分，等样本稳定后，再逐步加入自动化脚本、规则校验和模型辅助评审。</p><h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>评测集真正有用，关键看它能不能回答三个问题：</p><ul><li>新版本是否比旧版本更好？</li><li>有没有破坏过去已经解决的问题？</li><li>哪些问题不该继续靠提示词硬补，而应该改产品逻辑？</li></ul><p>如果一次提示词修改只能靠肉眼看几个样例，那它还不是工程流程；如果能跑一组稳定样本，并看到通过率、失败原因和变化趋势，才开始进入可维护状态。</p><h2 id="复盘"><a href="#复盘" class="headerlink" title="复盘"></a>复盘</h2><p>AI 功能上线前最应该先补的不是更多提示词技巧，而是评测能力。</p><p>评测集是团队对“什么叫好”的共同定义。没有这个定义，AI 功能会越调越玄学；有了它，优化才会变成可以讨论、可以回归、可以持续演进的工程问题。</p>]]></content>
     
@@ -129,7 +129,7 @@
     <link href="https://ghost-author.github.io/ryuho/2026/02/09/%E6%8A%8A%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E5%BD%93%E4%BD%9C%E5%B7%A5%E7%A8%8B%E9%A1%B9%E7%9B%AE%E7%BB%B4%E6%8A%A4/"/>
     <id>https://ghost-author.github.io/ryuho/2026/02/09/%E6%8A%8A%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E5%BD%93%E4%BD%9C%E5%B7%A5%E7%A8%8B%E9%A1%B9%E7%9B%AE%E7%BB%B4%E6%8A%A4/</id>
     <published>2026-02-09T02:00:00.000Z</published>
-    <updated>2026-07-18T01:22:16.164Z</updated>
+    <updated>2026-07-18T01:25:16.636Z</updated>
     
     <content type="html"><![CDATA[<p>个人博客很容易被当成一个“写完就发布”的静态页面，但如果希望它长期稳定运行，最好把它当作一个小型工程项目来维护。</p><p>这意味着每一次改动都要回答三个问题：</p><ul><li>读者是否更容易找到有价值的内容？</li><li>站点是否更稳定、更容易部署？</li><li>后续写作和维护是否更省心？</li></ul><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>这个博客同时面向 GitHub Pages 和 Vercel。两个平台的路径模型不同：GitHub Pages 部署在 <code>/ryuho/</code> 子路径，Vercel 部署在站点根路径。如果页面里写死链接，很容易出现一个平台正常、另一个平台失效的问题。</p><p>因此，第一步不是做复杂功能，而是把上线流程变成可验证的工程流程。</p><h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><p>我把优化拆成三层：</p><ol><li>站点定位：让首页一眼说明这是技术博客，而不是泛泛的个人主页。</li><li>发布质量：构建后自动检查 SEO、内部链接、静态资源和关键 CTA。</li><li>内容质量：避免默认示例、空模板和没有上下文的文章被发布出去。</li></ol><p>这些检查不依赖外部服务，只扫描生成后的 <code>public</code> 目录。好处是速度快、失败原因明确，也能同时覆盖 GitHub Pages 和 Vercel 两种构建结果。</p><h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>核心思路是把 <code>npm run check</code> 当成本地和 CI 的统一入口：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm run check<br>npm run check:vercel<br></code></pre></td></tr></table></figure><p>前者使用 GitHub Pages 的子路径配置，后者使用 Vercel 的根路径配置。两者都会在生成静态站点后运行审计脚本。</p><p>审计脚本重点检查：</p><ul><li>首页是否具备核心 SEO 标签</li><li><code>robots.txt</code>、<code>sitemap.xml</code>、<code>atom.xml</code> 是否生成</li><li>内部链接和静态资源是否都能解析到真实文件</li><li>manifest 图标声明是否和真实文件类型一致</li><li>首页“阅读最新文章”是否真的指向文章详情</li><li>生成后的 HTML 是否还残留示例内容或空日记模板</li></ul><h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>静态站点最怕“构建成功但线上体验坏了”。所以每次提交前，至少要确认两个命令都通过：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm run check<br>npm run check:vercel<br></code></pre></td></tr></table></figure><p>如果其中一个失败，就说明当前改动还没有达到可发布状态。这个规则比口头提醒可靠，因为它会在构建产物层面直接给出失败项。</p><h2 id="复盘"><a href="#复盘" class="headerlink" title="复盘"></a>复盘</h2><p>个人博客的价值不只在文章数量，也在长期可维护性。</p><p>一个优秀的 IT 个人博客应该像一个小产品：定位清楚、路径顺畅、内容可信、发布稳定。等这些基础打牢之后，再去做评论、搜索、统计、项目页等增强功能，才不容易越做越散。</p>]]></content>
     
@@ -154,77 +154,77 @@
   </entry>
   
   <entry>
-    <title>日记-2026-02-08</title>
+    <title>站点整理日志：让主题服务阅读体验</title>
     <link href="https://ghost-author.github.io/ryuho/2026/02/08/%E6%97%A5%E8%AE%B0-2026-02-08/"/>
     <id>https://ghost-author.github.io/ryuho/2026/02/08/%E6%97%A5%E8%AE%B0-2026-02-08/</id>
     <published>2026-02-08T04:30:00.000Z</published>
-    <updated>2026-07-18T01:22:16.164Z</updated>
+    <updated>2026-07-18T01:25:16.636Z</updated>
     
-    <content type="html"><![CDATA[<p>今日一句：<br>把生活过成一朵柔软的云。</p><p>今日小事：<br>给博客换了更可爱的风格，首页多了心情卡片和时间线，读起来更有温度。</p><p>今日感受：<br>少量的改动就能让页面更舒服，像整理房间一样，心情也被顺带整理好。</p><p>明天想做的事：<br>写一篇关于「最近在看的书」的小短文。</p>]]></content>
+    <content type="html"><![CDATA[<p>今天主要整理博客的主题体验。</p><p>技术博客不需要做得很复杂，但需要让读者愿意停下来读。尤其是文章数量还不多的时候，页面结构、信息密度和阅读节奏会直接影响第一印象。</p><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>静态博客很容易陷入两种极端：</p><ul><li>太像默认模板，缺少个人识别度。</li><li>太像展示页，真正的文章入口反而不清楚。</li></ul><p>我希望这个站点更接近一个长期维护的技术工作台：安静、清楚、可持续。</p><h2 id="调整方向"><a href="#调整方向" class="headerlink" title="调整方向"></a>调整方向</h2><p>这次重点放在几个基础体验上：</p><ul><li>首页保留最新文章、推荐阅读和时间线。</li><li>作者信息放在可扫描的位置，而不是藏在关于页里。</li><li>标签、分类和归档入口保持清晰。</li><li>文章页显示阅读进度、目录、字数和阅读时间。</li><li>移动端布局优先保证不拥挤、不换行错乱。</li></ul><p>这些细节不会让博客立刻变得“高级”，但会降低阅读阻力。</p><h2 id="复盘"><a href="#复盘" class="headerlink" title="复盘"></a>复盘</h2><p>主题优化不是为了好看而好看。</p><p>对个人技术博客来说，视觉应该服务于信任感：读者能快速找到入口，知道文章大概需要读多久，也能在读完后继续探索相关内容。</p><p>当这些基础体验稳定下来，后续再增加搜索、项目页、专题页和订阅入口，才不会显得零散。</p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;今日一句：&lt;br&gt;把生活过成一朵柔软的云。&lt;/p&gt;
-&lt;p&gt;今日小事：&lt;br&gt;给博客换了更可爱的风格，首页多了心情卡片和时间线，读起来更有温度。&lt;/p&gt;
-&lt;p&gt;今日感受：&lt;br&gt;少量的改动就能让页面更舒服，像整理房间一样，心情也被顺带整理好。&lt;/p&gt;
-&lt;p&gt;明天想做的事：&lt;b
-      
+      记录一次博客主题优化：通过更清晰的卡片、时间线和阅读状态，让技术内容更容易被浏览。
     
     </summary>
     
     
-      <category term="日常" scheme="https://ghost-author.github.io/ryuho/categories/%E6%97%A5%E5%B8%B8/"/>
+      <category term="工程实践" scheme="https://ghost-author.github.io/ryuho/categories/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/"/>
     
     
-      <category term="日记" scheme="https://ghost-author.github.io/ryuho/tags/%E6%97%A5%E8%AE%B0/"/>
+      <category term="工程实践" scheme="https://ghost-author.github.io/ryuho/tags/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/"/>
+    
+      <category term="前端体验" scheme="https://ghost-author.github.io/ryuho/tags/%E5%89%8D%E7%AB%AF%E4%BD%93%E9%AA%8C/"/>
     
   </entry>
   
   <entry>
-    <title>日记-2026-02-07</title>
+    <title>站点整理日志：先把信息架构理顺</title>
     <link href="https://ghost-author.github.io/ryuho/2026/02/07/%E6%97%A5%E8%AE%B0-2026-02-07/"/>
     <id>https://ghost-author.github.io/ryuho/2026/02/07/%E6%97%A5%E8%AE%B0-2026-02-07/</id>
     <published>2026-02-07T07:59:10.000Z</published>
-    <updated>2026-07-18T01:22:16.164Z</updated>
+    <updated>2026-07-18T01:25:16.636Z</updated>
     
-    <content type="html"><![CDATA[<p>今日一句：<br>给生活留一个可以慢慢说话的角落。</p><p>今日小事：<br>把博客的基础结构搭起来，整理了首页、标签、分类和关于页面，也给未来的日记准备了固定的位置。</p><p>今日感受：<br>一个小站开始有了自己的样子。虽然内容还不多，但只要入口清楚、节奏舒服，就会让人愿意继续写下去。</p><p>明天想做的事：<br>补一篇更完整的日记，把今天没有展开的想法慢慢写完。</p>]]></content>
+    <content type="html"><![CDATA[<p>今天做的第一件事，是把这个博客从“能访问”调整到“能被理解”。</p><p>一个个人技术博客最容易出现的问题，是页面都在，但读者不知道应该从哪里开始看。首页像入口，分类像地图，标签像索引，关于页则负责解释作者的长期关注。</p><h2 id="调整目标"><a href="#调整目标" class="headerlink" title="调整目标"></a>调整目标</h2><p>这次整理主要围绕三个问题：</p><ul><li>首页是否能在第一屏说明站点主题？</li><li>分类和标签是否能把文章组织成技术线索？</li><li>关于页是否能说明我为什么写、写什么、如何联系？</li></ul><p>如果这三个问题没处理好，后面写再多文章也容易散。</p><h2 id="做了什么"><a href="#做了什么" class="headerlink" title="做了什么"></a>做了什么</h2><p>我先保留了最必要的入口：</p><ul><li>首页：展示定位、最新文章和推荐阅读。</li><li>分类：按主题承接长期内容。</li><li>标签：承接更细的技术关键词。</li><li>归档：保留完整时间线。</li><li>关于：说明写作方向和联系方式。</li></ul><p>这套结构不复杂，但足够支撑后续迭代。对个人博客来说，最重要的不是功能数量，而是每个入口都有明确责任。</p><h2 id="复盘"><a href="#复盘" class="headerlink" title="复盘"></a>复盘</h2><p>信息架构是一种产品判断。</p><p>当读者第一次进入网站时，页面应该帮他快速回答“这里和我有什么关系”。如果答案清楚，后续的搜索、订阅、相关文章和项目页才有意义。</p>]]></content>
     
     <summary type="html">
     
-      第一次认真整理这个小站，给生活记录留出一个安静、可持续的位置。
+      第一次系统整理博客的信息架构，让首页、分类、标签和关于页服务于技术博客定位。
     
     </summary>
     
     
-      <category term="日常" scheme="https://ghost-author.github.io/ryuho/categories/%E6%97%A5%E5%B8%B8/"/>
+      <category term="工程实践" scheme="https://ghost-author.github.io/ryuho/categories/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/"/>
     
     
-      <category term="日记" scheme="https://ghost-author.github.io/ryuho/tags/%E6%97%A5%E8%AE%B0/"/>
+      <category term="工程实践" scheme="https://ghost-author.github.io/ryuho/tags/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/"/>
+    
+      <category term="技术写作" scheme="https://ghost-author.github.io/ryuho/tags/%E6%8A%80%E6%9C%AF%E5%86%99%E4%BD%9C/"/>
     
   </entry>
   
   <entry>
-    <title>小站开张：从这里开始</title>
+    <title>小站开张：把个人博客当作长期工程</title>
     <link href="https://ghost-author.github.io/ryuho/2026/02/07/hello-world/"/>
     <id>https://ghost-author.github.io/ryuho/2026/02/07/hello-world/</id>
     <published>2026-02-07T04:00:00.000Z</published>
-    <updated>2026-07-18T01:22:16.164Z</updated>
+    <updated>2026-07-18T01:25:16.636Z</updated>
     
-    <content type="html"><![CDATA[<p>这个小站从一篇很轻的记录开始。</p><p>我想把这里当作一个安静的收纳盒：放一些生活里的小事、路上的风景、读到的句子，也放那些突然冒出来但暂时还不知道会长成什么的念头。</p><p>以后你大概会在这里看到三类内容：</p><ul><li>日常里的小确幸</li><li>阅读、旅行和钓鱼相关的片段</li><li>对博客本身的整理和改进记录</li></ul><p>不追求很快，也不急着把每件事都讲完整。能稳定地写下去，就已经是一件温柔的小事。</p>]]></content>
+    <content type="html"><![CDATA[<p>这个小站从一个很简单的目标开始：把技术学习、项目实践和长期思考沉淀成可复用的知识库。</p><p>我不想只做一个“写完文章就结束”的静态页面。更理想的状态，是每一次写作和改版都能回答几个问题：</p><ul><li>读者能不能快速判断这个站点关注什么？</li><li>文章之间有没有形成连续的主题线索？</li><li>构建、部署、搜索、SEO 和订阅是否足够稳定？</li><li>以后回头看时，能不能复盘当时的技术取舍？</li></ul><h2 id="为什么要认真维护个人博客"><a href="#为什么要认真维护个人博客" class="headerlink" title="为什么要认真维护个人博客"></a>为什么要认真维护个人博客</h2><p>技术人的成长很容易散落在代码仓库、聊天记录、笔记软件和临时文档里。它们有价值，但不一定容易被检索、复盘和展示。</p><p>个人博客的优势在于公开、稳定、可链接。它会逼着我把一次实践讲清楚：背景是什么，为什么这样做，有哪些边界，最后怎么验证。</p><p>这种写作不是为了显得“什么都懂”，而是为了留下判断过程。</p><h2 id="初始定位"><a href="#初始定位" class="headerlink" title="初始定位"></a>初始定位</h2><p>这个博客会优先记录三类内容：</p><ol><li>AI 工程：RAG、智能体、评测、提示词和 AI 功能上线流程。</li><li>工程实践：需求拆解、架构取舍、代码实现、部署和质量检查。</li><li>系统思考：可维护性、成本、可观测性、安全边界和长期效率。</li></ol><p>也会保留少量个人记录，但它们会服务于长期节奏，而不是冲淡技术主题。</p><h2 id="第一阶段目标"><a href="#第一阶段目标" class="headerlink" title="第一阶段目标"></a>第一阶段目标</h2><p>第一阶段先把基础打稳：</p><ul><li>首页要让读者一眼看懂站点定位。</li><li>分类和标签要能支撑主题探索。</li><li>RSS、sitemap、manifest 和 SEO 信息要完整。</li><li>发布前要有自动化检查，避免链接、资源和配置问题上线。</li></ul><p>等这些基础稳定后，再继续补项目页、专题页、搜索体验和更多真实复盘。</p><h2 id="复盘"><a href="#复盘" class="headerlink" title="复盘"></a>复盘</h2><p>个人博客可以很小，但不应该随意。</p><p>如果把它当作一个长期工程来维护，它就不只是写作出口，也会成为技术判断、项目经验和个人品牌的持续资产。</p>]]></content>
     
     <summary type="html">
     
-      这个小站的第一篇记录，写给正在慢慢成形的生活、阅读和灵感。
+      这个博客从一开始就希望被当作一个长期维护的技术产品，而不只是临时文章列表。
     
     </summary>
     
     
-      <category term="随笔" scheme="https://ghost-author.github.io/ryuho/categories/%E9%9A%8F%E7%AC%94/"/>
+      <category term="工程实践" scheme="https://ghost-author.github.io/ryuho/categories/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/"/>
     
     
-      <category term="生活" scheme="https://ghost-author.github.io/ryuho/tags/%E7%94%9F%E6%B4%BB/"/>
+      <category term="工程实践" scheme="https://ghost-author.github.io/ryuho/tags/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/"/>
+    
+      <category term="技术写作" scheme="https://ghost-author.github.io/ryuho/tags/%E6%8A%80%E6%9C%AF%E5%86%99%E4%BD%9C/"/>
     
   </entry>
   

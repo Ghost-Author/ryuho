@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>项目与实践 | Ghost-Author</title>
+  <meta name="description" content="Ghost-Author 的工程项目、AI 实践和站点迭代记录。">
+  
+  <meta name="author" content="Ghost-Author">
+  <meta name="generator" content="Hexo">
+  <meta name="theme-color" content="#ff7bb2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#211827" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="项目与实践 | Ghost-Author">
+  <meta property="og:description" content="Ghost-Author 的工程项目、AI 实践和站点迭代记录。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ghost-author.github.io/ryuho/projects/">
+  <meta property="og:site_name" content="Ghost-Author">
+  
+    <meta property="og:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  <meta name="twitter:card" content="summary">
+  
+  <link rel="alternate" type="application/atom+xml" title="Ghost-Author" href="https://ghost-author.github.io/ryuho/atom.xml">
+  <link rel="canonical" href="https://ghost-author.github.io/ryuho/projects/">
+  <link rel="manifest" href="/ryuho/site.webmanifest">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = saved || (prefersDark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="/ryuho/css/style.css">
+  <script src="/ryuho/js/main.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/ryuho/sw.js').catch(function () {});
+      });
+    }
+  </script>
+  
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebSite","headline":"项目与实践","name":"项目与实践","description":"Ghost-Author 的工程项目、AI 实践和站点迭代记录。","url":"https://ghost-author.github.io/ryuho/projects/","image":"https://ghost-author.github.io/ryuho/images/hero.jpg","author":{"@type":"Person","name":"Ghost-Author"},"publisher":{"@type":"Person","name":"Ghost-Author"}}
+  </script>
+</head>
+<body>
+  <div class="reading-progress" aria-hidden="true"></div>
+  <a class="skip-link" href="#content">跳到正文</a>
+  <header class="site-header">
+  
+  <div class="container header-inner">
+    <a class="logo" href="/ryuho/">
+      <span class="logo-dot"></span>
+      <span>Ghost-Author</span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="/ryuho/" >首页</a>
+      <a href="/ryuho/search/" >搜索</a>
+      <a href="/ryuho/projects/" aria-current="page">项目</a>
+      <a href="/ryuho/about/" >关于</a>
+      <a href="/ryuho/tags/" >标签</a>
+      <a href="/ryuho/categories/" >分类</a>
+      <a href="/ryuho/archives/" >归档</a>
+    </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换深色模式" aria-pressed="false">
+      <span aria-hidden="true" data-theme-icon>☾</span>
+    </button>
+  </div>
+</header>
+
+  <main class="container" id="content" tabindex="-1">
+    <article class="page">
+  <header class="page-header">
+    <h1>项目与实践</h1>
+    
+      <p class="page-description">Ghost-Author 的工程项目、AI 实践和站点迭代记录。</p>
+    
+  </header>
+  <div class="page-content">
+    <p>这里收集我正在沉淀的工程实践。相比单篇文章，项目页更关注“做了什么、为什么这样做、如何验证、还能继续优化什么”。</p>
+<h2 id="AI-工程实践"><a href="#AI-工程实践" class="headerlink" title="AI 工程实践"></a>AI 工程实践</h2><h3 id="AI-功能评测集"><a href="#AI-功能评测集" class="headerlink" title="AI 功能评测集"></a>AI 功能评测集</h3><p>目标：让 AI 功能上线前不再只靠主观体验判断质量。</p>
+<p>已沉淀：</p>
+<ul>
+<li>评测样本的最小字段设计</li>
+<li>核心成功样本、边界样本、反例样本、长尾样本、回归样本的分层</li>
+<li>从人工评分过渡到自动化评测的路径</li>
+</ul>
+<p>关联阅读：<a href="/ryuho/2026/06/05/AI%E5%8A%9F%E8%83%BD%E4%B8%8A%E7%BA%BF%E5%89%8D%E5%85%88%E5%86%99%E8%AF%84%E6%B5%8B%E9%9B%86/" title="AI 功能上线前，先写评测集">AI 功能上线前，先写评测集</a></p>
+<h3 id="RAG-可用性链路"><a href="#RAG-可用性链路" class="headerlink" title="RAG 可用性链路"></a>RAG 可用性链路</h3><p>目标：把 RAG 从“文档向量化 Demo”推进到可解释、可验证的知识问答系统。</p>
+<p>已沉淀：</p>
+<ul>
+<li>文档治理、切分、召回、排序、回答约束的拆解</li>
+<li>向量召回和关键词召回的组合思路</li>
+<li>召回率、精确率、忠实度、可操作性的验证指标</li>
+</ul>
+<p>关联阅读：<a href="/ryuho/2026/06/05/RAG%E4%B8%8D%E6%98%AF%E6%8A%8A%E8%B5%84%E6%96%99%E5%A1%9E%E8%BF%9B%E5%90%91%E9%87%8F%E5%BA%93/" title="RAG 不是把资料塞进向量库">RAG 不是把资料塞进向量库</a></p>
+<h3 id="智能体产品边界"><a href="#智能体产品边界" class="headerlink" title="智能体产品边界"></a>智能体产品边界</h3><p>目标：设计可控的半自动智能体流程，避免一开始就追求高风险全自动。</p>
+<p>已沉淀：</p>
+<ul>
+<li>建议型、草稿型、确认型、自动型四级能力模型</li>
+<li>工具权限分层和高风险动作确认机制</li>
+<li>过程轨迹、失败恢复和审计意识</li>
+</ul>
+<p>关联阅读：<a href="/ryuho/2026/06/05/%E6%99%BA%E8%83%BD%E4%BD%93%E4%BA%A7%E5%93%81%E5%88%AB%E5%85%88%E8%BF%BD%E6%B1%82%E5%85%A8%E8%87%AA%E5%8A%A8/" title="智能体产品别先追求全自动">智能体产品别先追求全自动</a></p>
+<h2 id="博客工程化"><a href="#博客工程化" class="headerlink" title="博客工程化"></a>博客工程化</h2><p>这个站点本身也是一个持续迭代的小项目。</p>
+<p>已完成：</p>
+<ul>
+<li>GitHub Pages 与 Vercel 双路径构建配置</li>
+<li>静态产物审计：SEO、sitemap、RSS、manifest、内部链接和图片尺寸</li>
+<li>本地搜索索引，不依赖临时 CDN</li>
+<li>service worker 预缓存核心页面和最新文章</li>
+<li>文章页相关推荐，串联同主题内容</li>
+</ul>
+<p>继续优化方向：</p>
+<ul>
+<li>补充更多真实项目复盘</li>
+<li>增加专题页，把 AI 工程文章按学习路径组织</li>
+<li>为重点文章补充架构图、流程图和评测样例</li>
+</ul>
+
+  </div>
+</article>
+
+  </main>
+  <footer class="site-footer">
+  <div class="container footer-inner">
+    <span>© 2026 Ghost-Author. 记录 AI 工程与长期思考。</span>
+    <span>
+      <a href="/ryuho/atom.xml">RSS</a>
+      
+        · <a href="mailto:liupggg@gmail.com">Email</a>
+      
+      · <a href="/ryuho/archives/">归档</a>
+    </span>
+  </div>
+</footer>
+
+  <button class="back-to-top" type="button" aria-label="回到顶部">↑</button>
+</body>
+</html>
