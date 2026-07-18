@@ -9,11 +9,19 @@
     const canonicalUrl = (page.canonical_path ? full_url_for(page.canonical_path) : (page.permalink || full_url_for(page.path || ''))).replace(/index\.html$/, '');
     const imagePath = page.cover || theme.og_image || theme.hero_image || theme.avatar_url;
     const ogImage = imagePath ? full_url_for(imagePath) : '';
+    const pageKeywords = [];
+    if (page.tags) page.tags.each(function(tag) { pageKeywords.push(tag.name); });
+    if (page.categories) page.categories.each(function(cat) { pageKeywords.push(cat.name); });
+    (theme.profile_chips || []).forEach(function(chip) { pageKeywords.push(chip); });
+    const keywords = Array.from(new Set(pageKeywords)).join(', ');
   %>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><%= rawTitle %></title>
   <meta name="description" content="<%= metaDescription %>">
+  <% if (keywords) { %>
+    <meta name="keywords" content="<%= keywords %>">
+  <% } %>
   <% if (canonicalUrl.indexOf('/404.html') !== -1) { %>
     <meta name="robots" content="noindex, follow">
   <% } %>
@@ -29,16 +37,25 @@
   <% if (ogImage) { %>
     <meta property="og:image" content="<%= ogImage %>">
   <% } %>
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="summary_large_image">
+  <% if (ogImage) { %>
+    <meta name="twitter:image" content="<%= ogImage %>">
+  <% } %>
   <% if (page.layout === 'post') { %>
     <meta property="article:published_time" content="<%= date_xml(page.date) %>">
     <% if (page.updated) { %>
       <meta property="article:modified_time" content="<%= date_xml(page.updated) %>">
     <% } %>
+    <% if (page.tags) { %>
+      <% page.tags.each(function(tag) { %>
+        <meta property="article:tag" content="<%= tag.name %>">
+      <% }) %>
+    <% } %>
   <% } %>
   <link rel="alternate" type="application/atom+xml" title="<%= config.title %>" href="<%= full_url_for('/atom.xml') %>">
   <link rel="canonical" href="<%= canonicalUrl %>">
   <link rel="manifest" href="<%= url_for('/site.webmanifest') %>">
+  <link rel="apple-touch-icon" href="<%= url_for('/images/avatar.png') %>">
   <script>
     (function () {
       try {
@@ -69,6 +86,7 @@
       description: metaDescription,
       url: canonicalUrl,
       image: ogImage || undefined,
+      keywords: keywords || undefined,
       author: {
         '@type': 'Person',
         name: config.author

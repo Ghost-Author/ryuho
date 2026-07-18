@@ -187,8 +187,11 @@ addCheck(
   'home has core SEO tags',
   includesAll(indexHtml, [
     '<meta name="description"',
+    '<meta name="keywords"',
     '<meta property="og:title"',
+    '<meta name="twitter:card" content="summary_large_image"',
     '<link rel="canonical"',
+    '<link rel="apple-touch-icon"',
     '<script type="application/ld+json">'
   ])
 );
@@ -204,6 +207,7 @@ addCheck('robots links sitemap', robots.includes('Sitemap:'));
 addCheck('robots sitemap does not duplicate root', !/\/ryuho\/ryuho\//.test(robots));
 addCheck('manifest has app identity', Boolean(manifest.name && manifest.short_name && manifest.start_url));
 addCheck('manifest has icons', Array.isArray(manifest.icons) && manifest.icons.length >= 2);
+addCheck('manifest has maskable icons', Array.isArray(manifest.icons) && manifest.icons.some((icon) => String(icon.purpose || '').includes('maskable')));
 addCheck('sitemap has URLs', sitemapLocations.length > 0);
 
 function walk(dir) {
@@ -295,6 +299,13 @@ const postsWithoutRelated = postHtmlFiles.filter((file) => {
 });
 
 addCheck('post pages include related reading', postsWithoutRelated.length === 0, postsWithoutRelated.map((file) => path.relative(publicDir, file)).join(', '));
+
+const postsWithoutArticleTags = postHtmlFiles.filter((file) => {
+  const content = fs.readFileSync(file, 'utf8');
+  return !content.includes('property="article:tag"') || !content.includes('name="twitter:image"');
+});
+
+addCheck('post pages expose article sharing metadata', postsWithoutArticleTags.length === 0, postsWithoutArticleTags.map((file) => path.relative(publicDir, file)).join(', '));
 
 const disallowedCdnFiles = htmlFiles.filter((file) => {
   const content = fs.readFileSync(file, 'utf8');
