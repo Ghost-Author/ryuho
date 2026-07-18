@@ -1,10 +1,11 @@
-const CACHE_NAME = "ryuho-static-1784338112950";
+const CACHE_NAME = "ryuho-static-1784338269553";
 const PRECACHE_URLS = [
   "/ryuho/",
   "/ryuho/archives/",
   "/ryuho/categories/",
   "/ryuho/tags/",
   "/ryuho/about/",
+  "/ryuho/series/ai-engineering/",
   "/ryuho/projects/",
   "/ryuho/search/",
   "/ryuho/atom.xml",

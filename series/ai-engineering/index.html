@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI 工程上线路径 | Ghost-Author</title>
+  <meta name="description" content="一条面向生产落地的 AI 工程阅读路径，覆盖评测、RAG、智能体、可观测性和 AI 编程协作。">
+  
+  <meta name="author" content="Ghost-Author">
+  <meta name="generator" content="Hexo">
+  <meta name="theme-color" content="#ff7bb2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#211827" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="AI 工程上线路径 | Ghost-Author">
+  <meta property="og:description" content="一条面向生产落地的 AI 工程阅读路径，覆盖评测、RAG、智能体、可观测性和 AI 编程协作。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ghost-author.github.io/ryuho/series/ai-engineering/">
+  <meta property="og:site_name" content="Ghost-Author">
+  
+    <meta property="og:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  <meta name="twitter:card" content="summary">
+  
+  <link rel="alternate" type="application/atom+xml" title="Ghost-Author" href="https://ghost-author.github.io/ryuho/atom.xml">
+  <link rel="canonical" href="https://ghost-author.github.io/ryuho/series/ai-engineering/">
+  <link rel="manifest" href="/ryuho/site.webmanifest">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = saved || (prefersDark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="/ryuho/css/style.css">
+  <script src="/ryuho/js/main.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/ryuho/sw.js').catch(function () {});
+      });
+    }
+  </script>
+  
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebSite","headline":"AI 工程上线路径","name":"AI 工程上线路径","description":"一条面向生产落地的 AI 工程阅读路径，覆盖评测、RAG、智能体、可观测性和 AI 编程协作。","url":"https://ghost-author.github.io/ryuho/series/ai-engineering/","image":"https://ghost-author.github.io/ryuho/images/hero.jpg","author":{"@type":"Person","name":"Ghost-Author"},"publisher":{"@type":"Person","name":"Ghost-Author"}}
+  </script>
+</head>
+<body>
+  <div class="reading-progress" aria-hidden="true"></div>
+  <a class="skip-link" href="#content">跳到正文</a>
+  <header class="site-header">
+  
+  <div class="container header-inner">
+    <a class="logo" href="/ryuho/">
+      <span class="logo-dot"></span>
+      <span>Ghost-Author</span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="/ryuho/" >首页</a>
+      <a href="/ryuho/search/" >搜索</a>
+      <a href="/ryuho/series/ai-engineering/" aria-current="page">专题</a>
+      <a href="/ryuho/projects/" >项目</a>
+      <a href="/ryuho/about/" >关于</a>
+      <a href="/ryuho/tags/" >标签</a>
+      <a href="/ryuho/categories/" >分类</a>
+      <a href="/ryuho/archives/" >归档</a>
+    </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换深色模式" aria-pressed="false">
+      <span aria-hidden="true" data-theme-icon>☾</span>
+    </button>
+  </div>
+</header>
+
+  <main class="container" id="content" tabindex="-1">
+    <article class="page">
+  <header class="page-header">
+    <h1>AI 工程上线路径</h1>
+    
+      <p class="page-description">一条面向生产落地的 AI 工程阅读路径，覆盖评测、RAG、智能体、可观测性和 AI 编程协作。</p>
+    
+  </header>
+  <div class="page-content">
+    <p>这个专题把站内 AI 工程文章整理成一条更适合连续阅读的路径。</p>
+<p>我更关心的是：AI 能力如何从 Demo 进入可维护、可验证、可上线的工程系统。模型能力当然重要，但真正决定生产可用性的，往往是评测、资料治理、权限边界、观测体系和团队协作流程。</p>
+<h2 id="阅读路径"><a href="#阅读路径" class="headerlink" title="阅读路径"></a>阅读路径</h2><h3 id="1-先建立质量基线"><a href="#1-先建立质量基线" class="headerlink" title="1. 先建立质量基线"></a>1. 先建立质量基线</h3><p>上线 AI 功能前，先准备最小可用评测集。它不需要一开始就复杂，但必须覆盖核心成功样本、边界样本、反例样本和回归样本。</p>
+<p>关联阅读：<a href="/ryuho/2026/06/05/AI%E5%8A%9F%E8%83%BD%E4%B8%8A%E7%BA%BF%E5%89%8D%E5%85%88%E5%86%99%E8%AF%84%E6%B5%8B%E9%9B%86/" title="AI 功能上线前，先写评测集">AI 功能上线前，先写评测集</a></p>
+<h3 id="2-再设计知识链路"><a href="#2-再设计知识链路" class="headerlink" title="2. 再设计知识链路"></a>2. 再设计知识链路</h3><p>RAG 不是把文档塞进向量库，而是围绕问题、资料、召回、排序和回答边界搭一条可解释链路。</p>
+<p>关联阅读：<a href="/ryuho/2026/06/05/RAG%E4%B8%8D%E6%98%AF%E6%8A%8A%E8%B5%84%E6%96%99%E5%A1%9E%E8%BF%9B%E5%90%91%E9%87%8F%E5%BA%93/" title="RAG 不是把资料塞进向量库">RAG 不是把资料塞进向量库</a></p>
+<h3 id="3-控制自动化半径"><a href="#3-控制自动化半径" class="headerlink" title="3. 控制自动化半径"></a>3. 控制自动化半径</h3><p>智能体产品早期更适合从建议型、草稿型、确认型开始。等权限、工具、回滚和评测稳定后，再逐步开放自动化范围。</p>
+<p>关联阅读：<a href="/ryuho/2026/06/05/%E6%99%BA%E8%83%BD%E4%BD%93%E4%BA%A7%E5%93%81%E5%88%AB%E5%85%88%E8%BF%BD%E6%B1%82%E5%85%A8%E8%87%AA%E5%8A%A8/" title="智能体产品别先追求全自动">智能体产品别先追求全自动</a></p>
+<h3 id="4-上线后持续看见质量"><a href="#4-上线后持续看见质量" class="headerlink" title="4. 上线后持续看见质量"></a>4. 上线后持续看见质量</h3><p>AI 应用上线后要看见请求、输入、上下文、输出和成本。否则系统可能一直返回成功状态码，真实体验却已经下降。</p>
+<p>关联阅读：<a href="/ryuho/2026/07/18/AI%E5%BA%94%E7%94%A8%E4%B8%8A%E7%BA%BF%E5%90%8E%E8%A6%81%E7%9C%8B%E8%A7%81%E4%BB%80%E4%B9%88/" title="AI 应用上线后，要先看见什么">AI 应用上线后，要先看见什么</a></p>
+<h3 id="5-把-AI-编程助手放进工程流程"><a href="#5-把-AI-编程助手放进工程流程" class="headerlink" title="5. 把 AI 编程助手放进工程流程"></a>5. 把 AI 编程助手放进工程流程</h3><p>AI 编程助手适合加速探索、草稿、执行和复核，但工程师仍然要守住需求判断、代码边界和质量责任。</p>
+<p>关联阅读：<a href="/ryuho/2026/06/05/%E5%92%8CAI%E7%BC%96%E7%A8%8B%E5%8A%A9%E6%89%8B%E5%8D%8F%E4%BD%9C%E7%9A%84%E5%B7%A5%E7%A8%8B%E8%BE%B9%E7%95%8C/" title="和 AI 编程助手协作的工程边界">和 AI 编程助手协作的工程边界</a></p>
+<h2 id="我的判断"><a href="#我的判断" class="headerlink" title="我的判断"></a>我的判断</h2><p>AI 工程不是“接一个模型 API”。</p>
+<p>它更像一个包含产品判断、系统设计、数据治理、质量验证和运行监控的完整工程问题。一个优秀的 AI 功能，应该能回答这些问题：</p>
+<ul>
+<li>为什么这个能力值得做？</li>
+<li>它的成功和失败如何被定义？</li>
+<li>它依赖哪些资料、工具和权限？</li>
+<li>它什么时候应该拒答、追问或交给人工？</li>
+<li>它上线后如何发现质量下降和成本异常？</li>
+</ul>
+<p>如果这些问题没有答案，功能越智能，风险也越隐蔽。</p>
+<h2 id="后续补充"><a href="#后续补充" class="headerlink" title="后续补充"></a>后续补充</h2><p>这个专题会继续补三类内容：</p>
+<ul>
+<li>AI 产品需求如何拆成可评测任务</li>
+<li>大模型应用的安全边界和权限设计</li>
+<li>面向团队协作的提示词、评测和发布流程</li>
+</ul>
+
+  </div>
+</article>
+
+  </main>
+  <footer class="site-footer">
+  <div class="container footer-inner">
+    <span>© 2026 Ghost-Author. 记录 AI 工程与长期思考。</span>
+    <span>
+      <a href="/ryuho/atom.xml">RSS</a>
+      
+        · <a href="mailto:liupggg@gmail.com">Email</a>
+      
+      · <a href="/ryuho/archives/">归档</a>
+    </span>
+  </div>
+</footer>
+
+  <button class="back-to-top" type="button" aria-label="回到顶部">↑</button>
+</body>
+</html>
