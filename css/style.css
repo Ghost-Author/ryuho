@@ -352,6 +352,37 @@ body::after {
   white-space: nowrap;
 }
 
+.series-band {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 24px 0 32px;
+  padding: 22px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  box-shadow: 0 14px 28px var(--shadow);
+}
+
+.series-band h2 {
+  margin: 4px 0 8px;
+  font-size: 24px;
+}
+
+.series-band p {
+  max-width: 680px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.series-kicker {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
 .profile-card,
 .stats-card {
   background: var(--card);
@@ -1500,6 +1531,11 @@ body::after {
 
   .spotlight-action {
     justify-self: start;
+  }
+
+  .series-band {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .featured-grid {
