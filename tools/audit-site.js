@@ -167,7 +167,7 @@ addCheck(
 addCheck('home links web manifest', indexHtml.includes('site.webmanifest'));
 addCheck('home registers service worker', indexHtml.includes("serviceWorker' in navigator") && indexHtml.includes('sw.js'));
 addCheck('home links projects page', indexHtml.includes('/projects/') && indexHtml.includes('项目'));
-addCheck('home links AI series page', indexHtml.includes('/series/ai-engineering/') && indexHtml.includes('专题'));
+addCheck('home links AI series page', indexHtml.includes('/series/ai-engineering/') && includesAll(indexHtml, ['专题', 'AI 工程上线路径', '开始系统阅读']));
 addCheck('404 is noindex', notFoundHtml.includes('name="robots" content="noindex, follow"'));
 addCheck('search loads index with relative path', searchHtml.includes("fetch('../search-index.json')"));
 addCheck('service worker precaches core routes', includesAll(serviceWorker, ['CACHE_NAME', 'PRECACHE_URLS', 'series/ai-engineering/', 'projects/', 'search-index.json', 'css/style.css', 'js/main.js']));
