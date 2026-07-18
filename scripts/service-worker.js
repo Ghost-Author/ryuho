@@ -12,6 +12,7 @@ hexo.extend.generator.register('service-worker', function (locals) {
     `${root}categories/`,
     `${root}tags/`,
     `${root}about/`,
+    `${root}projects/`,
     `${root}search/`,
     `${root}atom.xml`,
     `${root}sitemap.xml`,
