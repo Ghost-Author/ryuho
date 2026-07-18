@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://ghost-author.github.io/ryuho/projects/index.html</loc>
+    <loc>https://ghost-author.github.io/ryuho/search/index.html</loc>
     
     <lastmod>2026-07-18</lastmod>
     
@@ -20,7 +20,7 @@
   </url>
   
   <url>
-    <loc>https://ghost-author.github.io/ryuho/search/index.html</loc>
+    <loc>https://ghost-author.github.io/ryuho/projects/index.html</loc>
     
     <lastmod>2026-07-18</lastmod>
     
@@ -30,6 +30,15 @@
   
   <url>
     <loc>https://ghost-author.github.io/ryuho/2026/06/05/AI%E5%8A%9F%E8%83%BD%E4%B8%8A%E7%BA%BF%E5%89%8D%E5%85%88%E5%86%99%E8%AF%84%E6%B5%8B%E9%9B%86/</loc>
+    
+    <lastmod>2026-07-18</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ghost-author.github.io/ryuho/2026/07/18/AI%E5%BA%94%E7%94%A8%E4%B8%8A%E7%BA%BF%E5%90%8E%E8%A6%81%E7%9C%8B%E8%A7%81%E4%BB%80%E4%B9%88/</loc>
     
     <lastmod>2026-07-18</lastmod>
     
@@ -101,6 +110,15 @@
   </url>
   
   <url>
+    <loc>https://ghost-author.github.io/ryuho/404.html</loc>
+    
+    <lastmod>2026-07-18</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://ghost-author.github.io/ryuho/about/index.html</loc>
     
     <lastmod>2026-07-18</lastmod>
@@ -111,15 +129,6 @@
   
   <url>
     <loc>https://ghost-author.github.io/ryuho/categories/index.html</loc>
-    
-    <lastmod>2026-07-18</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ghost-author.github.io/ryuho/404.html</loc>
     
     <lastmod>2026-07-18</lastmod>
     
@@ -152,6 +161,13 @@
   
   <url>
     <loc>https://ghost-author.github.io/ryuho/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BA%94%E7%94%A8/</loc>
+    <lastmod>2026-07-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://ghost-author.github.io/ryuho/tags/%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7/</loc>
     <lastmod>2026-07-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
