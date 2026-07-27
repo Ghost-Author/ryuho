@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>零后端的相关文章推荐：简单权重够不够 | Ghost-Author</title>
+  <meta name="description" content="复盘这个 Hexo 博客如何只用共享标签、共享分类和发布时间，在构建期生成可解释的相关文章推荐，并明确它何时不再够用。">
+  
+    <meta name="keywords" content="工程实践, Hexo, 推荐系统, 内容发现, AI 工程, 系统设计">
+  
+  
+  <meta name="author" content="Ghost-Author">
+  <meta name="generator" content="Hexo">
+  <meta name="theme-color" content="#ff7bb2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#211827" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="零后端的相关文章推荐：简单权重够不够 | Ghost-Author">
+  <meta property="og:description" content="复盘这个 Hexo 博客如何只用共享标签、共享分类和发布时间，在构建期生成可解释的相关文章推荐，并明确它何时不再够用。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://ghost-author.github.io/ryuho/2026/07/27/%E9%9B%B6%E5%90%8E%E7%AB%AF%E7%9A%84%E7%9B%B8%E5%85%B3%E6%96%87%E7%AB%A0%E6%8E%A8%E8%8D%90-%E7%AE%80%E5%8D%95%E6%9D%83%E9%87%8D%E5%A4%9F%E4%B8%8D%E5%A4%9F/">
+  <meta property="og:site_name" content="Ghost-Author">
+  
+    <meta property="og:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  
+    <meta name="twitter:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  
+    <meta property="article:published_time" content="2026-07-27T08:00:00.000Z">
+    
+      <meta property="article:modified_time" content="2026-07-27T14:01:46.142Z">
+    
+    
+      
+        <meta property="article:tag" content="工程实践">
+      
+        <meta property="article:tag" content="Hexo">
+      
+        <meta property="article:tag" content="推荐系统">
+      
+        <meta property="article:tag" content="内容发现">
+      
+    
+  
+  <link rel="alternate" type="application/atom+xml" title="Ghost-Author" href="https://ghost-author.github.io/ryuho/atom.xml">
+  <link rel="canonical" href="https://ghost-author.github.io/ryuho/2026/07/27/%E9%9B%B6%E5%90%8E%E7%AB%AF%E7%9A%84%E7%9B%B8%E5%85%B3%E6%96%87%E7%AB%A0%E6%8E%A8%E8%8D%90-%E7%AE%80%E5%8D%95%E6%9D%83%E9%87%8D%E5%A4%9F%E4%B8%8D%E5%A4%9F/">
+  <link rel="manifest" href="/ryuho/site.webmanifest">
+  <link rel="apple-touch-icon" href="/ryuho/images/avatar.png">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = saved || (prefersDark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="/ryuho/css/style.css">
+  <script src="/ryuho/js/main.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/ryuho/sw.js').catch(function () {});
+      });
+    }
+  </script>
+  
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"BlogPosting","headline":"零后端的相关文章推荐：简单权重够不够","name":"零后端的相关文章推荐：简单权重够不够","description":"复盘这个 Hexo 博客如何只用共享标签、共享分类和发布时间，在构建期生成可解释的相关文章推荐，并明确它何时不再够用。","url":"https://ghost-author.github.io/ryuho/2026/07/27/%E9%9B%B6%E5%90%8E%E7%AB%AF%E7%9A%84%E7%9B%B8%E5%85%B3%E6%96%87%E7%AB%A0%E6%8E%A8%E8%8D%90-%E7%AE%80%E5%8D%95%E6%9D%83%E9%87%8D%E5%A4%9F%E4%B8%8D%E5%A4%9F/","image":"https://ghost-author.github.io/ryuho/images/hero.jpg","keywords":"工程实践, Hexo, 推荐系统, 内容发现, AI 工程, 系统设计","author":{"@type":"Person","name":"Ghost-Author"},"publisher":{"@type":"Person","name":"Ghost-Author"},"datePublished":"2026-07-27T08:00:00.000Z","dateModified":"2026-07-27T14:01:46.142Z"}
+  </script>
+</head>
+<body>
+  <div class="reading-progress" aria-hidden="true"></div>
+  <a class="skip-link" href="#content">跳到正文</a>
+  <header class="site-header">
+  
+  <div class="container header-inner">
+    <a class="logo" href="/ryuho/">
+      <span class="logo-dot"></span>
+      <span>Ghost-Author</span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="/ryuho/" >首页</a>
+      <a href="/ryuho/search/" >搜索</a>
+      <a href="/ryuho/series/" >专题</a>
+      <a href="/ryuho/projects/" >项目</a>
+      <a href="/ryuho/about/" >关于</a>
+      <a href="/ryuho/tags/" >标签</a>
+      <a href="/ryuho/categories/" >分类</a>
+      <a href="/ryuho/archives/" >归档</a>
+    </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换深色模式" aria-pressed="false">
+      <span aria-hidden="true" data-theme-icon>☾</span>
+    </button>
+  </div>
+</header>
+
+  <main class="container" id="content" tabindex="-1">
+    <article class="post post-layout">
+  
+  <header class="post-header">
+    <h1>零后端的相关文章推荐：简单权重够不够</h1>
+    <div class="post-meta-line">
+      <time datetime="2026-07-27T08:00:00.000Z">2026-07-27</time>
+      <span>6 分钟阅读</span>
+      <span>2597 字</span>
+      
+    </div>
+  </header>
+  
+    <img class="post-hero" src="/ryuho/images/hero.jpg" alt="" width="1920" height="1080" loading="eager" decoding="async">
+  
+  
+    <div class="post-meta">
+      
+        <a class="tag" href="/ryuho/tags/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/">
+          <span class="tag-name">工程实践</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/Hexo/">
+          <span class="tag-name">Hexo</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/">
+          <span class="tag-name">推荐系统</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/">
+          <span class="tag-name">内容发现</span>
+        </a>
+      
+    </div>
+  
+  <div class="post-actions" aria-label="文章操作">
+    <button class="text-action" type="button" data-copy-link data-copy-text="复制链接" data-copied-text="已复制">复制链接</button>
+    <a class="text-action" href="/ryuho/archives/">查看归档</a>
+  </div>
+  <div class="post-body">
+    <div class="post-content">
+      <p>文章读完之后，应该给读者看什么？</p>
+<p>上一篇和下一篇能提供时间顺序，标签页能提供主题入口，但两者都需要读者主动判断。相关文章推荐的目标，是在当前阅读上下文里直接给出几个可能有用的下一步。</p>
+<p>这个博客没有后端、用户账号和行为数据，因此没有尝试做个性化推荐。它采用了一套很小的构建期规则：比较文章的标签和分类，计算一个可解释分数，再用发布时间处理同分情况。</p>
+<h2 id="先明确这不是个性化推荐"><a href="#先明确这不是个性化推荐" class="headerlink" title="先明确这不是个性化推荐"></a>先明确这不是个性化推荐</h2><p>当前实现不知道：</p>
+<ul>
+<li>谁正在阅读。</li>
+<li>读者以前看过什么。</li>
+<li>哪些文章点击率更高。</li>
+<li>用户在页面停留了多久。</li>
+<li>某篇推荐是否真的帮助了读者。</li>
+</ul>
+<p>它只知道内容元数据。</p>
+<p>所以更准确的名字是“相关文章排序”，而不是推荐系统。它解决的是内容之间如何建立连接，不是预测某个用户的偏好。</p>
+<p>把能力名字说准确很重要。否则一个简单列表很容易被包装成超出实际边界的功能。</p>
+<h2 id="为什么选择标签和分类"><a href="#为什么选择标签和分类" class="headerlink" title="为什么选择标签和分类"></a>为什么选择标签和分类</h2><p>静态博客已经有两种人工维护的主题信号：</p>
+<ul>
+<li>标签描述具体概念，例如 Hexo、PWA、RAG、评测。</li>
+<li>分类描述更宽的内容领域，例如工程实践、AI 工程。</li>
+</ul>
+<p>这些信号来自作者发布文章时的主动判断，比自动从正文中提取关键词更稳定。</p>
+<p>算法不需要重新分析全文，也不需要额外索引。只要文章元数据质量足够，构建模板就能直接使用。</p>
+<p>这也是为什么项目审计要求每篇文章至少有两个标签和一个分类。元数据不仅服务归档和 SEO，也成为内容连接的基础。</p>
+<h2 id="当前权重如何计算"><a href="#当前权重如何计算" class="headerlink" title="当前权重如何计算"></a>当前权重如何计算</h2><p>对当前文章之外的每篇文章，从 0 开始计分：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">每共享一个标签：+2<br>每共享一个分类：+1<br></code></pre></td></tr></table></figure>
+
+<p>标签权重高于分类，因为标签通常更具体。</p>
+<p>例如“图片优化应该发生在源码还是构建产物”包含：</p>
+<ul>
+<li>标签：工程实践、性能优化、图片处理、Hexo</li>
+<li>分类：工程实践</li>
+</ul>
+<p>它与“个人静态站的离线策略”共享：</p>
+<ul>
+<li>工程实践标签：+2</li>
+<li>性能优化标签：+2</li>
+<li>工程实践分类：+1</li>
+</ul>
+<p>总分是 5。</p>
+<p>它与“静态博客搜索为什么选择零 CDN 依赖”共享：</p>
+<ul>
+<li>工程实践标签：+2</li>
+<li>Hexo 标签：+2</li>
+<li>工程实践分类：+1</li>
+</ul>
+<p>总分同样是 5。</p>
+<p>这两篇都会被标记为“同主题”。</p>
+<h2 id="同分时为什么按发布时间排序"><a href="#同分时为什么按发布时间排序" class="headerlink" title="同分时为什么按发布时间排序"></a>同分时为什么按发布时间排序</h2><p>候选文章先按相关分数降序，再按发布时间降序。</p>
+<p>同样相关时优先展示较新的文章，主要有两个原因：</p>
+<ul>
+<li>新文章通常更接近当前站点定位和写作质量。</li>
+<li>同一主题持续更新时，较新的判断更可能反映当前实现。</li>
+</ul>
+<p>这不是说新内容一定更好，而是一个稳定且容易理解的 tie-breaker。</p>
+<p>如果未来文章有明确的 <code>updated</code> 时间或专题顺序，排序规则也可以改为优先使用这些信号。</p>
+<h2 id="为什么只展示三篇"><a href="#为什么只展示三篇" class="headerlink" title="为什么只展示三篇"></a>为什么只展示三篇</h2><p>推荐区只取前三名。</p>
+<p>文章结束区已经包含标签、分类、上一篇&#x2F;下一篇和归档入口。如果再放很多推荐，会把阅读结束变成另一个首页。</p>
+<p>三篇足够提供选择，同时不会压过正文结论。</p>
+<p>这个数量不是算法参数，而是页面信息密度的取舍。</p>
+<h2 id="没有相关内容时如何退化"><a href="#没有相关内容时如何退化" class="headerlink" title="没有相关内容时如何退化"></a>没有相关内容时如何退化</h2><p>所有候选文章都会进入排序，即使分数是 0。</p>
+<p>当站点文章很少，或当前文章属于一个全新主题时，推荐区仍会选择最近发布的文章。界面标签也会从“同主题”变成“最近更新”。</p>
+<p>这种退化策略保证文章末尾不会出现空区块，但它没有假装这些内容相关。</p>
+<p>如果站点未来有大量跨领域内容，更严格的策略可能是：</p>
+<ul>
+<li>只展示分数大于 0 的文章。</li>
+<li>不足三篇时再用同分类或最新文章补齐。</li>
+<li>对完全无关内容直接隐藏推荐区。</li>
+</ul>
+<p>当前博客主题集中在 AI 工程和工程实践，最近更新作为兜底仍然合理。</p>
+<h2 id="为什么在模板中计算"><a href="#为什么在模板中计算" class="headerlink" title="为什么在模板中计算"></a>为什么在模板中计算</h2><p>算法直接写在文章模板里。</p>
+<p>这不是最优雅的长期架构，但符合当前规模：</p>
+<ul>
+<li>文章数量很少，构建时全量比较成本可以忽略。</li>
+<li>不需要新增生成器和中间数据文件。</li>
+<li>规则与展示位置放在一起，调试路径短。</li>
+<li>Hexo 模板能直接访问所有文章、标签和分类。</li>
+</ul>
+<p>如果有 100 篇文章，朴素比较仍然只是很小的构建成本。如果增长到数千篇，才需要预计算倒排索引或在生成器中缓存结果。</p>
+<p>没有规模问题时，提前抽象只会让维护路径变长。</p>
+<h2 id="实际生成结果"><a href="#实际生成结果" class="headerlink" title="实际生成结果"></a>实际生成结果</h2><p>“图片优化应该发生在源码还是构建产物”当前会推荐：</p>
+<ol>
+<li>个人静态站的离线策略：为什么选择网络优先</li>
+<li>静态博客搜索为什么选择零 CDN 依赖</li>
+<li>从能构建到敢发布：为 Hexo 博客建立质量门禁</li>
+</ol>
+<p>三篇都共享工程实践分类，并共享工程实践、性能优化或 Hexo 标签。</p>
+<p>“AI 功能上线前，先写评测集”则会推荐 AI 可观测性、智能体和 RAG 文章。它们共享 AI 工程分类，以及 AI 工程或大模型应用标签。</p>
+<p>这说明简单元数据已经能把两个主要内容簇分开。</p>
+<h2 id="如何验证推荐没有消失"><a href="#如何验证推荐没有消失" class="headerlink" title="如何验证推荐没有消失"></a>如何验证推荐没有消失</h2><p>构建审计目前会扫描所有文章页面，确认：</p>
+<ul>
+<li>存在 <code>related-posts</code> 区块。</li>
+<li>页面包含“相关推荐”标题。</li>
+<li>推荐链接能解析到真实生成页面。</li>
+<li>标签、分类和文章元数据满足最低发布标准。</li>
+</ul>
+<p>这些检查不能判断排序是否“最好”，但能防止模板改动导致推荐区丢失、链接失效或元数据为空。</p>
+<p>相关性仍需要人工抽查。每次新增专题或文章类型时，都应该看几个代表页面的推荐结果。</p>
+<h2 id="这套规则的局限"><a href="#这套规则的局限" class="headerlink" title="这套规则的局限"></a>这套规则的局限</h2><p>简单权重会遇到几个明确问题。</p>
+<h3 id="高频标签稀释区分度"><a href="#高频标签稀释区分度" class="headerlink" title="高频标签稀释区分度"></a>高频标签稀释区分度</h3><p>如果所有工程文章都有“工程实践”，这个标签提供的信息会越来越少，却仍然贡献 2 分。</p>
+<p>后续可以根据标签频率降低高频标签权重，类似简化的 IDF。</p>
+<h3 id="标签粒度依赖人工一致性"><a href="#标签粒度依赖人工一致性" class="headerlink" title="标签粒度依赖人工一致性"></a>标签粒度依赖人工一致性</h3><p>“AI 工程”和“AI工程”会被视为不同标签。标签命名不一致会直接影响推荐。</p>
+<p>解决它首先是内容治理问题，不是算法问题。</p>
+<h3 id="不理解语义相近"><a href="#不理解语义相近" class="headerlink" title="不理解语义相近"></a>不理解语义相近</h3><p>“离线缓存”和“service worker”可能高度相关，但没有共享标签时得不到额外分数。</p>
+<p>语义向量可以解决一部分问题，但会引入模型、索引和更新成本。当前规模还不值得。</p>
+<h3 id="没有专题顺序"><a href="#没有专题顺序" class="headerlink" title="没有专题顺序"></a>没有专题顺序</h3><p>专题文章可能有明确前后关系，但普通相关文章排序不知道这个顺序。</p>
+<p>因此专题页仍然承担“学习路径”职责，相关推荐只提供横向发现。</p>
+<h2 id="什么时候值得升级"><a href="#什么时候值得升级" class="headerlink" title="什么时候值得升级"></a>什么时候值得升级</h2><p>出现以下信号时，可以考虑更复杂的推荐：</p>
+<ul>
+<li>文章数量增长后，推荐结果经常重复。</li>
+<li>新主题之间出现大量零分兜底。</li>
+<li>高频标签让排序失去区分度。</li>
+<li>读者反馈推荐与当前文章无关。</li>
+<li>有足够访问数据验证点击和阅读完成情况。</li>
+</ul>
+<p>升级顺序应该从低成本开始：</p>
+<ol>
+<li>规范标签命名。</li>
+<li>降低高频标签权重。</li>
+<li>增加专题或系列信号。</li>
+<li>排除已经在当前专题相邻位置展示的文章。</li>
+<li>最后才考虑正文相似度或向量检索。</li>
+</ol>
+<h2 id="最后的判断"><a href="#最后的判断" class="headerlink" title="最后的判断"></a>最后的判断</h2><p>推荐质量不只取决于算法，还取决于内容结构。</p>
+<p>这个博客能用几行权重规则得到尚可结果，是因为文章已经有稳定分类、具体标签和两条专题路径。算法只是利用了这些人工组织成果。</p>
+<p>零后端相关文章推荐的价值，不是“智能”，而是低成本地减少孤立文章。它可解释、构建时完成、没有运行服务，也能在结果不足时诚实退化为最近更新。</p>
+<p>在当前规模下，这已经够用。真正值得继续投入的，仍然是写出更多彼此有关系的内容。</p>
+
+    </div>
+    
+      <aside class="post-toc" aria-label="文章目录">
+        <h3>目录</h3>
+        <div class="toc-inner">
+          <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%88%E6%98%8E%E7%A1%AE%E8%BF%99%E4%B8%8D%E6%98%AF%E4%B8%AA%E6%80%A7%E5%8C%96%E6%8E%A8%E8%8D%90"><span class="toc-number">1.</span> <span class="toc-text">先明确这不是个性化推荐</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E6%8B%A9%E6%A0%87%E7%AD%BE%E5%92%8C%E5%88%86%E7%B1%BB"><span class="toc-number">2.</span> <span class="toc-text">为什么选择标签和分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BD%93%E5%89%8D%E6%9D%83%E9%87%8D%E5%A6%82%E4%BD%95%E8%AE%A1%E7%AE%97"><span class="toc-number">3.</span> <span class="toc-text">当前权重如何计算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8C%E5%88%86%E6%97%B6%E4%B8%BA%E4%BB%80%E4%B9%88%E6%8C%89%E5%8F%91%E5%B8%83%E6%97%B6%E9%97%B4%E6%8E%92%E5%BA%8F"><span class="toc-number">4.</span> <span class="toc-text">同分时为什么按发布时间排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%AA%E5%B1%95%E7%A4%BA%E4%B8%89%E7%AF%87"><span class="toc-number">5.</span> <span class="toc-text">为什么只展示三篇</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B2%A1%E6%9C%89%E7%9B%B8%E5%85%B3%E5%86%85%E5%AE%B9%E6%97%B6%E5%A6%82%E4%BD%95%E9%80%80%E5%8C%96"><span class="toc-number">6.</span> <span class="toc-text">没有相关内容时如何退化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%9C%A8%E6%A8%A1%E6%9D%BF%E4%B8%AD%E8%AE%A1%E7%AE%97"><span class="toc-number">7.</span> <span class="toc-text">为什么在模板中计算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E7%94%9F%E6%88%90%E7%BB%93%E6%9E%9C"><span class="toc-number">8.</span> <span class="toc-text">实际生成结果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E9%AA%8C%E8%AF%81%E6%8E%A8%E8%8D%90%E6%B2%A1%E6%9C%89%E6%B6%88%E5%A4%B1"><span class="toc-number">9.</span> <span class="toc-text">如何验证推荐没有消失</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%99%E5%A5%97%E8%A7%84%E5%88%99%E7%9A%84%E5%B1%80%E9%99%90"><span class="toc-number">10.</span> <span class="toc-text">这套规则的局限</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AB%98%E9%A2%91%E6%A0%87%E7%AD%BE%E7%A8%80%E9%87%8A%E5%8C%BA%E5%88%86%E5%BA%A6"><span class="toc-number">10.1.</span> <span class="toc-text">高频标签稀释区分度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE%E7%B2%92%E5%BA%A6%E4%BE%9D%E8%B5%96%E4%BA%BA%E5%B7%A5%E4%B8%80%E8%87%B4%E6%80%A7"><span class="toc-number">10.2.</span> <span class="toc-text">标签粒度依赖人工一致性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8D%E7%90%86%E8%A7%A3%E8%AF%AD%E4%B9%89%E7%9B%B8%E8%BF%91"><span class="toc-number">10.3.</span> <span class="toc-text">不理解语义相近</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B2%A1%E6%9C%89%E4%B8%93%E9%A2%98%E9%A1%BA%E5%BA%8F"><span class="toc-number">10.4.</span> <span class="toc-text">没有专题顺序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E5%80%BC%E5%BE%97%E5%8D%87%E7%BA%A7"><span class="toc-number">11.</span> <span class="toc-text">什么时候值得升级</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%90%8E%E7%9A%84%E5%88%A4%E6%96%AD"><span class="toc-number">12.</span> <span class="toc-text">最后的判断</span></a></li></ol>
+        </div>
+      </aside>
+    
+  </div>
+  
+    <section class="related-posts" aria-labelledby="related-title">
+      <div class="section-title">
+        <h2 id="related-title">相关推荐</h2>
+        <a href="/ryuho/archives/">完整归档</a>
+      </div>
+      <div class="related-grid">
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/27/%E5%9B%BE%E7%89%87%E4%BC%98%E5%8C%96%E5%BA%94%E8%AF%A5%E5%8F%91%E7%94%9F%E5%9C%A8%E6%BA%90%E7%A0%81%E8%BF%98%E6%98%AF%E6%9E%84%E5%BB%BA%E4%BA%A7%E7%89%A9/">
+              <span class="related-score">同主题</span>
+              <h3>图片优化应该发生在源码还是构建产物</h3>
+              <p>复盘这个 Hexo 博客为什么保留原始图片，只在 public 构建产物中用 Sharp 做有收益才替换的压缩，并把格式和尺寸检查放进发布门禁。</p>
+              <time datetime="2026-07-27T06:30:00.000Z">2026-07-27</time>
+            </a>
+          </article>
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/27/%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E6%90%9C%E7%B4%A2%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E6%8B%A9%E9%9B%B6CDN%E4%BE%9D%E8%B5%96/">
+              <span class="related-score">同主题</span>
+              <h3>静态博客搜索为什么选择零 CDN 依赖</h3>
+              <p>复盘这个 Hexo 博客如何用构建期 JSON 索引、浏览器原生匹配和简单权重排序，实现不依赖外部 CDN 的站内搜索。</p>
+              <time datetime="2026-07-27T03:30:00.000Z">2026-07-27</time>
+            </a>
+          </article>
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/27/%E4%BB%8E%E8%83%BD%E6%9E%84%E5%BB%BA%E5%88%B0%E6%95%A2%E5%8F%91%E5%B8%83-%E4%B8%BAHexo%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B%E8%B4%A8%E9%87%8F%E9%97%A8%E7%A6%81/">
+              <span class="related-score">同主题</span>
+              <h3>从能构建到敢发布：为 Hexo 博客建立质量门禁</h3>
+              <p>复盘一个 Hexo 博客如何从“可以生成静态页面”演进到同时验证内容、链接、SEO、图片和双部署路径的 47 项发布门禁。</p>
+              <time datetime="2026-07-27T02:00:00.000Z">2026-07-27</time>
+            </a>
+          </article>
+        
+      </div>
+    </section>
+  
+  <footer class="post-end">
+    <div class="post-end-card">
+      <h2>读完这篇</h2>
+      <dl class="post-facts">
+        <div>
+          <dt>字数</dt>
+          <dd>2597</dd>
+        </div>
+        <div>
+          <dt>阅读</dt>
+          <dd>6 分钟</dd>
+        </div>
+        
+          <div>
+            <dt>分类</dt>
+            <dd>
+              
+                <a href="/ryuho/categories/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/">工程实践</a>
+              
+            </dd>
+          </div>
+        
+      </dl>
+      <div class="post-end-actions">
+        <a class="text-action" href="/ryuho/">回到首页</a>
+        <a class="text-action" href="/ryuho/tags/">浏览标签</a>
+      </div>
+    </div>
+  </footer>
+
+  
+
+  <nav class="post-nav" aria-label="文章翻页">
+    
+    
+      <a href="/ryuho/2026/07/27/%E5%9B%BE%E7%89%87%E4%BC%98%E5%8C%96%E5%BA%94%E8%AF%A5%E5%8F%91%E7%94%9F%E5%9C%A8%E6%BA%90%E7%A0%81%E8%BF%98%E6%98%AF%E6%9E%84%E5%BB%BA%E4%BA%A7%E7%89%A9/">下一篇：图片优化应该发生在源码还是构建产物</a>
+    
+  </nav>
+</article>
+
+  </main>
+  <footer class="site-footer">
+  <div class="container footer-inner">
+    <span>© 2026 Ghost-Author. 记录 AI 工程与长期思考。</span>
+    <span>
+      <a href="/ryuho/atom.xml">RSS</a>
+      
+        · <a href="mailto:liupggg@gmail.com">Email</a>
+      
+      · <a href="/ryuho/archives/">归档</a>
+    </span>
+  </div>
+</footer>
+
+  <button class="back-to-top" type="button" aria-label="回到顶部">↑</button>
+</body>
+</html>
