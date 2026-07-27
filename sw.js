@@ -1,4 +1,4 @@
-const CACHE_NAME = "ryuho-static-1784339084029";
+const CACHE_NAME = "ryuho-static-1785159555558";
 const PRECACHE_URLS = [
   "/ryuho/",
   "/ryuho/archives/",
@@ -24,7 +24,7 @@ const PRECACHE_URLS = [
   "/ryuho/2026/02/09/%E6%8A%8A%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E5%BD%93%E4%BD%9C%E5%B7%A5%E7%A8%8B%E9%A1%B9%E7%9B%AE%E7%BB%B4%E6%8A%A4/",
   "/ryuho/2026/02/08/%E6%97%A5%E8%AE%B0-2026-02-08/",
   "/ryuho/2026/02/07/%E6%97%A5%E8%AE%B0-2026-02-07/",
-  "/ryuho/2026/02/07/hello-world/"
+  "/ryuho/2026/02/07/%E5%B0%8F%E7%AB%99%E5%BC%80%E5%BC%A0-%E6%8A%8A%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E5%BD%93%E4%BD%9C%E9%95%BF%E6%9C%9F%E5%B7%A5%E7%A8%8B/"
 ];
 
 self.addEventListener('install', (event) => {
