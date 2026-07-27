@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>图片优化应该发生在源码还是构建产物 | Ghost-Author</title>
+  <meta name="description" content="复盘这个 Hexo 博客为什么保留原始图片，只在 public 构建产物中用 Sharp 做有收益才替换的压缩，并把格式和尺寸检查放进发布门禁。">
+  
+    <meta name="keywords" content="工程实践, 性能优化, Hexo, 图片处理, AI 工程, 系统设计">
+  
+  
+  <meta name="author" content="Ghost-Author">
+  <meta name="generator" content="Hexo">
+  <meta name="theme-color" content="#ff7bb2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#211827" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="图片优化应该发生在源码还是构建产物 | Ghost-Author">
+  <meta property="og:description" content="复盘这个 Hexo 博客为什么保留原始图片，只在 public 构建产物中用 Sharp 做有收益才替换的压缩，并把格式和尺寸检查放进发布门禁。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://ghost-author.github.io/ryuho/2026/07/27/%E5%9B%BE%E7%89%87%E4%BC%98%E5%8C%96%E5%BA%94%E8%AF%A5%E5%8F%91%E7%94%9F%E5%9C%A8%E6%BA%90%E7%A0%81%E8%BF%98%E6%98%AF%E6%9E%84%E5%BB%BA%E4%BA%A7%E7%89%A9/">
+  <meta property="og:site_name" content="Ghost-Author">
+  
+    <meta property="og:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  
+    <meta name="twitter:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  
+    <meta property="article:published_time" content="2026-07-27T06:30:00.000Z">
+    
+      <meta property="article:modified_time" content="2026-07-27T13:58:23.655Z">
+    
+    
+      
+        <meta property="article:tag" content="工程实践">
+      
+        <meta property="article:tag" content="性能优化">
+      
+        <meta property="article:tag" content="Hexo">
+      
+        <meta property="article:tag" content="图片处理">
+      
+    
+  
+  <link rel="alternate" type="application/atom+xml" title="Ghost-Author" href="https://ghost-author.github.io/ryuho/atom.xml">
+  <link rel="canonical" href="https://ghost-author.github.io/ryuho/2026/07/27/%E5%9B%BE%E7%89%87%E4%BC%98%E5%8C%96%E5%BA%94%E8%AF%A5%E5%8F%91%E7%94%9F%E5%9C%A8%E6%BA%90%E7%A0%81%E8%BF%98%E6%98%AF%E6%9E%84%E5%BB%BA%E4%BA%A7%E7%89%A9/">
+  <link rel="manifest" href="/ryuho/site.webmanifest">
+  <link rel="apple-touch-icon" href="/ryuho/images/avatar.png">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = saved || (prefersDark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="/ryuho/css/style.css">
+  <script src="/ryuho/js/main.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/ryuho/sw.js').catch(function () {});
+      });
+    }
+  </script>
+  
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"BlogPosting","headline":"图片优化应该发生在源码还是构建产物","name":"图片优化应该发生在源码还是构建产物","description":"复盘这个 Hexo 博客为什么保留原始图片，只在 public 构建产物中用 Sharp 做有收益才替换的压缩，并把格式和尺寸检查放进发布门禁。","url":"https://ghost-author.github.io/ryuho/2026/07/27/%E5%9B%BE%E7%89%87%E4%BC%98%E5%8C%96%E5%BA%94%E8%AF%A5%E5%8F%91%E7%94%9F%E5%9C%A8%E6%BA%90%E7%A0%81%E8%BF%98%E6%98%AF%E6%9E%84%E5%BB%BA%E4%BA%A7%E7%89%A9/","image":"https://ghost-author.github.io/ryuho/images/hero.jpg","keywords":"工程实践, 性能优化, Hexo, 图片处理, AI 工程, 系统设计","author":{"@type":"Person","name":"Ghost-Author"},"publisher":{"@type":"Person","name":"Ghost-Author"},"datePublished":"2026-07-27T06:30:00.000Z","dateModified":"2026-07-27T13:58:23.655Z"}
+  </script>
+</head>
+<body>
+  <div class="reading-progress" aria-hidden="true"></div>
+  <a class="skip-link" href="#content">跳到正文</a>
+  <header class="site-header">
+  
+  <div class="container header-inner">
+    <a class="logo" href="/ryuho/">
+      <span class="logo-dot"></span>
+      <span>Ghost-Author</span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="/ryuho/" >首页</a>
+      <a href="/ryuho/search/" >搜索</a>
+      <a href="/ryuho/series/" >专题</a>
+      <a href="/ryuho/projects/" >项目</a>
+      <a href="/ryuho/about/" >关于</a>
+      <a href="/ryuho/tags/" >标签</a>
+      <a href="/ryuho/categories/" >分类</a>
+      <a href="/ryuho/archives/" >归档</a>
+    </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换深色模式" aria-pressed="false">
+      <span aria-hidden="true" data-theme-icon>☾</span>
+    </button>
+  </div>
+</header>
+
+  <main class="container" id="content" tabindex="-1">
+    <article class="post post-layout">
+  
+  <header class="post-header">
+    <h1>图片优化应该发生在源码还是构建产物</h1>
+    <div class="post-meta-line">
+      <time datetime="2026-07-27T06:30:00.000Z">2026-07-27</time>
+      <span>5 分钟阅读</span>
+      <span>2462 字</span>
+      
+    </div>
+  </header>
+  
+    <img class="post-hero" src="/ryuho/images/hero.jpg" alt="" width="1920" height="1080" loading="eager" decoding="async">
+  
+  
+    <div class="post-meta">
+      
+        <a class="tag" href="/ryuho/tags/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/">
+          <span class="tag-name">工程实践</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">
+          <span class="tag-name">性能优化</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/Hexo/">
+          <span class="tag-name">Hexo</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86/">
+          <span class="tag-name">图片处理</span>
+        </a>
+      
+    </div>
+  
+  <div class="post-actions" aria-label="文章操作">
+    <button class="text-action" type="button" data-copy-link data-copy-text="复制链接" data-copied-text="已复制">复制链接</button>
+    <a class="text-action" href="/ryuho/archives/">查看归档</a>
+  </div>
+  <div class="post-body">
+    <div class="post-content">
+      <p>优化博客图片时，一个常被忽略的问题是：应该直接压缩源码图片，还是只压缩构建产物？</p>
+<p>两种方式都能减少线上体积，但维护含义完全不同。</p>
+<p>这个 Hexo 博客选择保留 <code>source/images</code> 中的原图，在静态页面生成完成后，再遍历 <code>public/images</code> 并压缩可获益的文件。源文件继续作为可重新处理的输入，发布目录则追求尽可能小的传输成本。</p>
+<h2 id="真实结果"><a href="#真实结果" class="headerlink" title="真实结果"></a>真实结果</h2><p>当前站点有两张核心图片：</p>
+<table>
+<thead>
+<tr>
+<th>图片</th>
+<th align="right">源文件</th>
+<th align="right">构建产物</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>avatar.png</td>
+<td align="right">2,124 bytes</td>
+<td align="right">2,124 bytes</td>
+<td>跳过</td>
+</tr>
+<tr>
+<td>hero.jpg</td>
+<td align="right">356,053 bytes</td>
+<td align="right">55,933 bytes</td>
+<td>减少 300,120 bytes</td>
+</tr>
+</tbody></table>
+<p>hero 是一张 1920×1080 JPEG。经过构建优化后，体积从约 348 KiB 降到约 55 KiB，减少约 84%。</p>
+<p>头像只有 64×64、约 2.1 KiB，低于处理阈值，因此保持不变。</p>
+<p>优化脚本每次构建都会打印实际处理文件数和节省体积。它不假设压缩一定有效，而是用产物数据回答。</p>
+<h2 id="为什么不直接改-source"><a href="#为什么不直接改-source" class="headerlink" title="为什么不直接改 source"></a>为什么不直接改 source</h2><p>直接覆盖源码图片看起来更省事，但会失去几个重要能力：</p>
+<ul>
+<li>无法从原图重新选择编码参数。</li>
+<li>多次有损压缩可能累积质量损失。</li>
+<li>Git 历史会混入与内容无关的二进制变化。</li>
+<li>GitHub Pages 和 Vercel 构建无法验证相同输入产生相同结果。</li>
+<li>未来生成 WebP、AVIF 或响应式尺寸时缺少高质量来源。</li>
+</ul>
+<p>保留原图意味着构建过程可以随时重跑。调整质量参数失败时，只需要修脚本，不需要从历史提交或其他位置找回素材。</p>
+<p>这里的原则和编译类似：源码负责可维护性，构建产物负责交付效率。</p>
+<h2 id="为什么在-Hexo-generate-之后运行"><a href="#为什么在-Hexo-generate-之后运行" class="headerlink" title="为什么在 Hexo generate 之后运行"></a>为什么在 Hexo generate 之后运行</h2><p>图片优化命令被放在静态站点生成之后：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">hexo generate<br>npm run optimize:images<br></code></pre></td></tr></table></figure>
+
+<p>Hexo 会先把资源复制到 <code>public</code>，优化脚本只处理这个目录。</p>
+<p>如果顺序反过来，Hexo 生成时可能再次用 source 文件覆盖优化结果。把优化作为构建后步骤，可以确保最终发布的正是压缩后的文件。</p>
+<p>GitHub Pages 和 Vercel 两条构建命令都包含这一步，避免只有本地或某一个部署平台使用优化产物。</p>
+<h2 id="先设置最小处理阈值"><a href="#先设置最小处理阈值" class="headerlink" title="先设置最小处理阈值"></a>先设置最小处理阈值</h2><p>脚本只处理大于 32 KiB 的 JPG、JPEG、PNG 和 WebP。</p>
+<p>小文件通常没有足够压缩空间。启动 Sharp、解码、编码和写临时文件也有成本。跳过 2.1 KiB 的头像，既减少构建工作，也避免为了几十字节的收益增加不必要变化。</p>
+<p>32 KiB 不是普适最佳值，只是当前站点的合理边界。图片数量和构建环境变化后，可以根据实际耗时调整。</p>
+<h2 id="不同格式使用不同策略"><a href="#不同格式使用不同策略" class="headerlink" title="不同格式使用不同策略"></a>不同格式使用不同策略</h2><p>当前参数很克制：</p>
+<ul>
+<li>JPEG：质量 82、渐进式编码、mozjpeg。</li>
+<li>PNG：压缩级别 9、启用自适应过滤。</li>
+<li>WebP：质量 82。</li>
+</ul>
+<p>脚本不会把所有图片统一转换成一种格式。</p>
+<p>保留扩展名有两个现实好处。第一，模板和 Markdown 路径不需要变化；第二，manifest 等声明的 MIME 类型更容易保持一致。</p>
+<p>格式转换可以进一步减少体积，但会带来 fallback、缓存键、引用路径和审计规则的额外复杂度。当前只有一张大图，重新编码原格式已经取得 84% 的收益，没有必要提前扩张管线。</p>
+<h2 id="为什么先写临时文件"><a href="#为什么先写临时文件" class="headerlink" title="为什么先写临时文件"></a>为什么先写临时文件</h2><p>Sharp 不会直接覆盖输入文件。脚本先把结果写到：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">&lt;original path&gt;.tmp<br></code></pre></td></tr></table></figure>
+
+<p>随后比较原文件和临时文件大小。</p>
+<p>如果压缩后文件更小，就用临时文件替换原产物；如果结果相同或更大，就删除临时文件并保留原文件。</p>
+<p>这个判断很重要。所谓“优化参数”并不保证所有图片都变小，尤其已经高度压缩的 PNG 或 WebP。以实际字节数作为替换条件，比相信编码器配置更可靠。</p>
+<p>临时文件也避免编码失败时破坏已有产物。只有完整写入并确认有收益后，替换才发生。</p>
+<h2 id="为什么单个文件失败不会终止全部处理"><a href="#为什么单个文件失败不会终止全部处理" class="headerlink" title="为什么单个文件失败不会终止全部处理"></a>为什么单个文件失败不会终止全部处理</h2><p>遍历图片时，每个文件都有独立错误处理。某张损坏或不受支持的图片会输出 warning，其他图片仍然继续。</p>
+<p>这是一项有意识的取舍。</p>
+<p>图片优化属于构建增强，不应该因为一个可回退到原文件的编码问题让整个站点无法生成。但如果 <code>public</code> 目录不存在，脚本会直接失败，因为这说明构建顺序本身不正确。</p>
+<p>换句话说：</p>
+<ul>
+<li>环境或流程错误：失败并阻止发布。</li>
+<li>单张图片无法优化：保留原图并给出警告。</li>
+</ul>
+<p>不同故障采用不同严重级别，能让流程既严格又不过度脆弱。</p>
+<h2 id="压缩之外还检查什么"><a href="#压缩之外还检查什么" class="headerlink" title="压缩之外还检查什么"></a>压缩之外还检查什么</h2><p>体积变小不代表图片链路完整。</p>
+<p>站点审计还会检查：</p>
+<ul>
+<li>页面中的图片是否声明 width 和 height。</li>
+<li>manifest 图标文件是否真实存在。</li>
+<li>图标扩展名声明的 MIME 是否与文件签名一致。</li>
+<li>所有图片 URL 在 GitHub Pages 与 Vercel 路径下是否可达。</li>
+</ul>
+<p>width 和 height 能让浏览器在图片加载前预留布局空间，减少内容跳动。文件签名检查则能防止“扩展名写 PNG、内容实际是 JPEG”这种浏览器兼容和缓存问题。</p>
+<p>性能优化应该覆盖传输、布局和正确性，而不只是压缩率。</p>
+<h2 id="目前没有做什么"><a href="#目前没有做什么" class="headerlink" title="目前没有做什么"></a>目前没有做什么</h2><p>当前管线没有生成：</p>
+<ul>
+<li>多尺寸响应式图片</li>
+<li><code>srcset</code></li>
+<li>WebP&#x2F;AVIF 多格式版本</li>
+<li>模糊占位图</li>
+<li>图片 CDN URL</li>
+<li>自动裁剪或焦点识别</li>
+</ul>
+<p>原因很简单：站点目前只有一张需要明显优化的大图。已有方案已经把它减少约 84%，继续增加图片管线的收益有限。</p>
+<p>当文章开始大量使用照片、截图和架构图时，再考虑多尺寸和现代格式会更合理。</p>
+<h2 id="什么时候应该升级"><a href="#什么时候应该升级" class="headerlink" title="什么时候应该升级"></a>什么时候应该升级</h2><p>出现以下信号时，当前方案就不够了：</p>
+<ul>
+<li>页面开始包含多张 1,000 像素以上图片。</li>
+<li>移动端仍然下载桌面尺寸素材。</li>
+<li>图片成为 Largest Contentful Paint 的主要瓶颈。</li>
+<li>仓库体积因原图快速增长。</li>
+<li>同一素材需要卡片、正文和分享图多种尺寸。</li>
+</ul>
+<p>那时可以在保留原图的前提下，由构建脚本生成派生资源，并让模板输出 <code>srcset</code> 和明确尺寸。</p>
+<h2 id="最后的判断"><a href="#最后的判断" class="headerlink" title="最后的判断"></a>最后的判断</h2><p>图片优化不是把质量参数调低一点，而是设计一条可重复、可回退、可验证的资产管线。</p>
+<p>这个博客保留源码图片，只优化发布产物；先写临时文件，只在体积确实下降时替换；小文件跳过，单图失败可回退，流程错误则阻止构建。</p>
+<p>它没有追求最先进的图片格式组合，但每一个决定都能从当前资源规模和真实数据解释。</p>
+<p>对长期维护的个人项目来说，这比一次手工压缩更可靠，也比提前搭建复杂媒体平台更合适。</p>
+
+    </div>
+    
+      <aside class="post-toc" aria-label="文章目录">
+        <h3>目录</h3>
+        <div class="toc-inner">
+          <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9C%9F%E5%AE%9E%E7%BB%93%E6%9E%9C"><span class="toc-number">1.</span> <span class="toc-text">真实结果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E7%9B%B4%E6%8E%A5%E6%94%B9-source"><span class="toc-number">2.</span> <span class="toc-text">为什么不直接改 source</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%9C%A8-Hexo-generate-%E4%B9%8B%E5%90%8E%E8%BF%90%E8%A1%8C"><span class="toc-number">3.</span> <span class="toc-text">为什么在 Hexo generate 之后运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%88%E8%AE%BE%E7%BD%AE%E6%9C%80%E5%B0%8F%E5%A4%84%E7%90%86%E9%98%88%E5%80%BC"><span class="toc-number">4.</span> <span class="toc-text">先设置最小处理阈值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E5%90%8C%E6%A0%BC%E5%BC%8F%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%90%8C%E7%AD%96%E7%95%A5"><span class="toc-number">5.</span> <span class="toc-text">不同格式使用不同策略</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%85%88%E5%86%99%E4%B8%B4%E6%97%B6%E6%96%87%E4%BB%B6"><span class="toc-number">6.</span> <span class="toc-text">为什么先写临时文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8D%95%E4%B8%AA%E6%96%87%E4%BB%B6%E5%A4%B1%E8%B4%A5%E4%B8%8D%E4%BC%9A%E7%BB%88%E6%AD%A2%E5%85%A8%E9%83%A8%E5%A4%84%E7%90%86"><span class="toc-number">7.</span> <span class="toc-text">为什么单个文件失败不会终止全部处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%8B%E7%BC%A9%E4%B9%8B%E5%A4%96%E8%BF%98%E6%A3%80%E6%9F%A5%E4%BB%80%E4%B9%88"><span class="toc-number">8.</span> <span class="toc-text">压缩之外还检查什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%89%8D%E6%B2%A1%E6%9C%89%E5%81%9A%E4%BB%80%E4%B9%88"><span class="toc-number">9.</span> <span class="toc-text">目前没有做什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E5%BA%94%E8%AF%A5%E5%8D%87%E7%BA%A7"><span class="toc-number">10.</span> <span class="toc-text">什么时候应该升级</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%90%8E%E7%9A%84%E5%88%A4%E6%96%AD"><span class="toc-number">11.</span> <span class="toc-text">最后的判断</span></a></li></ol>
+        </div>
+      </aside>
+    
+  </div>
+  
+    <section class="related-posts" aria-labelledby="related-title">
+      <div class="section-title">
+        <h2 id="related-title">相关推荐</h2>
+        <a href="/ryuho/archives/">完整归档</a>
+      </div>
+      <div class="related-grid">
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/27/%E4%B8%AA%E4%BA%BA%E9%9D%99%E6%80%81%E7%AB%99%E7%9A%84%E7%A6%BB%E7%BA%BF%E7%AD%96%E7%95%A5-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E6%8B%A9%E7%BD%91%E7%BB%9C%E4%BC%98%E5%85%88/">
+              <span class="related-score">同主题</span>
+              <h3>个人静态站的离线策略：为什么选择网络优先</h3>
+              <p>复盘这个 Hexo 博客如何用构建期 service worker、核心路由预缓存和 network-first 策略，在内容新鲜度与离线可读之</p>
+              <time datetime="2026-07-27T05:00:00.000Z">2026-07-27</time>
+            </a>
+          </article>
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/27/%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E6%90%9C%E7%B4%A2%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E6%8B%A9%E9%9B%B6CDN%E4%BE%9D%E8%B5%96/">
+              <span class="related-score">同主题</span>
+              <h3>静态博客搜索为什么选择零 CDN 依赖</h3>
+              <p>复盘这个 Hexo 博客如何用构建期 JSON 索引、浏览器原生匹配和简单权重排序，实现不依赖外部 CDN 的站内搜索。</p>
+              <time datetime="2026-07-27T03:30:00.000Z">2026-07-27</time>
+            </a>
+          </article>
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/27/%E4%BB%8E%E8%83%BD%E6%9E%84%E5%BB%BA%E5%88%B0%E6%95%A2%E5%8F%91%E5%B8%83-%E4%B8%BAHexo%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B%E8%B4%A8%E9%87%8F%E9%97%A8%E7%A6%81/">
+              <span class="related-score">同主题</span>
+              <h3>从能构建到敢发布：为 Hexo 博客建立质量门禁</h3>
+              <p>复盘一个 Hexo 博客如何从“可以生成静态页面”演进到同时验证内容、链接、SEO、图片和双部署路径的 47 项发布门禁。</p>
+              <time datetime="2026-07-27T02:00:00.000Z">2026-07-27</time>
+            </a>
+          </article>
+        
+      </div>
+    </section>
+  
+  <footer class="post-end">
+    <div class="post-end-card">
+      <h2>读完这篇</h2>
+      <dl class="post-facts">
+        <div>
+          <dt>字数</dt>
+          <dd>2462</dd>
+        </div>
+        <div>
+          <dt>阅读</dt>
+          <dd>5 分钟</dd>
+        </div>
+        
+          <div>
+            <dt>分类</dt>
+            <dd>
+              
+                <a href="/ryuho/categories/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/">工程实践</a>
+              
+            </dd>
+          </div>
+        
+      </dl>
+      <div class="post-end-actions">
+        <a class="text-action" href="/ryuho/">回到首页</a>
+        <a class="text-action" href="/ryuho/tags/">浏览标签</a>
+      </div>
+    </div>
+  </footer>
+
+  
+
+  <nav class="post-nav" aria-label="文章翻页">
+    
+    
+      <a href="/ryuho/2026/07/27/%E4%B8%AA%E4%BA%BA%E9%9D%99%E6%80%81%E7%AB%99%E7%9A%84%E7%A6%BB%E7%BA%BF%E7%AD%96%E7%95%A5-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E6%8B%A9%E7%BD%91%E7%BB%9C%E4%BC%98%E5%85%88/">下一篇：个人静态站的离线策略：为什么选择网络优先</a>
+    
+  </nav>
+</article>
+
+  </main>
+  <footer class="site-footer">
+  <div class="container footer-inner">
+    <span>© 2026 Ghost-Author. 记录 AI 工程与长期思考。</span>
+    <span>
+      <a href="/ryuho/atom.xml">RSS</a>
+      
+        · <a href="mailto:liupggg@gmail.com">Email</a>
+      
+      · <a href="/ryuho/archives/">归档</a>
+    </span>
+  </div>
+</footer>
+
+  <button class="back-to-top" type="button" aria-label="回到顶部">↑</button>
+</body>
+</html>
