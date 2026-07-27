@@ -74,13 +74,27 @@
   <% } %>
 </section>
 
-<section class="series-band" aria-labelledby="series-title">
-  <div>
-    <p class="series-kicker">专题路径</p>
-    <h2 id="series-title">AI 工程上线路径</h2>
-    <p>从评测集、RAG、智能体边界到上线后的可观测性，把 AI 能力整理成可验证、可维护的工程流程。</p>
+<section class="series-list" aria-labelledby="series-title">
+  <div class="section-title">
+    <h2 id="series-title">专题路径</h2>
+    <a href="<%= url_for('/series/') %>">查看全部</a>
   </div>
-  <a class="btn primary" href="<%= url_for('/series/ai-engineering/') %>">开始系统阅读</a>
+  <article class="series-band">
+    <div>
+      <p class="series-kicker">AI 工程</p>
+      <h3>AI 工程上线路径</h3>
+      <p>从评测集、RAG、智能体边界到上线后的可观测性，把 AI 能力整理成可验证、可维护的工程流程。</p>
+    </div>
+    <a class="btn primary" href="<%= url_for('/series/ai-engineering/') %>">开始系统阅读</a>
+  </article>
+  <article class="series-band">
+    <div>
+      <p class="series-kicker">工程实践</p>
+      <h3>博客工程化实践</h3>
+      <p>从定位、信息架构和阅读体验，到搜索、双部署与 47 项发布门禁，复盘这个站点的真实演进。</p>
+    </div>
+    <a class="btn ghost" href="<%= url_for('/series/blog-engineering/') %>">查看实践路径</a>
+  </article>
 </section>
 
 <section class="profile-grid">

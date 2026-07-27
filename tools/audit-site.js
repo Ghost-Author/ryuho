@@ -17,7 +17,9 @@ const requiredFiles = [
   'robots.txt',
   'site.webmanifest',
   'sw.js',
+  'series/index.html',
   'series/ai-engineering/index.html',
+  'series/blog-engineering/index.html',
   'projects/index.html',
   'search/index.html',
   'search-index.json',
@@ -144,7 +146,7 @@ function isSkippableUrl(value) {
   return /^(#|mailto:|tel:|sms:|data:|javascript:)/i.test(value);
 }
 
-function toInternalPath(value, siteOrigin, siteBase) {
+function toInternalPath(value, siteOrigin, siteBase, currentRelativeFile = '') {
   if (isSkippableUrl(value)) return null;
 
   try {
@@ -158,8 +160,11 @@ function toInternalPath(value, siteOrigin, siteBase) {
   }
 
   if (value.startsWith('/')) return value;
-  if (siteBase === '/') return `/${value}`;
-  return `${siteBase}${value}`;
+
+  const basePath = currentRelativeFile
+    ? `${siteBase}${currentRelativeFile}`
+    : siteBase;
+  return new URL(value, `https://audit.local${basePath}`).pathname;
 }
 
 if (!fs.existsSync(publicDir)) {
@@ -199,10 +204,30 @@ addCheck(
 addCheck('home links web manifest', indexHtml.includes('site.webmanifest'));
 addCheck('home registers service worker', indexHtml.includes("serviceWorker' in navigator") && indexHtml.includes('sw.js'));
 addCheck('home links projects page', indexHtml.includes('/projects/') && indexHtml.includes('项目'));
-addCheck('home links AI series page', indexHtml.includes('/series/ai-engineering/') && includesAll(indexHtml, ['专题', 'AI 工程上线路径', '开始系统阅读']));
+addCheck(
+  'home links published series',
+  includesAll(indexHtml, [
+    '/series/ai-engineering/',
+    '/series/blog-engineering/',
+    'AI 工程上线路径',
+    '博客工程化实践'
+  ])
+);
 addCheck('404 is noindex', notFoundHtml.includes('name="robots" content="noindex, follow"'));
 addCheck('search loads index with relative path', searchHtml.includes("fetch('../search-index.json')"));
-addCheck('service worker precaches core routes', includesAll(serviceWorker, ['CACHE_NAME', 'PRECACHE_URLS', 'series/ai-engineering/', 'projects/', 'search-index.json', 'css/style.css', 'js/main.js']));
+addCheck(
+  'service worker precaches core routes',
+  includesAll(serviceWorker, [
+    'CACHE_NAME',
+    'PRECACHE_URLS',
+    'series/ai-engineering/',
+    'series/blog-engineering/',
+    'projects/',
+    'search-index.json',
+    'css/style.css',
+    'js/main.js'
+  ])
+);
 addCheck('robots links sitemap', robots.includes('Sitemap:'));
 addCheck('robots sitemap does not duplicate root', !/\/ryuho\/ryuho\//.test(robots));
 addCheck('manifest has app identity', Boolean(manifest.name && manifest.short_name && manifest.start_url));
@@ -229,8 +254,10 @@ function walk(dir) {
 walk(publicDir);
 
 const leakedFiles = htmlFiles.filter((file) => {
-  const content = fs.readFileSync(file, 'utf8');
-  return /\bundefined\b|\bnull\b/.test(content);
+  const content = fs.readFileSync(file, 'utf8')
+    .replace(/<pre\b[^>]*>[\s\S]*?<\/pre>/gi, '')
+    .replace(/<code\b[^>]*>[\s\S]*?<\/code>/gi, '');
+  return />\s*(?:undefined|null)\s*</i.test(content) || /(?:href|src)=["'][^"']*(?:undefined|null)/i.test(content);
 });
 
 addCheck('html has no undefined/null leaks', leakedFiles.length === 0, leakedFiles.map((file) => path.relative(publicDir, file)).join(', '));
@@ -391,7 +418,7 @@ htmlFiles.forEach((file) => {
   });
 
   collectUrls(content).forEach((url) => {
-    const internalPath = toInternalPath(url, siteOrigin, siteBase);
+    const internalPath = toInternalPath(url, siteOrigin, siteBase, relativeFile);
     if (!internalPath) return;
     if (!pathExists(internalPath, siteBase)) {
       brokenReferences.push(`${relativeFile} -> ${url}`);

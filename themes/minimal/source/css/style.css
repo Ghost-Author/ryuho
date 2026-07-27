@@ -352,12 +352,16 @@ body::after {
   white-space: nowrap;
 }
 
+.series-list {
+  margin: 24px 0 32px;
+}
+
 .series-band {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  margin: 24px 0 32px;
+  margin-top: 14px;
   padding: 22px;
   border-radius: 20px;
   border: 1px solid var(--line);
@@ -365,7 +369,7 @@ body::after {
   box-shadow: 0 14px 28px var(--shadow);
 }
 
-.series-band h2 {
+.series-band h3 {
   margin: 4px 0 8px;
   font-size: 24px;
 }
