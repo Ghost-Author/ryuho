@@ -84,3 +84,5 @@ description: Ghost-Author 的工程项目、AI 实践和站点迭代记录。
 图片管线复盘：{% post_link 图片优化应该发生在源码还是构建产物 '图片优化应该发生在源码还是构建产物' %}
 
 内容推荐复盘：{% post_link 零后端的相关文章推荐-简单权重够不够 '零后端的相关文章推荐：简单权重够不够' %}
+
+双部署复盘：{% post_link 同一套Hexo源码如何同时部署到GitHub-Pages和Vercel '同一套 Hexo 源码如何同时部署到 GitHub Pages 和 Vercel' %}

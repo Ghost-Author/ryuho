@@ -64,6 +64,12 @@ service worker 采用核心资源预缓存和 network-first 策略，优先保�
 
 关联阅读：{% post_link 零后端的相关文章推荐-简单权重够不够 '零后端的相关文章推荐：简单权重够不够' %}
 
+### 10. 让同一份源码适配两种部署根路径
+
+GitHub Pages 使用 `/ryuho/`，Vercel 使用 `/`。部署差异只保留在 url 与 root，其余路径由 helper、生成器和同一套审计处理。
+
+关联阅读：{% post_link 同一套Hexo源码如何同时部署到GitHub-Pages和Vercel '同一套 Hexo 源码如何同时部署到 GitHub Pages 和 Vercel' %}
+
 ## 这个专题关注什么
 
 - 静态站点的多环境路径处理
