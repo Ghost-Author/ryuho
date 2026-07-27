@@ -1,4 +1,4 @@
-const CACHE_NAME = "ryuho-static-1785160210449";
+const CACHE_NAME = "ryuho-static-1785160487708";
 const PRECACHE_URLS = [
   "/ryuho/",
   "/ryuho/archives/",
@@ -18,6 +18,7 @@ const PRECACHE_URLS = [
   "/ryuho/js/main.js",
   "/ryuho/images/avatar.png",
   "/ryuho/images/hero.jpg",
+  "/ryuho/2026/07/27/%E4%B8%AA%E4%BA%BA%E9%9D%99%E6%80%81%E7%AB%99%E7%9A%84%E7%A6%BB%E7%BA%BF%E7%AD%96%E7%95%A5-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E6%8B%A9%E7%BD%91%E7%BB%9C%E4%BC%98%E5%85%88/",
   "/ryuho/2026/07/27/%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E6%90%9C%E7%B4%A2%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E6%8B%A9%E9%9B%B6CDN%E4%BE%9D%E8%B5%96/",
   "/ryuho/2026/07/27/%E4%BB%8E%E8%83%BD%E6%9E%84%E5%BB%BA%E5%88%B0%E6%95%A2%E5%8F%91%E5%B8%83-%E4%B8%BAHexo%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B%E8%B4%A8%E9%87%8F%E9%97%A8%E7%A6%81/",
   "/ryuho/2026/07/18/AI%E5%BA%94%E7%94%A8%E4%B8%8A%E7%BA%BF%E5%90%8E%E8%A6%81%E7%9C%8B%E8%A7%81%E4%BB%80%E4%B9%88/",
