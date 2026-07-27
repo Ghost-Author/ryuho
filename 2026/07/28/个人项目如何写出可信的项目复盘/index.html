@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>个人项目如何写出可信的项目复盘 | Ghost-Author</title>
+  <meta name="description" content="以本站质量门禁、双部署、搜索、图片和相关推荐复盘为案例，说明个人项目如何从仓库证据出发写清背景、判断、实现、取舍与验证。">
+  
+    <meta name="keywords" content="工程实践, 技术写作, 项目复盘, 证据, AI 工程, 系统设计">
+  
+  
+  <meta name="author" content="Ghost-Author">
+  <meta name="generator" content="Hexo">
+  <meta name="theme-color" content="#ff7bb2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#211827" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="个人项目如何写出可信的项目复盘 | Ghost-Author">
+  <meta property="og:description" content="以本站质量门禁、双部署、搜索、图片和相关推荐复盘为案例，说明个人项目如何从仓库证据出发写清背景、判断、实现、取舍与验证。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://ghost-author.github.io/ryuho/2026/07/28/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE%E5%A6%82%E4%BD%95%E5%86%99%E5%87%BA%E5%8F%AF%E4%BF%A1%E7%9A%84%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/">
+  <meta property="og:site_name" content="Ghost-Author">
+  
+    <meta property="og:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  
+    <meta name="twitter:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  
+    <meta property="article:published_time" content="2026-07-28T05:30:00.000Z">
+    
+      <meta property="article:modified_time" content="2026-07-27T23:52:31.943Z">
+    
+    
+      
+        <meta property="article:tag" content="工程实践">
+      
+        <meta property="article:tag" content="技术写作">
+      
+        <meta property="article:tag" content="项目复盘">
+      
+        <meta property="article:tag" content="证据">
+      
+    
+  
+  <link rel="alternate" type="application/atom+xml" title="Ghost-Author" href="https://ghost-author.github.io/ryuho/atom.xml">
+  <link rel="canonical" href="https://ghost-author.github.io/ryuho/2026/07/28/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE%E5%A6%82%E4%BD%95%E5%86%99%E5%87%BA%E5%8F%AF%E4%BF%A1%E7%9A%84%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/">
+  <link rel="manifest" href="/ryuho/site.webmanifest">
+  <link rel="apple-touch-icon" href="/ryuho/images/avatar.png">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = saved || (prefersDark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="/ryuho/css/style.css">
+  <script src="/ryuho/js/main.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/ryuho/sw.js').catch(function () {});
+      });
+    }
+  </script>
+  
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"BlogPosting","headline":"个人项目如何写出可信的项目复盘","name":"个人项目如何写出可信的项目复盘","description":"以本站质量门禁、双部署、搜索、图片和相关推荐复盘为案例，说明个人项目如何从仓库证据出发写清背景、判断、实现、取舍与验证。","url":"https://ghost-author.github.io/ryuho/2026/07/28/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE%E5%A6%82%E4%BD%95%E5%86%99%E5%87%BA%E5%8F%AF%E4%BF%A1%E7%9A%84%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/","image":"https://ghost-author.github.io/ryuho/images/hero.jpg","keywords":"工程实践, 技术写作, 项目复盘, 证据, AI 工程, 系统设计","author":{"@type":"Person","name":"Ghost-Author"},"publisher":{"@type":"Person","name":"Ghost-Author"},"datePublished":"2026-07-28T05:30:00.000Z","dateModified":"2026-07-27T23:52:31.943Z"}
+  </script>
+</head>
+<body>
+  <div class="reading-progress" aria-hidden="true"></div>
+  <a class="skip-link" href="#content">跳到正文</a>
+  <header class="site-header">
+  
+  <div class="container header-inner">
+    <a class="logo" href="/ryuho/">
+      <span class="logo-dot"></span>
+      <span>Ghost-Author</span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="/ryuho/" >首页</a>
+      <a href="/ryuho/search/" >搜索</a>
+      <a href="/ryuho/series/" >专题</a>
+      <a href="/ryuho/projects/" >项目</a>
+      <a href="/ryuho/about/" >关于</a>
+      <a href="/ryuho/tags/" >标签</a>
+      <a href="/ryuho/categories/" >分类</a>
+      <a href="/ryuho/archives/" >归档</a>
+    </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换深色模式" aria-pressed="false">
+      <span aria-hidden="true" data-theme-icon>☾</span>
+    </button>
+  </div>
+</header>
+
+  <main class="container" id="content" tabindex="-1">
+    <article class="post post-layout">
+  
+  <header class="post-header">
+    <h1>个人项目如何写出可信的项目复盘</h1>
+    <div class="post-meta-line">
+      <time datetime="2026-07-28T05:30:00.000Z">2026-07-28</time>
+      <span>7 分钟阅读</span>
+      <span>3269 字</span>
+      
+    </div>
+  </header>
+  
+    <img class="post-hero" src="/ryuho/images/hero.jpg" alt="" width="1920" height="1080" loading="eager" decoding="async">
+  
+  
+    <div class="post-meta">
+      
+        <a class="tag" href="/ryuho/tags/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/">
+          <span class="tag-name">工程实践</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/%E6%8A%80%E6%9C%AF%E5%86%99%E4%BD%9C/">
+          <span class="tag-name">技术写作</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/">
+          <span class="tag-name">项目复盘</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/%E8%AF%81%E6%8D%AE/">
+          <span class="tag-name">证据</span>
+        </a>
+      
+    </div>
+  
+  <div class="post-actions" aria-label="文章操作">
+    <button class="text-action" type="button" data-copy-link data-copy-text="复制链接" data-copied-text="已复制">复制链接</button>
+    <a class="text-action" href="/ryuho/archives/">查看归档</a>
+  </div>
+  <div class="post-body">
+    <div class="post-content">
+      <p>个人项目复盘最容易写成两种东西：一种是功能清单，按顺序描述“我做了首页、搜索、部署”；另一种是结果宣传，用“性能大幅提升”“体验显著改善”概括一切，却没有证据说明提升发生在哪里。</p>
+<p>可信的复盘不要求项目规模很大，也不要求一定经历严重事故。它只需要把事实、判断和边界分开：仓库里真正实现了什么，为什么在当时选择它，如何验证它有效，还有哪些事情没有做。</p>
+<p>本站围绕自身工程化已经写了质量门禁、零 CDN 搜索、离线策略、图片管线、相关推荐和双部署等复盘。它们提供了一组可观察的写作样本，也暴露出个人项目写作最需要守住的原则：先找证据，再组织故事。</p>
+<h2 id="背景：个人项目最缺的不是故事，而是外部约束"><a href="#背景：个人项目最缺的不是故事，而是外部约束" class="headerlink" title="背景：个人项目最缺的不是故事，而是外部约束"></a>背景：个人项目最缺的不是故事，而是外部约束</h2><p>团队项目通常有需求文档、工单、监控、用户反馈和上线记录。个人项目没有这些材料时，很容易用记忆补齐过程，把后来形成的认识写成一开始就有的设计，甚至为文章完整性虚构一次事故或用户评价。</p>
+<p>这种写法读起来流畅，却削弱了复盘价值。读者无法判断哪些结论来自实现，哪些只是作者现在觉得合理。</p>
+<p>个人项目真正可靠的资料通常就在仓库中：</p>
+<ul>
+<li>配置文件说明运行环境和部署模型。</li>
+<li>package scripts 与 CI 文件说明实际发布链路。</li>
+<li>主题模板说明页面行为。</li>
+<li>生成器和工具脚本说明算法与失败策略。</li>
+<li>构建产物和审计输出说明可以重复验证的结果。</li>
+<li>现有文章与 README 说明项目已经公开过哪些判断。</li>
+</ul>
+<p>复盘应当从这些材料建立事实表，而不是先想一个有戏剧性的标题。</p>
+<h2 id="判断一：把“事实”“解释”“结果”分开"><a href="#判断一：把“事实”“解释”“结果”分开" class="headerlink" title="判断一：把“事实”“解释”“结果”分开"></a>判断一：把“事实”“解释”“结果”分开</h2><p>以双部署复盘为例，可确认的事实是：主配置的 root 为 <code>/ryuho/</code>，Vercel 覆盖配置的 root 为 <code>/</code>；模板使用 <code>url_for</code> 与 <code>full_url_for</code>；robots 和 manifest 根据当前配置生成；两条检查命令最终运行同一个审计脚本。</p>
+<p>基于这些事实，可以作出解释：项目把平台差异收敛到了 <code>url</code> 与 <code>root</code>，避免在模板中散落部署前缀。</p>
+<p>可验证结果则是：使用两份配置分别构建时，内部链接、canonical、manifest、robots 和 sitemap 接受同一组检查。</p>
+<p>三者不能混写成“这样设计后部署稳定性显著提升”，因为仓库没有提供稳定性百分比或长期故障统计。可信的表述应停在证据能够支持的位置。</p>
+<p>同样，搜索复盘可以确认索引包含标题、正文、摘要、日期、标签与分类，排序权重是标题 8、标签 5、分类 3、正文 1，并且页面对输出做 HTML 转义。它不能据此声称搜索准确率达到某个比例，也不能假设读者更喜欢这个实现。</p>
+<h2 id="判断二：一篇复盘只回答一个核心问题"><a href="#判断二：一篇复盘只回答一个核心问题" class="headerlink" title="判断二：一篇复盘只回答一个核心问题"></a>判断二：一篇复盘只回答一个核心问题</h2><p>项目实现往往互相关联，但文章不能把所有工程决策一次说完。</p>
+<p>本站的几篇复盘各自围绕一个可争论的问题展开：</p>
+<ul>
+<li>质量门禁回答“Hexo 构建成功为什么还不够”。</li>
+<li>搜索复盘回答“当前规模为什么选择构建期索引和零 CDN 依赖”。</li>
+<li>离线策略回答“静态博客为什么采用 network-first，而不是缓存优先”。</li>
+<li>图片复盘回答“优化应该修改源码，还是只处理构建产物”。</li>
+<li>相关推荐回答“没有行为数据时，简单内容权重是否够用”。</li>
+<li>双部署回答“同一份源码如何适配子路径和根路径”。</li>
+</ul>
+<p>这些标题不是功能名，而是决策问题。正文因此可以围绕背景、候选方案、选择、实现、验证和边界展开。读者得到的不只是代码说明，还能看到这套选择在什么条件下成立。</p>
+<p>如果一篇文章同时讲主题设计、SEO、搜索、PWA 和 CI，每部分只能停在清单。把问题收窄，反而能写清真正的取舍。</p>
+<h2 id="实践一：先制作证据清单"><a href="#实践一：先制作证据清单" class="headerlink" title="实践一：先制作证据清单"></a>实践一：先制作证据清单</h2><p>动笔前，可以用一个简单表格约束自己：</p>
+<table>
+<thead>
+<tr>
+<th>要写的判断</th>
+<th>可引用证据</th>
+<th>不能声称什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>双部署共享源码</td>
+<td>两份 Hexo 配置、URL helper、构建命令</td>
+<td>高可用或零故障</td>
+</tr>
+<tr>
+<td>搜索不依赖 CDN</td>
+<td>本地生成器、原生前端脚本、CDN 审计</td>
+<td>用户满意度或搜索准确率</td>
+</tr>
+<tr>
+<td>图片只优化产物</td>
+<td><code>source/images</code>、<code>public/images</code>、Sharp 脚本</td>
+<td>所有图片都能减少相同比例</td>
+</tr>
+<tr>
+<td>推荐可解释</td>
+<td>标签分类权重和排序代码</td>
+<td>个性化或点击提升</td>
+</tr>
+<tr>
+<td>门禁覆盖 49 项</td>
+<td>当前审计脚本输出结构</td>
+<td>不存在的逐次提交历史</td>
+</tr>
+</tbody></table>
+<p>这一步会主动暴露证据缺口。没有访问统计，就不要写“最受欢迎”；没有性能采样，就不要写“首屏提升 40%”；没有真实读者反馈，就不要用“用户普遍认为”增强说服力。</p>
+<p>如果某个结果可以现场重现，应优先运行构建、审计或文件比较。如果只能从已有文章引用历史数值，要说明它是当时记录，而不是未经重新验证的当前状态。</p>
+<h2 id="实践二：写出判断过程，而不是只贴最终代码"><a href="#实践二：写出判断过程，而不是只贴最终代码" class="headerlink" title="实践二：写出判断过程，而不是只贴最终代码"></a>实践二：写出判断过程，而不是只贴最终代码</h2><p>好的复盘通常包含至少一个被放弃的合理方案。</p>
+<p>图片优化文章没有简单说“使用 Sharp”，而是比较直接覆盖源码与只处理 <code>public</code> 的维护含义。最终选择保留高质量源文件，在 Hexo 生成后优化构建产物；先写临时文件，只有新文件更小时才替换；小文件跳过，单张处理失败则保留原图。</p>
+<p>相关推荐文章也没有把几行排序包装成智能推荐。它先说明当前没有账号、行为数据和后端，只能做内容相关排序；然后解释共享标签加 2、共享分类加 1，同分按日期排序，没有主题交集时标记为“最近更新”。</p>
+<p>取舍让文章具有迁移价值。读者未必使用 Hexo，但可以复用“保留可重新处理的输入”“能力命名不要超过实际边界”“先用现有元数据解决当前规模问题”等判断。</p>
+<h2 id="实践三：验证要与主张一一对应"><a href="#实践三：验证要与主张一一对应" class="headerlink" title="实践三：验证要与主张一一对应"></a>实践三：验证要与主张一一对应</h2><p>“已经运行构建”不是所有问题的统一验证。</p>
+<p>如果主张是双部署路径正确，就应分别使用两套配置构建，并检查链接、canonical、robots、manifest 和 sitemap。如果主张是搜索不依赖临时 CDN，就应检查生成索引、相对路径、输出转义，并扫描产物是否出现指定 CDN 地址。如果主张是文章元数据可供推荐与分享使用，就应检查 front matter、相关推荐区块和 <code>article:tag</code>。</p>
+<p>本站审计读取 <code>public</code> 产物，同时读取文章源码与脚手架。这个组合很适合复盘写作：源码证明意图，产物证明实际输出。只读代码可能忽略模板渲染结果，只看页面又无法解释生成逻辑。</p>
+<p>验证段落还应报告失败边界。例如自动审计能够证明相关推荐区块存在、链接可达，却不能证明前三篇是最符合读者意图的结果。明确“验证了什么”和“没有验证什么”，比笼统写“测试通过”更可信。</p>
+<h2 id="取舍：允许项目保持简单，也允许文章承认未完成"><a href="#取舍：允许项目保持简单，也允许文章承认未完成" class="headerlink" title="取舍：允许项目保持简单，也允许文章承认未完成"></a>取舍：允许项目保持简单，也允许文章承认未完成</h2><p>复盘常见的另一个问题，是为了显得完整而补出一套未来架构。</p>
+<p>当前图片管线没有 <code>srcset</code>、AVIF、多尺寸派生图和图片 CDN；搜索没有中文分词、模糊匹配或服务端索引；推荐没有向量语义和用户行为；评论配置默认关闭；专题仍是手工 Markdown 页面。</p>
+<p>这些“没有做”不是缺陷清单，而是当前规模下的边界。文章应解释为什么暂不做，以及出现什么信号后值得升级。这样读者能够判断方案适用范围，作者也不会把路线图误写成已交付能力。</p>
+<p>个人项目尤其需要这种克制。没有团队替未来抽象付维护成本时，简单方案往往是有意识的工程选择，而不是能力不足。</p>
+<h2 id="验证：如何审查一篇复盘是否可信"><a href="#验证：如何审查一篇复盘是否可信" class="headerlink" title="验证：如何审查一篇复盘是否可信"></a>验证：如何审查一篇复盘是否可信</h2><p>发布前可以反向检查每一段：</p>
+<ul>
+<li>数字能否由脚本、文件或明确记录重现？</li>
+<li>“实际”“当前”“已经”后面的内容在仓库里是否存在？</li>
+<li>是否把推断写成了事实？</li>
+<li>是否引用了没有收集过的用户反馈、事故或线上指标？</li>
+<li>实现细节是否与当前代码一致？</li>
+<li>结论是否写明适用规模与未覆盖范围？</li>
+<li>文章是否给出验证方法，而不只是宣布成功？</li>
+</ul>
+<p>本站还通过构建门禁检查文章 title、date、description、tags、category、cover 和正文最低完整性。它能防止空提纲发布，却不能替代上面的事实审查。机器检查格式，人检查证据与措辞。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>可信的个人项目复盘，不靠项目规模，也不靠把过程写得惊险。它依赖一条朴素链路：从配置、代码、脚本和产物建立事实；围绕一个明确问题说明判断；展示选择与放弃；用与主张匹配的方法验证；最后坦率写出边界。</p>
+<p>本站已有复盘之所以能够形成连续内容，不是因为博客功能复杂，而是每篇都尝试回答一个真实工程问题。双部署、搜索、图片、推荐和质量门禁都能在仓库里找到对应实现，也都保留了“当前为什么够用、什么时候需要升级”的条件。</p>
+<p>写作不是给项目补一层漂亮叙事，而是把可验证的工程判断整理出来。证据能够支持到哪里，结论就写到哪里。这种克制，正是个人项目复盘最可靠的说服力。</p>
+
+    </div>
+    
+      <aside class="post-toc" aria-label="文章目录">
+        <h3>目录</h3>
+        <div class="toc-inner">
+          <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF%EF%BC%9A%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE%E6%9C%80%E7%BC%BA%E7%9A%84%E4%B8%8D%E6%98%AF%E6%95%85%E4%BA%8B%EF%BC%8C%E8%80%8C%E6%98%AF%E5%A4%96%E9%83%A8%E7%BA%A6%E6%9D%9F"><span class="toc-number">1.</span> <span class="toc-text">背景：个人项目最缺的不是故事，而是外部约束</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E4%B8%80%EF%BC%9A%E6%8A%8A%E2%80%9C%E4%BA%8B%E5%AE%9E%E2%80%9D%E2%80%9C%E8%A7%A3%E9%87%8A%E2%80%9D%E2%80%9C%E7%BB%93%E6%9E%9C%E2%80%9D%E5%88%86%E5%BC%80"><span class="toc-number">2.</span> <span class="toc-text">判断一：把“事实”“解释”“结果”分开</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E4%BA%8C%EF%BC%9A%E4%B8%80%E7%AF%87%E5%A4%8D%E7%9B%98%E5%8F%AA%E5%9B%9E%E7%AD%94%E4%B8%80%E4%B8%AA%E6%A0%B8%E5%BF%83%E9%97%AE%E9%A2%98"><span class="toc-number">3.</span> <span class="toc-text">判断二：一篇复盘只回答一个核心问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E8%B7%B5%E4%B8%80%EF%BC%9A%E5%85%88%E5%88%B6%E4%BD%9C%E8%AF%81%E6%8D%AE%E6%B8%85%E5%8D%95"><span class="toc-number">4.</span> <span class="toc-text">实践一：先制作证据清单</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E8%B7%B5%E4%BA%8C%EF%BC%9A%E5%86%99%E5%87%BA%E5%88%A4%E6%96%AD%E8%BF%87%E7%A8%8B%EF%BC%8C%E8%80%8C%E4%B8%8D%E6%98%AF%E5%8F%AA%E8%B4%B4%E6%9C%80%E7%BB%88%E4%BB%A3%E7%A0%81"><span class="toc-number">5.</span> <span class="toc-text">实践二：写出判断过程，而不是只贴最终代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E8%B7%B5%E4%B8%89%EF%BC%9A%E9%AA%8C%E8%AF%81%E8%A6%81%E4%B8%8E%E4%B8%BB%E5%BC%A0%E4%B8%80%E4%B8%80%E5%AF%B9%E5%BA%94"><span class="toc-number">6.</span> <span class="toc-text">实践三：验证要与主张一一对应</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%96%E8%88%8D%EF%BC%9A%E5%85%81%E8%AE%B8%E9%A1%B9%E7%9B%AE%E4%BF%9D%E6%8C%81%E7%AE%80%E5%8D%95%EF%BC%8C%E4%B9%9F%E5%85%81%E8%AE%B8%E6%96%87%E7%AB%A0%E6%89%BF%E8%AE%A4%E6%9C%AA%E5%AE%8C%E6%88%90"><span class="toc-number">7.</span> <span class="toc-text">取舍：允许项目保持简单，也允许文章承认未完成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%EF%BC%9A%E5%A6%82%E4%BD%95%E5%AE%A1%E6%9F%A5%E4%B8%80%E7%AF%87%E5%A4%8D%E7%9B%98%E6%98%AF%E5%90%A6%E5%8F%AF%E4%BF%A1"><span class="toc-number">8.</span> <span class="toc-text">验证：如何审查一篇复盘是否可信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">9.</span> <span class="toc-text">结论</span></a></li></ol>
+        </div>
+      </aside>
+    
+  </div>
+  
+    <section class="related-posts" aria-labelledby="related-title">
+      <div class="section-title">
+        <h2 id="related-title">相关推荐</h2>
+        <a href="/ryuho/archives/">完整归档</a>
+      </div>
+      <div class="related-grid">
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/28/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BB%B4%E6%8A%A4%E4%B8%80%E6%AE%B5%E6%97%B6%E9%97%B4%E5%90%8E%E6%88%91%E4%BF%9D%E7%95%99%E4%BA%86%E4%BB%80%E4%B9%88%E5%88%A0%E6%8E%89%E4%BA%86%E4%BB%80%E4%B9%88/">
+              <span class="related-score">同主题</span>
+              <h3>个人博客维护一段时间后，我保留了什么、删掉了什么</h3>
+              <p>基于当前仓库可以验证的配置、主题和维护策略，复盘这个博客保留的核心能力、已经移除或关闭的内容，以及背后的范围判断。</p>
+              <time datetime="2026-07-28T08:00:00.000Z">2026-07-28</time>
+            </a>
+          </article>
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/28/AI%E8%BE%85%E5%8A%A9%E5%86%99%E4%BD%9C%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8D%E7%94%9F%E6%88%90%E6%AD%A3%E7%A1%AE%E4%BD%86%E7%A9%BA%E6%B4%9E%E7%9A%84%E6%96%87%E7%AB%A0/">
+              <span class="related-score">同主题</span>
+              <h3>AI 辅助写作如何避免生成“正确但空洞”的文章</h3>
+              <p>结合本批工程文章的事实约束、证据表与构建审计，说明 AI 辅助技术写作如何从通顺生成转向有出处、有边界、可验证的项目复盘。</p>
+              <time datetime="2026-07-28T07:30:00.000Z">2026-07-28</time>
+            </a>
+          </article>
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/28/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2%E6%9C%80%E5%AE%B9%E6%98%93%E7%A7%AF%E7%B4%AF%E7%9A%84%E4%BA%94%E7%B1%BB%E7%BB%B4%E6%8A%A4%E5%80%BA%E5%8A%A1/">
+              <span class="related-score">同主题</span>
+              <h3>技术博客最容易积累的五类维护债务</h3>
+              <p>从内容、链接、依赖、构建配置和界面功能五个方面，分析技术博客会如何积累维护债务，以及如何用现有 Hexo 工程的规则持续偿还。</p>
+              <time datetime="2026-07-28T07:00:00.000Z">2026-07-28</time>
+            </a>
+          </article>
+        
+      </div>
+    </section>
+  
+  <footer class="post-end">
+    <div class="post-end-card">
+      <h2>读完这篇</h2>
+      <dl class="post-facts">
+        <div>
+          <dt>字数</dt>
+          <dd>3269</dd>
+        </div>
+        <div>
+          <dt>阅读</dt>
+          <dd>7 分钟</dd>
+        </div>
+        
+          <div>
+            <dt>分类</dt>
+            <dd>
+              
+                <a href="/ryuho/categories/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/">工程实践</a>
+              
+            </dd>
+          </div>
+        
+      </dl>
+      <div class="post-end-actions">
+        <a class="text-action" href="/ryuho/">回到首页</a>
+        <a class="text-action" href="/ryuho/tags/">浏览标签</a>
+      </div>
+    </div>
+  </footer>
+
+  
+
+  <nav class="post-nav" aria-label="文章翻页">
+    
+      <a href="/ryuho/2026/07/28/%E6%B2%A1%E6%9C%89%E5%90%8E%E7%AB%AF%E5%8D%9A%E5%AE%A2%E8%BF%98%E8%83%BD%E5%81%9A%E5%88%B0%E5%93%AA%E4%BA%9B%E4%BA%A7%E5%93%81%E5%8C%96%E8%83%BD%E5%8A%9B/">上一篇：没有后端，博客还能做到哪些产品化能力</a>
+    
+    
+      <a href="/ryuho/2026/07/28/%E4%BB%8E0%E5%88%B049%E9%A1%B9%E6%A3%80%E6%9F%A5-%E8%B4%A8%E9%87%8F%E9%97%A8%E7%A6%81%E6%98%AF%E6%80%8E%E6%A0%B7%E9%80%90%E6%AD%A5%E9%95%BF%E5%87%BA%E6%9D%A5%E7%9A%84/">下一篇：从 0 到 49 项检查：质量门禁是怎样逐步长出来的</a>
+    
+  </nav>
+</article>
+
+  </main>
+  <footer class="site-footer">
+  <div class="container footer-inner">
+    <span>© 2026 Ghost-Author. 记录 AI 工程与长期思考。</span>
+    <span>
+      <a href="/ryuho/atom.xml">RSS</a>
+      
+        · <a href="mailto:liupggg@gmail.com">Email</a>
+      
+      · <a href="/ryuho/archives/">归档</a>
+    </span>
+  </div>
+</footer>
+
+  <button class="back-to-top" type="button" aria-label="回到顶部">↑</button>
+</body>
+</html>

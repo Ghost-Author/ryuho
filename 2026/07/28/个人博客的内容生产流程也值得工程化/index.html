@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>个人博客的内容生产流程也值得工程化 | Ghost-Author</title>
+  <meta name="description" content="以文章脚手架、日更命令、元数据审计和双环境构建为例，复盘个人博客如何建立轻量但完整的内容生产流水线。">
+  
+    <meta name="keywords" content="工程实践, 技术写作, Hexo, 内容工程, AI 工程, 系统设计">
+  
+  
+  <meta name="author" content="Ghost-Author">
+  <meta name="generator" content="Hexo">
+  <meta name="theme-color" content="#ff7bb2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#211827" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="个人博客的内容生产流程也值得工程化 | Ghost-Author">
+  <meta property="og:description" content="以文章脚手架、日更命令、元数据审计和双环境构建为例，复盘个人博客如何建立轻量但完整的内容生产流水线。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://ghost-author.github.io/ryuho/2026/07/28/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E5%86%85%E5%AE%B9%E7%94%9F%E4%BA%A7%E6%B5%81%E7%A8%8B%E4%B9%9F%E5%80%BC%E5%BE%97%E5%B7%A5%E7%A8%8B%E5%8C%96/">
+  <meta property="og:site_name" content="Ghost-Author">
+  
+    <meta property="og:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  
+    <meta name="twitter:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  
+    <meta property="article:published_time" content="2026-07-28T01:30:00.000Z">
+    
+      <meta property="article:modified_time" content="2026-07-27T23:52:31.943Z">
+    
+    
+      
+        <meta property="article:tag" content="工程实践">
+      
+        <meta property="article:tag" content="技术写作">
+      
+        <meta property="article:tag" content="Hexo">
+      
+        <meta property="article:tag" content="内容工程">
+      
+    
+  
+  <link rel="alternate" type="application/atom+xml" title="Ghost-Author" href="https://ghost-author.github.io/ryuho/atom.xml">
+  <link rel="canonical" href="https://ghost-author.github.io/ryuho/2026/07/28/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E5%86%85%E5%AE%B9%E7%94%9F%E4%BA%A7%E6%B5%81%E7%A8%8B%E4%B9%9F%E5%80%BC%E5%BE%97%E5%B7%A5%E7%A8%8B%E5%8C%96/">
+  <link rel="manifest" href="/ryuho/site.webmanifest">
+  <link rel="apple-touch-icon" href="/ryuho/images/avatar.png">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = saved || (prefersDark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="/ryuho/css/style.css">
+  <script src="/ryuho/js/main.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/ryuho/sw.js').catch(function () {});
+      });
+    }
+  </script>
+  
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"BlogPosting","headline":"个人博客的内容生产流程也值得工程化","name":"个人博客的内容生产流程也值得工程化","description":"以文章脚手架、日更命令、元数据审计和双环境构建为例，复盘个人博客如何建立轻量但完整的内容生产流水线。","url":"https://ghost-author.github.io/ryuho/2026/07/28/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E5%86%85%E5%AE%B9%E7%94%9F%E4%BA%A7%E6%B5%81%E7%A8%8B%E4%B9%9F%E5%80%BC%E5%BE%97%E5%B7%A5%E7%A8%8B%E5%8C%96/","image":"https://ghost-author.github.io/ryuho/images/hero.jpg","keywords":"工程实践, 技术写作, Hexo, 内容工程, AI 工程, 系统设计","author":{"@type":"Person","name":"Ghost-Author"},"publisher":{"@type":"Person","name":"Ghost-Author"},"datePublished":"2026-07-28T01:30:00.000Z","dateModified":"2026-07-27T23:52:31.943Z"}
+  </script>
+</head>
+<body>
+  <div class="reading-progress" aria-hidden="true"></div>
+  <a class="skip-link" href="#content">跳到正文</a>
+  <header class="site-header">
+  
+  <div class="container header-inner">
+    <a class="logo" href="/ryuho/">
+      <span class="logo-dot"></span>
+      <span>Ghost-Author</span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="/ryuho/" >首页</a>
+      <a href="/ryuho/search/" >搜索</a>
+      <a href="/ryuho/series/" >专题</a>
+      <a href="/ryuho/projects/" >项目</a>
+      <a href="/ryuho/about/" >关于</a>
+      <a href="/ryuho/tags/" >标签</a>
+      <a href="/ryuho/categories/" >分类</a>
+      <a href="/ryuho/archives/" >归档</a>
+    </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换深色模式" aria-pressed="false">
+      <span aria-hidden="true" data-theme-icon>☾</span>
+    </button>
+  </div>
+</header>
+
+  <main class="container" id="content" tabindex="-1">
+    <article class="post post-layout">
+  
+  <header class="post-header">
+    <h1>个人博客的内容生产流程也值得工程化</h1>
+    <div class="post-meta-line">
+      <time datetime="2026-07-28T01:30:00.000Z">2026-07-28</time>
+      <span>6 分钟阅读</span>
+      <span>2660 字</span>
+      
+    </div>
+  </header>
+  
+    <img class="post-hero" src="/ryuho/images/hero.jpg" alt="" width="1920" height="1080" loading="eager" decoding="async">
+  
+  
+    <div class="post-meta">
+      
+        <a class="tag" href="/ryuho/tags/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/">
+          <span class="tag-name">工程实践</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/%E6%8A%80%E6%9C%AF%E5%86%99%E4%BD%9C/">
+          <span class="tag-name">技术写作</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/Hexo/">
+          <span class="tag-name">Hexo</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/%E5%86%85%E5%AE%B9%E5%B7%A5%E7%A8%8B/">
+          <span class="tag-name">内容工程</span>
+        </a>
+      
+    </div>
+  
+  <div class="post-actions" aria-label="文章操作">
+    <button class="text-action" type="button" data-copy-link data-copy-text="复制链接" data-copied-text="已复制">复制链接</button>
+    <a class="text-action" href="/ryuho/archives/">查看归档</a>
+  </div>
+  <div class="post-body">
+    <div class="post-content">
+      <p>个人博客的写作流程通常很随意：新建一个 Markdown，写完正文，运行构建，然后推送。文章不多时，这种方式几乎没有成本；内容逐渐形成系列后，遗漏描述、标签失控、日期格式不一致、草稿直接发布等小问题会开始反复出现。</p>
+<p>工程化内容生产并不意味着给写作套上复杂审批。这个博客采用的方案很轻：用脚手架提供结构，用 <code>tools/daily.js</code> 降低创建成本，用审计器守住最低元数据，再由两套构建验证最终产物。自动化负责消除重复劳动，选题和判断仍然留给作者。</p>
+<h2 id="先区分创作问题与流程问题"><a href="#先区分创作问题与流程问题" class="headerlink" title="先区分创作问题与流程问题"></a>先区分创作问题与流程问题</h2><p>文章是否值得写，是创作问题。文件放在哪里、元数据是否完整、页面能否被搜索和分享，则是流程问题。</p>
+<p>这两类问题混在一起时，写作者很容易在动笔前消耗注意力：</p>
+<ul>
+<li>文件名应该怎么处理空格和标点？</li>
+<li>日期要写到哪一秒？</li>
+<li>tags 与 categories 用什么格式？</li>
+<li>description 是摘要还是开场白？</li>
+<li>封面是否需要每次重复填写？</li>
+<li>写完后要运行哪一组命令？</li>
+</ul>
+<p>这些都不需要每次重新思考。适合工程化的部分，正是那些答案稳定、容易遗漏、又能被程序验证的动作。</p>
+<h2 id="脚手架定义文章的最低结构"><a href="#脚手架定义文章的最低结构" class="headerlink" title="脚手架定义文章的最低结构"></a>脚手架定义文章的最低结构</h2><p>仓库中的 <code>scaffolds/post.md</code> 没有尝试生成一篇“像写完了”的文章，而是提供统一 front matter 和五个问题：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">背景<br>方案<br>实现<br>验证<br>复盘<br></code></pre></td></tr></table></figure>
+
+<p>这个结构适合工程文章，因为它迫使记录不止停在“我做了什么”。背景解释为什么要做，方案和实现区分判断与动作，验证说明如何确认结果，复盘再提炼可迁移经验。</p>
+<p>脚手架同时预置：</p>
+<ul>
+<li>title 与 date；</li>
+<li>两个基础标签；</li>
+<li>工程实践分类；</li>
+<li>description 的写法提示；</li>
+<li><code>/images/hero.jpg</code> 默认封面。</li>
+</ul>
+<p>默认值的意义不是让所有文章长得一样，而是保证新文件从第一分钟就接近可发布状态。真正需要作者填写的，是标题、具体描述、主题标签和正文内容。</p>
+<h2 id="日更命令解决的是启动摩擦"><a href="#日更命令解决的是启动摩擦" class="headerlink" title="日更命令解决的是启动摩擦"></a>日更命令解决的是启动摩擦</h2><p><code>npm run daily</code> 调用 <code>tools/daily.js</code>。脚本使用当前本地时间生成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">工程日志-YYYY-MM-DD.md<br></code></pre></td></tr></table></figure>
+
+<p>文件名通过 <code>slugify</code> 处理：去除首尾空白、转成小写、把空格换成连字符、保留中文与 ASCII 字母数字，并折叠重复连字符。日期与时间则由统一函数补齐两位数字。</p>
+<p>脚本还做了两个看似普通但重要的判断：</p>
+<ol>
+<li><code>_posts</code> 不存在时才创建目录。</li>
+<li>同名文件已经存在时直接失败，不覆盖旧内容。</li>
+</ol>
+<p>这使日更命令保持幂等边界：它可以帮助开始一篇记录，却不会以“方便”为由替作者改写已经存在的文章。</p>
+<p>生成内容仍然只是骨架，包含今日目标、关键动作、验证结果和复盘。它没有自动填充虚构结论，也没有把 Git 提交记录拼成貌似完整的日报。对技术写作来说，宁可留下明确待写项，也不能用自动生成掩盖事实缺口。</p>
+<h2 id="元数据不是装饰，而是多处功能的输入"><a href="#元数据不是装饰，而是多处功能的输入" class="headerlink" title="元数据不是装饰，而是多处功能的输入"></a>元数据不是装饰，而是多处功能的输入</h2><p>在 Hexo 中，front matter 会同时进入多个消费端。</p>
+<p>title 用于文章页、首页、归档、搜索和分享标题；description 会进入列表摘要、搜索结果和 meta description；tags 与 categories 支撑导航、相关推荐、关键词和内容组织；cover 用于文章头图、Open Graph 与 Twitter 分享图片；date 决定排序、链接和订阅源时间。</p>
+<p>因此“正文写完了”并不等于内容已经完整。缺少 description 的文章，模板只能从正文截取；没有标签的文章不仅难以浏览，也会让相关文章算法失去判断信号。</p>
+<p>审计器会直接读取 <code>source/_posts/*.md</code> 的 front matter，并检查：</p>
+<ul>
+<li>标题与日期存在；</li>
+<li>description 长度至少达到最低要求；</li>
+<li>至少两个标签；</li>
+<li>至少一个分类；</li>
+<li>封面存在；</li>
+<li>去除代码块、HTML 与空白后，正文不是过短的提纲。</li>
+</ul>
+<p>这里检查的是结构完整性，不评价表达水平。它能阻止明显半成品，却不能替代作者通读。</p>
+<h2 id="描述字段应当独立写，而不是机械截断"><a href="#描述字段应当独立写，而不是机械截断" class="headerlink" title="描述字段应当独立写，而不是机械截断"></a>描述字段应当独立写，而不是机械截断</h2><p>模板和搜索索引都提供摘要回退：没有 description 时，从正文去标签后截取一段文字。这保证页面不会完全空白，但不是理想生产方式。</p>
+<p>正文开头往往承担铺垫，不一定准确概括文章价值。description 更适合回答三个问题：</p>
+<ul>
+<li>文章处理什么具体问题？</li>
+<li>使用什么视角或实现？</li>
+<li>读者最终能带走什么？</li>
+</ul>
+<p>独立填写后，同一段描述可以稳定服务首页列表、搜索结果、SEO 和社交分享，不必依赖每个消费端各自猜测摘要。</p>
+<h2 id="内容发布应当以构建产物为准"><a href="#内容发布应当以构建产物为准" class="headerlink" title="内容发布应当以构建产物为准"></a>内容发布应当以构建产物为准</h2><p>Markdown 通过检查后，还需要经过 Hexo、主题模板、生成器和图片优化。任何一层都可能改变最终结果，所以流程终点不是“文件保存”，而是两套发布检查：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm run check<br>npm run check:vercel<br></code></pre></td></tr></table></figure>
+
+<p>这两条命令会清理旧产物、使用不同 root 生成站点、优化图片并运行同一套审计。文章必须能在 GitHub Pages 子路径和 Vercel 根路径下生成正确 canonical、链接、搜索索引、订阅源和文章页面。</p>
+<p>这一步还解决了一个常见误区：只检查本次文章文件。新文章会改变首页最新文章入口、文章总数、分页、RSS、Sitemap、搜索索引和相关推荐，因此验证对象必须是整个站点产物。</p>
+<h2 id="为什么没有自动完成所有写作步骤"><a href="#为什么没有自动完成所有写作步骤" class="headerlink" title="为什么没有自动完成所有写作步骤"></a>为什么没有自动完成所有写作步骤</h2><p>当前流程没有自动选题、自动分类，也没有在创建文件时调用语言模型生成正文。这是有意保留的边界。</p>
+<p>自动化程度越高，越需要回答事实来源和审核责任。这个博客的工程复盘必须以仓库真实实现为依据，不应虚构访问量、用户反馈或线上事故。让脚本负责格式，让作者负责证据，是更清楚的职责划分。</p>
+<p>同样，标签也没有完全自动推断。程序可以从关键词猜测，但“这篇文章属于哪个知识路径”是内容判断，错误分类带来的长期噪声比少敲几个字更难清理。</p>
+<h2 id="一条足够轻的生产流水线"><a href="#一条足够轻的生产流水线" class="headerlink" title="一条足够轻的生产流水线"></a>一条足够轻的生产流水线</h2><p>结合当前实现，一篇工程文章的完整流程可以归纳为：</p>
+<ol>
+<li>从真实改动或明确问题中确定选题。</li>
+<li>使用 Hexo 脚手架或日更命令创建文件。</li>
+<li>补全 description、主题标签和文章结构。</li>
+<li>对照代码、配置和构建结果核对事实。</li>
+<li>运行源码元数据与构建产物审计。</li>
+<li>分别验证子路径和根路径部署。</li>
+<li>查看 Git diff，确认没有夹带无关文件后再提交。</li>
+</ol>
+<p>这条流程没有内容管理后台，也不需要外部服务，但已经把创建、约束、生成、验证和发布串了起来。</p>
+<h2 id="可复用的结论"><a href="#可复用的结论" class="headerlink" title="可复用的结论"></a>可复用的结论</h2><p>内容工程化的目标不是提高“日产量”，而是让作者把注意力留给真正需要判断的部分。</p>
+<p>稳定格式交给脚手架，重复命名交给命令，结构底线交给审计，跨环境结果交给构建。机器不替作者思考，却能让每次写作少处理几件机械小事，也让一篇文章从 Markdown 进入整个内容系统时更可预测。</p>
+<p>对于个人博客，这已经足够形成一条长期可维护的生产流程：轻量、透明，并且不会为了自动化而牺牲内容可信度。</p>
+
+    </div>
+    
+      <aside class="post-toc" aria-label="文章目录">
+        <h3>目录</h3>
+        <div class="toc-inner">
+          <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%88%E5%8C%BA%E5%88%86%E5%88%9B%E4%BD%9C%E9%97%AE%E9%A2%98%E4%B8%8E%E6%B5%81%E7%A8%8B%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">先区分创作问题与流程问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%84%9A%E6%89%8B%E6%9E%B6%E5%AE%9A%E4%B9%89%E6%96%87%E7%AB%A0%E7%9A%84%E6%9C%80%E4%BD%8E%E7%BB%93%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">脚手架定义文章的最低结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A5%E6%9B%B4%E5%91%BD%E4%BB%A4%E8%A7%A3%E5%86%B3%E7%9A%84%E6%98%AF%E5%90%AF%E5%8A%A8%E6%91%A9%E6%93%A6"><span class="toc-number">3.</span> <span class="toc-text">日更命令解决的是启动摩擦</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%83%E6%95%B0%E6%8D%AE%E4%B8%8D%E6%98%AF%E8%A3%85%E9%A5%B0%EF%BC%8C%E8%80%8C%E6%98%AF%E5%A4%9A%E5%A4%84%E5%8A%9F%E8%83%BD%E7%9A%84%E8%BE%93%E5%85%A5"><span class="toc-number">4.</span> <span class="toc-text">元数据不是装饰，而是多处功能的输入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%8F%E8%BF%B0%E5%AD%97%E6%AE%B5%E5%BA%94%E5%BD%93%E7%8B%AC%E7%AB%8B%E5%86%99%EF%BC%8C%E8%80%8C%E4%B8%8D%E6%98%AF%E6%9C%BA%E6%A2%B0%E6%88%AA%E6%96%AD"><span class="toc-number">5.</span> <span class="toc-text">描述字段应当独立写，而不是机械截断</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AE%B9%E5%8F%91%E5%B8%83%E5%BA%94%E5%BD%93%E4%BB%A5%E6%9E%84%E5%BB%BA%E4%BA%A7%E7%89%A9%E4%B8%BA%E5%87%86"><span class="toc-number">6.</span> <span class="toc-text">内容发布应当以构建产物为准</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%B2%A1%E6%9C%89%E8%87%AA%E5%8A%A8%E5%AE%8C%E6%88%90%E6%89%80%E6%9C%89%E5%86%99%E4%BD%9C%E6%AD%A5%E9%AA%A4"><span class="toc-number">7.</span> <span class="toc-text">为什么没有自动完成所有写作步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E6%9D%A1%E8%B6%B3%E5%A4%9F%E8%BD%BB%E7%9A%84%E7%94%9F%E4%BA%A7%E6%B5%81%E6%B0%B4%E7%BA%BF"><span class="toc-number">8.</span> <span class="toc-text">一条足够轻的生产流水线</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E5%A4%8D%E7%94%A8%E7%9A%84%E7%BB%93%E8%AE%BA"><span class="toc-number">9.</span> <span class="toc-text">可复用的结论</span></a></li></ol>
+        </div>
+      </aside>
+    
+  </div>
+  
+    <section class="related-posts" aria-labelledby="related-title">
+      <div class="section-title">
+        <h2 id="related-title">相关推荐</h2>
+        <a href="/ryuho/archives/">完整归档</a>
+      </div>
+      <div class="related-grid">
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/28/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2%E6%9C%80%E5%AE%B9%E6%98%93%E7%A7%AF%E7%B4%AF%E7%9A%84%E4%BA%94%E7%B1%BB%E7%BB%B4%E6%8A%A4%E5%80%BA%E5%8A%A1/">
+              <span class="related-score">同主题</span>
+              <h3>技术博客最容易积累的五类维护债务</h3>
+              <p>从内容、链接、依赖、构建配置和界面功能五个方面，分析技术博客会如何积累维护债务，以及如何用现有 Hexo 工程的规则持续偿还。</p>
+              <time datetime="2026-07-28T07:00:00.000Z">2026-07-28</time>
+            </a>
+          </article>
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/28/%E6%96%87%E7%AB%A0%E7%B3%BB%E5%88%97%E6%A0%87%E7%AD%BE%E5%92%8C%E5%88%86%E7%B1%BB%E5%88%86%E5%88%AB%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98/">
+              <span class="related-score">同主题</span>
+              <h3>文章系列、标签和分类分别解决什么问题</h3>
+              <p>结合本站专题页、Hexo 分类标签和相关推荐实现，说明系列、标签与分类各自表达顺序、关键词和长期主题，避免三套组织方式互相替代。</p>
+              <time datetime="2026-07-28T04:00:00.000Z">2026-07-28</time>
+            </a>
+          </article>
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/28/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E4%B8%8D%E4%BC%9A%E8%B6%8A%E5%86%99%E8%B6%8A%E4%B9%B1%E7%9A%84%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2%E4%BF%A1%E6%81%AF%E6%9E%B6%E6%9E%84/">
+              <span class="related-score">同主题</span>
+              <h3>如何设计一个不会越写越乱的技术博客信息架构</h3>
+              <p>以本站的首页、专题、项目、分类、标签、归档和搜索为例，复盘技术博客如何为不同阅读意图分配入口，并在内容增长时保持结构清楚。</p>
+              <time datetime="2026-07-28T03:30:00.000Z">2026-07-28</time>
+            </a>
+          </article>
+        
+      </div>
+    </section>
+  
+  <footer class="post-end">
+    <div class="post-end-card">
+      <h2>读完这篇</h2>
+      <dl class="post-facts">
+        <div>
+          <dt>字数</dt>
+          <dd>2660</dd>
+        </div>
+        <div>
+          <dt>阅读</dt>
+          <dd>6 分钟</dd>
+        </div>
+        
+          <div>
+            <dt>分类</dt>
+            <dd>
+              
+                <a href="/ryuho/categories/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/">工程实践</a>
+              
+            </dd>
+          </div>
+        
+      </dl>
+      <div class="post-end-actions">
+        <a class="text-action" href="/ryuho/">回到首页</a>
+        <a class="text-action" href="/ryuho/tags/">浏览标签</a>
+      </div>
+    </div>
+  </footer>
+
+  
+
+  <nav class="post-nav" aria-label="文章翻页">
+    
+      <a href="/ryuho/2026/07/28/%E4%BB%8E%E9%80%9A%E7%94%A8%E4%B8%BB%E9%A2%98%E5%88%B0%E4%B8%AA%E4%BA%BA%E8%A1%A8%E8%BE%BE-%E6%88%91%E5%A6%82%E4%BD%95%E6%94%B9%E9%80%A0Hexo%E4%B8%BB%E9%A2%98/">上一篇：从通用主题到个人表达：我如何改造 Hexo 主题</a>
+    
+    
+      <a href="/ryuho/2026/07/28/%E9%9D%99%E6%80%81%E7%AB%99%E7%82%B9%E5%AE%A1%E8%AE%A1%E5%99%A8%E5%BA%94%E8%AF%A5%E6%A3%80%E6%9F%A5%E4%BB%80%E4%B9%88/">下一篇：静态站点审计器应该检查什么</a>
+    
+  </nav>
+</article>
+
+  </main>
+  <footer class="site-footer">
+  <div class="container footer-inner">
+    <span>© 2026 Ghost-Author. 记录 AI 工程与长期思考。</span>
+    <span>
+      <a href="/ryuho/atom.xml">RSS</a>
+      
+        · <a href="mailto:liupggg@gmail.com">Email</a>
+      
+      · <a href="/ryuho/archives/">归档</a>
+    </span>
+  </div>
+</footer>
+
+  <button class="back-to-top" type="button" aria-label="回到顶部">↑</button>
+</body>
+</html>

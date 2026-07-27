@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>为什么个人博客也需要可观测性 | Ghost-Author</title>
+  <meta name="description" content="从构建日志、审计结果、部署差异和维护信号出发，讨论个人静态博客如何建立不过度设计的工程可观测性。">
+  
+    <meta name="keywords" content="可观测性, 工程实践, Hexo, CI/CD, AI 工程, 系统设计">
+  
+  
+  <meta name="author" content="Ghost-Author">
+  <meta name="generator" content="Hexo">
+  <meta name="theme-color" content="#ff7bb2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#211827" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="为什么个人博客也需要可观测性 | Ghost-Author">
+  <meta property="og:description" content="从构建日志、审计结果、部署差异和维护信号出发，讨论个人静态博客如何建立不过度设计的工程可观测性。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://ghost-author.github.io/ryuho/2026/07/28/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E4%B9%9F%E9%9C%80%E8%A6%81%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7/">
+  <meta property="og:site_name" content="Ghost-Author">
+  
+    <meta property="og:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  
+    <meta name="twitter:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  
+    <meta property="article:published_time" content="2026-07-28T03:00:00.000Z">
+    
+      <meta property="article:modified_time" content="2026-07-27T23:52:31.943Z">
+    
+    
+      
+        <meta property="article:tag" content="可观测性">
+      
+        <meta property="article:tag" content="工程实践">
+      
+        <meta property="article:tag" content="Hexo">
+      
+        <meta property="article:tag" content="CI/CD">
+      
+    
+  
+  <link rel="alternate" type="application/atom+xml" title="Ghost-Author" href="https://ghost-author.github.io/ryuho/atom.xml">
+  <link rel="canonical" href="https://ghost-author.github.io/ryuho/2026/07/28/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E4%B9%9F%E9%9C%80%E8%A6%81%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7/">
+  <link rel="manifest" href="/ryuho/site.webmanifest">
+  <link rel="apple-touch-icon" href="/ryuho/images/avatar.png">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = saved || (prefersDark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="/ryuho/css/style.css">
+  <script src="/ryuho/js/main.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/ryuho/sw.js').catch(function () {});
+      });
+    }
+  </script>
+  
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"BlogPosting","headline":"为什么个人博客也需要可观测性","name":"为什么个人博客也需要可观测性","description":"从构建日志、审计结果、部署差异和维护信号出发，讨论个人静态博客如何建立不过度设计的工程可观测性。","url":"https://ghost-author.github.io/ryuho/2026/07/28/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E4%B9%9F%E9%9C%80%E8%A6%81%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7/","image":"https://ghost-author.github.io/ryuho/images/hero.jpg","keywords":"可观测性, 工程实践, Hexo, CI/CD, AI 工程, 系统设计","author":{"@type":"Person","name":"Ghost-Author"},"publisher":{"@type":"Person","name":"Ghost-Author"},"datePublished":"2026-07-28T03:00:00.000Z","dateModified":"2026-07-27T23:52:31.943Z"}
+  </script>
+</head>
+<body>
+  <div class="reading-progress" aria-hidden="true"></div>
+  <a class="skip-link" href="#content">跳到正文</a>
+  <header class="site-header">
+  
+  <div class="container header-inner">
+    <a class="logo" href="/ryuho/">
+      <span class="logo-dot"></span>
+      <span>Ghost-Author</span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="/ryuho/" >首页</a>
+      <a href="/ryuho/search/" >搜索</a>
+      <a href="/ryuho/series/" >专题</a>
+      <a href="/ryuho/projects/" >项目</a>
+      <a href="/ryuho/about/" >关于</a>
+      <a href="/ryuho/tags/" >标签</a>
+      <a href="/ryuho/categories/" >分类</a>
+      <a href="/ryuho/archives/" >归档</a>
+    </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换深色模式" aria-pressed="false">
+      <span aria-hidden="true" data-theme-icon>☾</span>
+    </button>
+  </div>
+</header>
+
+  <main class="container" id="content" tabindex="-1">
+    <article class="post post-layout">
+  
+  <header class="post-header">
+    <h1>为什么个人博客也需要可观测性</h1>
+    <div class="post-meta-line">
+      <time datetime="2026-07-28T03:00:00.000Z">2026-07-28</time>
+      <span>7 分钟阅读</span>
+      <span>3284 字</span>
+      
+    </div>
+  </header>
+  
+    <img class="post-hero" src="/ryuho/images/hero.jpg" alt="" width="1920" height="1080" loading="eager" decoding="async">
+  
+  
+    <div class="post-meta">
+      
+        <a class="tag" href="/ryuho/tags/%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7/">
+          <span class="tag-name">可观测性</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/">
+          <span class="tag-name">工程实践</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/Hexo/">
+          <span class="tag-name">Hexo</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/CI-CD/">
+          <span class="tag-name">CI/CD</span>
+        </a>
+      
+    </div>
+  
+  <div class="post-actions" aria-label="文章操作">
+    <button class="text-action" type="button" data-copy-link data-copy-text="复制链接" data-copied-text="已复制">复制链接</button>
+    <a class="text-action" href="/ryuho/archives/">查看归档</a>
+  </div>
+  <div class="post-body">
+    <div class="post-content">
+      <p>谈到可观测性，人们通常想到服务端指标、分布式追踪和告警平台。一个没有数据库、没有常驻进程的静态博客，看起来似乎没有什么需要观察。</p>
+<p>但静态只意味着运行时更简单，不意味着系统没有状态。源码、依赖、构建脚本、主题、生成产物、部署平台、缓存和外部配置共同决定最终页面。问题也不一定表现为服务器报错：错误链接、旧缓存、缺少搜索索引或错误 canonical 都可能在“站点还能打开”的情况下存在。</p>
+<p>这个博客没有搭建完整监控系统，而是把可观测性收敛为三个问题：现在生成了什么、它是否符合发布契约、两种部署环境是否保持一致。</p>
+<h2 id="先定义静态站点需要看见什么"><a href="#先定义静态站点需要看见什么" class="headerlink" title="先定义静态站点需要看见什么"></a>先定义静态站点需要看见什么</h2><p>可观测性不是日志越多越好。对当前博客，真正有用的信号主要来自四个阶段。</p>
+<h3 id="内容输入"><a href="#内容输入" class="headerlink" title="内容输入"></a>内容输入</h3><p>文章数量、front matter、正文长度和占位内容决定站点将要发布什么。这里的异常包括缺少 description、标签为空、封面未配置，或者只写了提纲就进入 <code>_posts</code>。</p>
+<h3 id="构建过程"><a href="#构建过程" class="headerlink" title="构建过程"></a>构建过程</h3><p>Hexo 是否成功渲染，生成器是否输出搜索、SEO 和 Service Worker 文件，图片优化是否执行，依赖是否可以从锁文件安装，都属于构建状态。</p>
+<h3 id="静态产物"><a href="#静态产物" class="headerlink" title="静态产物"></a>静态产物</h3><p>页面是否具有 canonical、description、分享元数据，链接与图片是否存在，Manifest 和 Sitemap 是否正确，是用户真正会接触到的发布结果。</p>
+<h3 id="部署差异"><a href="#部署差异" class="headerlink" title="部署差异"></a>部署差异</h3><p>GitHub Pages 使用 <code>/ryuho/</code>，Vercel 使用 <code>/</code>。相同源码在两种 URL 模型下是否都成立，是单次默认构建看不见的状态。</p>
+<p>这四类信号已经覆盖了博客维护中最确定的风险，不需要先引入通用监控平台。</p>
+<h2 id="构建日志是第一条时间线"><a href="#构建日志是第一条时间线" class="headerlink" title="构建日志是第一条时间线"></a>构建日志是第一条时间线</h2><p><code>package.json</code> 把发布检查组织成固定命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm run check<br>npm run check:vercel<br></code></pre></td></tr></table></figure>
+
+<p>第一条依次执行清理、GitHub Pages 构建、图片优化和站点审计；第二条使用 Vercel 配置重新清理和生成，再运行相同优化与审计。</p>
+<p>这组日志提供一条很朴素的事件时间线：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">旧产物清理<br>-&gt; Hexo 生成<br>-&gt; 图片处理<br>-&gt; 站点审计<br>-&gt; 成功或失败<br></code></pre></td></tr></table></figure>
+
+<p>如果失败发生在生成阶段，优先检查模板、Markdown 或 Hexo 配置；发生在图片处理阶段，关注源文件与 Sharp；发生在审计阶段，则根据具体规则定位产物契约。</p>
+<p>阶段清楚，比把所有命令塞进一个不透明脚本更容易判断问题位置。</p>
+<h2 id="审计输出应当同时提供状态与上下文"><a href="#审计输出应当同时提供状态与上下文" class="headerlink" title="审计输出应当同时提供状态与上下文"></a>审计输出应当同时提供状态与上下文</h2><p><code>tools/audit-site.js</code> 对每项规则输出 <code>PASS</code> 或 <code>FAIL</code>。失败时不仅设置非零退出码，还尽量附带 detail。</p>
+<p>例如：</p>
+<ul>
+<li>缺失的核心文件名；</li>
+<li>元数据不完整的 Markdown 路径；</li>
+<li>缺少 canonical 的 HTML；</li>
+<li>断开的“来源页面 -&gt; 目标 URL”；</li>
+<li>类型不匹配的 Manifest 图标；</li>
+<li>残留占位配置的页面。</li>
+</ul>
+<p>状态用于让自动化决定是否继续发布，上下文用于让维护者快速修复。只有状态没有上下文，会迫使人重新运行大量命令；只有长日志没有明确状态，CI 又无法可靠阻断。</p>
+<p>脚本结束时汇总检查数量和扫描到的 HTML 数量。这个数字不是业务指标，却能作为维护信号：文章与页面增加后，扫描范围应该随之增长；如果突然明显减少，可能是生成配置或内容路径发生了变化。</p>
+<p>这里不应把页面数量包装成增长成绩，它只描述本次构建产物。</p>
+<h2 id="双环境构建是一种差异观测"><a href="#双环境构建是一种差异观测" class="headerlink" title="双环境构建是一种差异观测"></a>双环境构建是一种差异观测</h2><p>单看 GitHub Pages 构建，写死 <code>/ryuho/</code> 的链接不会暴露；单看 Vercel，写死根路径也可能一直正常。</p>
+<p>因此两套检查的价值不只是“多部署一个备份”，而是用两个真实环境检验同一个路径模型：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">同一源码 + 不同 url/root + 同一审计契约<br></code></pre></td></tr></table></figure>
+
+<p>如果一边通过、一边失败，差异范围已经被大幅缩小，通常集中在：</p>
+<ul>
+<li>模板是否使用 <code>url_for</code> 或 <code>full_url_for</code>；</li>
+<li>robots、Manifest、Service Worker 是否按当前 root 生成；</li>
+<li>搜索索引和结果链接是否依赖相对路径；</li>
+<li>canonical 是否重复拼接子路径。</li>
+</ul>
+<p>这种对照比偶尔打开两个线上地址更可重复，也能在提交进入部署之前反馈。</p>
+<h2 id="GitHub-Actions-提供发布链路的可见状态"><a href="#GitHub-Actions-提供发布链路的可见状态" class="headerlink" title="GitHub Actions 提供发布链路的可见状态"></a>GitHub Actions 提供发布链路的可见状态</h2><p>GitHub Pages 工作流从 <code>main</code> 检出源码，使用固定 Node 版本和 <code>npm ci</code> 安装依赖，运行 <code>npm run check</code>，只有成功后才把 <code>public</code> 发布到 <code>gh-pages</code>。</p>
+<p>这条链路让一次发布至少具有以下可见状态：</p>
+<ul>
+<li>哪个提交触发；</li>
+<li>依赖是否按锁文件安装；</li>
+<li>构建和审计是否通过；</li>
+<li>发布步骤是否真正执行。</li>
+</ul>
+<p>它没有收集浏览量，也没有声称线上页面一定在所有浏览器可用。CI 观察的是“可发布性”，不是“真实使用效果”。明确观察范围，才能避免把绿色构建误解为全部正常。</p>
+<p>Vercel 连接的是 <code>main</code> 源码分支，而不是只包含产物的 <code>gh-pages</code>。生产分支本身也是可观测模型的一部分：看到 “No Output Directory named public” 时，需要先确认平台拿到的是不是包含 <code>package.json</code>、配置和源码的分支。</p>
+<h2 id="静态站运行时仍有盲区"><a href="#静态站运行时仍有盲区" class="headerlink" title="静态站运行时仍有盲区"></a>静态站运行时仍有盲区</h2><p>目前这套机制主要覆盖构建期，不等于完整的线上监控。</p>
+<p>它看不见：</p>
+<ul>
+<li>真实网络下页面加载耗时；</li>
+<li>某个地区能否访问外部评论脚本；</li>
+<li>Service Worker 已安装用户是否长期停留在旧缓存；</li>
+<li>外部链接何时失效；</li>
+<li>搜索词是否经常没有结果；</li>
+<li>不同浏览器中的实际交互异常。</li>
+</ul>
+<p>主题预留了 Plausible 分析配置，但只有配置 domain 时才加载脚本；评论也只在开关和 Giscus 配置有效时启用。当前仓库不能据此虚构访问数据或用户反馈。</p>
+<p>如果以后确实需要补足运行时视角，应从明确问题出发：</p>
+<ul>
+<li>需要了解内容发现，再考虑隐私友好的访问与入口统计；</li>
+<li>需要发现前端异常，再引入受控的错误上报；</li>
+<li>需要验证性能，再定期运行浏览器性能测试；</li>
+<li>需要检查外链，再增加低频、可重试的链接任务。</li>
+</ul>
+<p>没有使用决策的问题，不值得为了“看起来可观测”持续采集。</p>
+<h2 id="Service-Worker-为什么需要单独关注"><a href="#Service-Worker-为什么需要单独关注" class="headerlink" title="Service Worker 为什么需要单独关注"></a>Service Worker 为什么需要单独关注</h2><p>离线能力让静态站多了一层状态：浏览器中的缓存可能和当前部署不同步。</p>
+<p>当前 Service Worker 使用网络优先策略，核心路由和资源在安装时预缓存。构建审计可以确认 <code>sw.js</code> 存在、核心地址被写入、引用目标真实生成，却无法检查某个用户浏览器里正在控制页面的是哪个版本。</p>
+<p>这正好说明构建可观测性和运行时可观测性的边界。前者证明“本次发布包含正确缓存清单”，后者才回答“客户端何时更新到这份清单”。在没有真实问题之前，项目选择保持策略简单，而不是引入复杂的版本上报。</p>
+<h2 id="让信号可以直接推动行动"><a href="#让信号可以直接推动行动" class="headerlink" title="让信号可以直接推动行动"></a>让信号可以直接推动行动</h2><p>一个维护信号只有在对应明确动作时才有价值。</p>
+<table>
+<thead>
+<tr>
+<th>信号</th>
+<th>首要行动</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Hexo 生成失败</td>
+<td>检查 Markdown、模板和配置</td>
+</tr>
+<tr>
+<td>必需产物缺失</td>
+<td>检查对应 generator 或页面源文件</td>
+</tr>
+<tr>
+<td>内部链接失败</td>
+<td>修正 URL helper、root 或目标页面</td>
+</tr>
+<tr>
+<td>文章元数据失败</td>
+<td>补齐 front matter 与正文</td>
+</tr>
+<tr>
+<td>仅一套部署失败</td>
+<td>比较 url&#x2F;root 相关生成结果</td>
+</tr>
+<tr>
+<td>图片类型失败</td>
+<td>核对文件签名、扩展名和声明</td>
+</tr>
+<tr>
+<td>页面扫描数异常下降</td>
+<td>检查内容目录与生成配置</td>
+</tr>
+</tbody></table>
+<p>这张映射比增加一个复杂仪表盘更重要。观察不是为了收藏数据，而是为了缩短从异常到修复的路径。</p>
+<h2 id="如何验证可观测性本身"><a href="#如何验证可观测性本身" class="headerlink" title="如何验证可观测性本身"></a>如何验证可观测性本身</h2><p>维护工具也会失效。审计脚本如果只输出成功，从未验证失败路径，就可能在规则写错后提供虚假信心。</p>
+<p>新增检查时可以进行小范围故障注入：</p>
+<ul>
+<li>临时移除一个必需文件，确认规则失败；</li>
+<li>构造一个不存在的内部链接，确认 detail 包含来源和目标；</li>
+<li>让 description 为空，确认源码审计阻断；</li>
+<li>分别以 <code>/ryuho/</code> 和 <code>/</code> 生成，确认路径归一化结果一致。</li>
+</ul>
+<p>验证后恢复临时改动，保持仓库干净。这种方式不需要搭建完整测试框架，却能证明关键观察信号真的会在异常发生时出现。</p>
+<h2 id="可复用的结论"><a href="#可复用的结论" class="headerlink" title="可复用的结论"></a>可复用的结论</h2><p>个人博客需要的可观测性不必复制大型后端系统。可以从最小闭环开始：</p>
+<ol>
+<li>把内容、构建、产物和部署差异分成清楚阶段。</li>
+<li>为每个阶段保留稳定命令和明确退出码。</li>
+<li>失败信息同时输出状态、文件和原因。</li>
+<li>用所有真实部署配置重复验证同一契约。</li>
+<li>区分构建可发布性与线上真实体验。</li>
+<li>只采集能推动具体维护动作的信号。</li>
+</ol>
+<p>静态站点的优势不是“永远不会出问题”，而是状态相对有限、许多关系可以在发布前被完整检查。把这些状态看见，就已经是一套与项目规模相称的可观测性。</p>
+
+    </div>
+    
+      <aside class="post-toc" aria-label="文章目录">
+        <h3>目录</h3>
+        <div class="toc-inner">
+          <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%88%E5%AE%9A%E4%B9%89%E9%9D%99%E6%80%81%E7%AB%99%E7%82%B9%E9%9C%80%E8%A6%81%E7%9C%8B%E8%A7%81%E4%BB%80%E4%B9%88"><span class="toc-number">1.</span> <span class="toc-text">先定义静态站点需要看见什么</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AE%B9%E8%BE%93%E5%85%A5"><span class="toc-number">1.1.</span> <span class="toc-text">内容输入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E8%BF%87%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">构建过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E4%BA%A7%E7%89%A9"><span class="toc-number">1.3.</span> <span class="toc-text">静态产物</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E5%B7%AE%E5%BC%82"><span class="toc-number">1.4.</span> <span class="toc-text">部署差异</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E6%97%A5%E5%BF%97%E6%98%AF%E7%AC%AC%E4%B8%80%E6%9D%A1%E6%97%B6%E9%97%B4%E7%BA%BF"><span class="toc-number">2.</span> <span class="toc-text">构建日志是第一条时间线</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%A1%E8%AE%A1%E8%BE%93%E5%87%BA%E5%BA%94%E5%BD%93%E5%90%8C%E6%97%B6%E6%8F%90%E4%BE%9B%E7%8A%B6%E6%80%81%E4%B8%8E%E4%B8%8A%E4%B8%8B%E6%96%87"><span class="toc-number">3.</span> <span class="toc-text">审计输出应当同时提供状态与上下文</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8C%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA%E6%98%AF%E4%B8%80%E7%A7%8D%E5%B7%AE%E5%BC%82%E8%A7%82%E6%B5%8B"><span class="toc-number">4.</span> <span class="toc-text">双环境构建是一种差异观测</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GitHub-Actions-%E6%8F%90%E4%BE%9B%E5%8F%91%E5%B8%83%E9%93%BE%E8%B7%AF%E7%9A%84%E5%8F%AF%E8%A7%81%E7%8A%B6%E6%80%81"><span class="toc-number">5.</span> <span class="toc-text">GitHub Actions 提供发布链路的可见状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E7%AB%99%E8%BF%90%E8%A1%8C%E6%97%B6%E4%BB%8D%E6%9C%89%E7%9B%B2%E5%8C%BA"><span class="toc-number">6.</span> <span class="toc-text">静态站运行时仍有盲区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Service-Worker-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E5%8D%95%E7%8B%AC%E5%85%B3%E6%B3%A8"><span class="toc-number">7.</span> <span class="toc-text">Service Worker 为什么需要单独关注</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A9%E4%BF%A1%E5%8F%B7%E5%8F%AF%E4%BB%A5%E7%9B%B4%E6%8E%A5%E6%8E%A8%E5%8A%A8%E8%A1%8C%E5%8A%A8"><span class="toc-number">8.</span> <span class="toc-text">让信号可以直接推动行动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E9%AA%8C%E8%AF%81%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7%E6%9C%AC%E8%BA%AB"><span class="toc-number">9.</span> <span class="toc-text">如何验证可观测性本身</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E5%A4%8D%E7%94%A8%E7%9A%84%E7%BB%93%E8%AE%BA"><span class="toc-number">10.</span> <span class="toc-text">可复用的结论</span></a></li></ol>
+        </div>
+      </aside>
+    
+  </div>
+  
+    <section class="related-posts" aria-labelledby="related-title">
+      <div class="section-title">
+        <h2 id="related-title">相关推荐</h2>
+        <a href="/ryuho/archives/">完整归档</a>
+      </div>
+      <div class="related-grid">
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/28/%E4%BB%8E0%E5%88%B049%E9%A1%B9%E6%A3%80%E6%9F%A5-%E8%B4%A8%E9%87%8F%E9%97%A8%E7%A6%81%E6%98%AF%E6%80%8E%E6%A0%B7%E9%80%90%E6%AD%A5%E9%95%BF%E5%87%BA%E6%9D%A5%E7%9A%84/">
+              <span class="related-score">同主题</span>
+              <h3>从 0 到 49 项检查：质量门禁是怎样逐步长出来的</h3>
+              <p>基于本站当前 audit-site.js 的 49 项检查，解释静态博客质量门禁如何按产物、页面、内容、链接和双部署边界分层，而不虚构逐次提交历</p>
+              <time datetime="2026-07-28T05:00:00.000Z">2026-07-28</time>
+            </a>
+          </article>
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/27/%E5%90%8C%E4%B8%80%E5%A5%97Hexo%E6%BA%90%E7%A0%81%E5%A6%82%E4%BD%95%E5%90%8C%E6%97%B6%E9%83%A8%E7%BD%B2%E5%88%B0GitHub-Pages%E5%92%8CVercel/">
+              <span class="related-score">同主题</span>
+              <h3>同一套 Hexo 源码如何同时部署到 GitHub Pages 和 Vercel</h3>
+              <p>复盘一个 Hexo 博客如何处理 GitHub Pages 子路径与 Vercel 根路径差异，避免重复 root、错误 canonical、静</p>
+              <time datetime="2026-07-27T10:00:00.000Z">2026-07-27</time>
+            </a>
+          </article>
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/27/%E4%BB%8E%E8%83%BD%E6%9E%84%E5%BB%BA%E5%88%B0%E6%95%A2%E5%8F%91%E5%B8%83-%E4%B8%BAHexo%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B%E8%B4%A8%E9%87%8F%E9%97%A8%E7%A6%81/">
+              <span class="related-score">同主题</span>
+              <h3>从能构建到敢发布：为 Hexo 博客建立质量门禁</h3>
+              <p>复盘一个 Hexo 博客如何从“可以生成静态页面”演进到同时验证内容、链接、SEO、图片和双部署路径的 47 项发布门禁。</p>
+              <time datetime="2026-07-27T02:00:00.000Z">2026-07-27</time>
+            </a>
+          </article>
+        
+      </div>
+    </section>
+  
+  <footer class="post-end">
+    <div class="post-end-card">
+      <h2>读完这篇</h2>
+      <dl class="post-facts">
+        <div>
+          <dt>字数</dt>
+          <dd>3284</dd>
+        </div>
+        <div>
+          <dt>阅读</dt>
+          <dd>7 分钟</dd>
+        </div>
+        
+          <div>
+            <dt>分类</dt>
+            <dd>
+              
+                <a href="/ryuho/categories/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/">工程实践</a>
+              
+            </dd>
+          </div>
+        
+      </dl>
+      <div class="post-end-actions">
+        <a class="text-action" href="/ryuho/">回到首页</a>
+        <a class="text-action" href="/ryuho/tags/">浏览标签</a>
+      </div>
+    </div>
+  </footer>
+
+  
+
+  <nav class="post-nav" aria-label="文章翻页">
+    
+      <a href="/ryuho/2026/07/28/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E4%B8%8D%E4%BC%9A%E8%B6%8A%E5%86%99%E8%B6%8A%E4%B9%B1%E7%9A%84%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2%E4%BF%A1%E6%81%AF%E6%9E%B6%E6%9E%84/">上一篇：如何设计一个不会越写越乱的技术博客信息架构</a>
+    
+    
+      <a href="/ryuho/2026/07/28/%E4%B8%80%E4%B8%AA%E5%8F%AF%E9%9D%A0%E7%9A%84%E9%9D%99%E6%80%81%E7%AB%99%E6%90%9C%E7%B4%A2%E7%B4%A2%E5%BC%95%E5%BA%94%E8%AF%A5%E5%8C%85%E5%90%AB%E4%BB%80%E4%B9%88/">下一篇：一个可靠的静态站搜索索引应该包含什么</a>
+    
+  </nav>
+</article>
+
+  </main>
+  <footer class="site-footer">
+  <div class="container footer-inner">
+    <span>© 2026 Ghost-Author. 记录 AI 工程与长期思考。</span>
+    <span>
+      <a href="/ryuho/atom.xml">RSS</a>
+      
+        · <a href="mailto:liupggg@gmail.com">Email</a>
+      
+      · <a href="/ryuho/archives/">归档</a>
+    </span>
+  </div>
+</footer>
+
+  <button class="back-to-top" type="button" aria-label="回到顶部">↑</button>
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>没有后端，博客还能做到哪些产品化能力 | Ghost-Author</title>
+  <meta name="description" content="以这个 Hexo 博客的真实实现为例，梳理纯静态站点如何获得搜索、推荐、离线访问、订阅和质量保障，以及这些能力的明确边界。">
+  
+    <meta name="keywords" content="工程实践, Hexo, 静态站点, 产品设计, AI 工程, 系统设计">
+  
+  
+  <meta name="author" content="Ghost-Author">
+  <meta name="generator" content="Hexo">
+  <meta name="theme-color" content="#ff7bb2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#211827" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="没有后端，博客还能做到哪些产品化能力 | Ghost-Author">
+  <meta property="og:description" content="以这个 Hexo 博客的真实实现为例，梳理纯静态站点如何获得搜索、推荐、离线访问、订阅和质量保障，以及这些能力的明确边界。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://ghost-author.github.io/ryuho/2026/07/28/%E6%B2%A1%E6%9C%89%E5%90%8E%E7%AB%AF%E5%8D%9A%E5%AE%A2%E8%BF%98%E8%83%BD%E5%81%9A%E5%88%B0%E5%93%AA%E4%BA%9B%E4%BA%A7%E5%93%81%E5%8C%96%E8%83%BD%E5%8A%9B/">
+  <meta property="og:site_name" content="Ghost-Author">
+  
+    <meta property="og:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  
+    <meta name="twitter:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  
+    <meta property="article:published_time" content="2026-07-28T06:00:00.000Z">
+    
+      <meta property="article:modified_time" content="2026-07-27T23:52:31.943Z">
+    
+    
+      
+        <meta property="article:tag" content="工程实践">
+      
+        <meta property="article:tag" content="Hexo">
+      
+        <meta property="article:tag" content="静态站点">
+      
+        <meta property="article:tag" content="产品设计">
+      
+    
+  
+  <link rel="alternate" type="application/atom+xml" title="Ghost-Author" href="https://ghost-author.github.io/ryuho/atom.xml">
+  <link rel="canonical" href="https://ghost-author.github.io/ryuho/2026/07/28/%E6%B2%A1%E6%9C%89%E5%90%8E%E7%AB%AF%E5%8D%9A%E5%AE%A2%E8%BF%98%E8%83%BD%E5%81%9A%E5%88%B0%E5%93%AA%E4%BA%9B%E4%BA%A7%E5%93%81%E5%8C%96%E8%83%BD%E5%8A%9B/">
+  <link rel="manifest" href="/ryuho/site.webmanifest">
+  <link rel="apple-touch-icon" href="/ryuho/images/avatar.png">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = saved || (prefersDark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="/ryuho/css/style.css">
+  <script src="/ryuho/js/main.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/ryuho/sw.js').catch(function () {});
+      });
+    }
+  </script>
+  
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"BlogPosting","headline":"没有后端，博客还能做到哪些产品化能力","name":"没有后端，博客还能做到哪些产品化能力","description":"以这个 Hexo 博客的真实实现为例，梳理纯静态站点如何获得搜索、推荐、离线访问、订阅和质量保障，以及这些能力的明确边界。","url":"https://ghost-author.github.io/ryuho/2026/07/28/%E6%B2%A1%E6%9C%89%E5%90%8E%E7%AB%AF%E5%8D%9A%E5%AE%A2%E8%BF%98%E8%83%BD%E5%81%9A%E5%88%B0%E5%93%AA%E4%BA%9B%E4%BA%A7%E5%93%81%E5%8C%96%E8%83%BD%E5%8A%9B/","image":"https://ghost-author.github.io/ryuho/images/hero.jpg","keywords":"工程实践, Hexo, 静态站点, 产品设计, AI 工程, 系统设计","author":{"@type":"Person","name":"Ghost-Author"},"publisher":{"@type":"Person","name":"Ghost-Author"},"datePublished":"2026-07-28T06:00:00.000Z","dateModified":"2026-07-27T23:52:31.943Z"}
+  </script>
+</head>
+<body>
+  <div class="reading-progress" aria-hidden="true"></div>
+  <a class="skip-link" href="#content">跳到正文</a>
+  <header class="site-header">
+  
+  <div class="container header-inner">
+    <a class="logo" href="/ryuho/">
+      <span class="logo-dot"></span>
+      <span>Ghost-Author</span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="/ryuho/" >首页</a>
+      <a href="/ryuho/search/" >搜索</a>
+      <a href="/ryuho/series/" >专题</a>
+      <a href="/ryuho/projects/" >项目</a>
+      <a href="/ryuho/about/" >关于</a>
+      <a href="/ryuho/tags/" >标签</a>
+      <a href="/ryuho/categories/" >分类</a>
+      <a href="/ryuho/archives/" >归档</a>
+    </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换深色模式" aria-pressed="false">
+      <span aria-hidden="true" data-theme-icon>☾</span>
+    </button>
+  </div>
+</header>
+
+  <main class="container" id="content" tabindex="-1">
+    <article class="post post-layout">
+  
+  <header class="post-header">
+    <h1>没有后端，博客还能做到哪些产品化能力</h1>
+    <div class="post-meta-line">
+      <time datetime="2026-07-28T06:00:00.000Z">2026-07-28</time>
+      <span>7 分钟阅读</span>
+      <span>3066 字</span>
+      
+    </div>
+  </header>
+  
+    <img class="post-hero" src="/ryuho/images/hero.jpg" alt="" width="1920" height="1080" loading="eager" decoding="async">
+  
+  
+    <div class="post-meta">
+      
+        <a class="tag" href="/ryuho/tags/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/">
+          <span class="tag-name">工程实践</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/Hexo/">
+          <span class="tag-name">Hexo</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/%E9%9D%99%E6%80%81%E7%AB%99%E7%82%B9/">
+          <span class="tag-name">静态站点</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/">
+          <span class="tag-name">产品设计</span>
+        </a>
+      
+    </div>
+  
+  <div class="post-actions" aria-label="文章操作">
+    <button class="text-action" type="button" data-copy-link data-copy-text="复制链接" data-copied-text="已复制">复制链接</button>
+    <a class="text-action" href="/ryuho/archives/">查看归档</a>
+  </div>
+  <div class="post-body">
+    <div class="post-content">
+      <p>提到“产品化”，很容易让人想到账号系统、数据库、管理后台和一组持续运行的服务。按照这个标准，纯静态博客似乎只能展示几页 HTML，很难成为一个完整产品。</p>
+<p>但产品化真正要解决的，不是技术栈看起来有多重，而是读者能否顺利完成自己的任务：第一次访问时理解站点定位，面对多篇文章时找到需要的内容，读完一篇后继续探索，在网络不稳定时仍能打开已访问内容，最后还能通过 RSS 获知更新。</p>
+<p>这个 Hexo 博客没有应用后端，也没有数据库。构建阶段把 Markdown、配置和模板转换成完整站点，部署平台只负责分发静态文件。即使如此，它仍然可以提供一组有边界的产品能力。</p>
+<h2 id="先明确“没有后端”意味着什么"><a href="#先明确“没有后端”意味着什么" class="headerlink" title="先明确“没有后端”意味着什么"></a>先明确“没有后端”意味着什么</h2><p>这里的静态并不是“没有程序”，而是把计算时机从请求阶段移到了构建阶段。</p>
+<p>文章列表、标签分类、搜索索引、相关推荐、sitemap、manifest 和 service worker 都由 Hexo 在构建时生成。浏览器得到的是已经准备好的 HTML、CSS、JavaScript 和 JSON，不需要每次请求都查询服务端。</p>
+<p>这个模型有三个直接结果：</p>
+<ul>
+<li>内容发布必须重新构建；</li>
+<li>所有读者共享同一份公开内容；</li>
+<li>需要写入服务端的状态不能凭空出现。</li>
+</ul>
+<p>因此，静态站适合做内容发现、阅读增强和离线回退，不适合假装拥有登录、私有数据、实时协作或可靠的服务端统计。先承认边界，后面的产品设计才不会失真。</p>
+<h2 id="能力一：让读者快速理解站点"><a href="#能力一：让读者快速理解站点" class="headerlink" title="能力一：让读者快速理解站点"></a>能力一：让读者快速理解站点</h2><p>首页不是文章文件的简单集合，而是一个导航界面。</p>
+<p>当前主题会从站点配置和文章集合中生成博客定位、最新文章、专题路径、标签、分类、最近更新与推荐阅读。文章数量、标签数量和分类数量来自 Hexo 的 <code>site</code> 数据，不需要单独维护。</p>
+<p>这类能力看起来只是展示，但它解决了产品的第一个问题：读者进入站点后，能否判断“这里有没有我需要的内容”。专题页进一步把离散文章组织成阅读路径，让访问者不必只按发布日期倒序浏览。</p>
+<p>这种信息架构完全可以在构建期完成，因为文章之间的关系在发布时已经确定。</p>
+<h2 id="能力二：不依赖外部服务的全文搜索"><a href="#能力二：不依赖外部服务的全文搜索" class="headerlink" title="能力二：不依赖外部服务的全文搜索"></a>能力二：不依赖外部服务的全文搜索</h2><p>仓库中的 <code>scripts/search-index.js</code> 会遍历全部文章，提取标题、正文、摘要、日期、标签、分类和 URL，生成 <code>search-index.json</code>。</p>
+<p>浏览器加载这个本地索引后即可完成检索。首页还提供轻量筛选，根据标题、摘要和标签即时隐藏不匹配的文章卡片。整个过程不请求搜索 API，也不依赖 unpkg 或 jsDelivr 上的搜索库。</p>
+<p>这种方案的优点很清楚：</p>
+<ul>
+<li>搜索能力与站点一起部署；</li>
+<li>没有外部 CDN 可用性风险；</li>
+<li>GitHub Pages 和 Vercel 都能使用同一份逻辑；</li>
+<li>搜索内容和已发布文章天然同步。</li>
+</ul>
+<p>它也有边界。索引会随文章增加而变大，简单匹配不理解复杂语义，也不会记录热门查询。对当前内容规模，这种实现足够直接；如果未来索引体积或检索质量真的成为问题，再引入分片、分词或托管搜索才有依据。</p>
+<h2 id="能力三：在文章末尾提供连续阅读"><a href="#能力三：在文章末尾提供连续阅读" class="headerlink" title="能力三：在文章末尾提供连续阅读"></a>能力三：在文章末尾提供连续阅读</h2><p>相关文章推荐也不一定需要在线推荐服务。</p>
+<p>当前主题在构建文章页时比较元数据：共享标签每个增加权重，共享分类也增加权重，同分时优先较新的文章。如果没有主题交集，则退化为最近更新，并明确显示“最近更新”而不是伪装成精准推荐。</p>
+<p>这里没有用户画像，也没有行为追踪。推荐回答的是“内容之间是否相关”，不是“某位读者最可能点击什么”。</p>
+<p>这是一种适合个人博客的产品化取舍：用可解释的规则降低连续阅读成本，同时不制造算法能力的幻觉。标签和分类一旦认真维护，就可以同时服务归档、搜索、分享元数据和推荐。</p>
+<h2 id="能力四：提供有限但诚实的离线韧性"><a href="#能力四：提供有限但诚实的离线韧性" class="headerlink" title="能力四：提供有限但诚实的离线韧性"></a>能力四：提供有限但诚实的离线韧性</h2><p><code>scripts/service-worker.js</code> 会预缓存核心入口、搜索索引、静态资源和最近文章，并对同源 GET 请求采用 network-first 策略。</p>
+<p>正常联网时，浏览器优先获取最新内容；请求失败时，再尝试读取缓存。这样既不把旧文章长期锁在缓存里，也能让已经访问或预缓存的页面在临时断网时继续打开。</p>
+<p>Web App Manifest 同样由当前 <code>url</code> 和 <code>root</code> 生成，包含应用名称、启动路径、作用域和图标。GitHub Pages 使用 <code>/ryuho/</code>，Vercel 使用 <code>/</code>，构建器会为两种部署生成各自正确的路径。</p>
+<p>这里的“离线”不是完整离线应用。没有缓存过的旧文章仍可能无法访问，缓存更新也受浏览器策略影响。把它称为网络失败时的回退能力，比宣称“全站离线”更准确。</p>
+<h2 id="能力五：把阅读细节做成稳定交互"><a href="#能力五：把阅读细节做成稳定交互" class="headerlink" title="能力五：把阅读细节做成稳定交互"></a>能力五：把阅读细节做成稳定交互</h2><p>主题的前端脚本提供了深浅色切换、阅读进度、回到顶部、文章链接复制、代码复制、标题锚点、表格横向滚动和外链安全处理。布局还提供目录、上一篇与下一篇、文章字数和阅读时间。</p>
+<p>这些功能不需要后端，因为状态要么来自当前文档，要么只保存在浏览器本地。例如主题偏好写入 <code>localStorage</code>，阅读进度根据页面滚动位置计算，复制按钮直接操作当前页面内容。</p>
+<p>产品化不一定意味着增加大功能。对阅读产品来说，代码能否方便复制、移动端表格是否溢出、键盘焦点是否可见，往往比再加一个动态模块更有价值。</p>
+<h2 id="能力六：订阅、分享与搜索引擎发现"><a href="#能力六：订阅、分享与搜索引擎发现" class="headerlink" title="能力六：订阅、分享与搜索引擎发现"></a>能力六：订阅、分享与搜索引擎发现</h2><p>Hexo 可以在构建时生成 Atom Feed 和 sitemap。主题还输出 canonical、Open Graph、Twitter Card、文章标签以及 JSON-LD 结构化数据；<code>scripts/seo-files.js</code> 根据部署配置生成 <code>robots.txt</code> 和 manifest。</p>
+<p>这组能力让同一篇内容能被三类入口使用：</p>
+<ul>
+<li>RSS 阅读器通过 Atom 获知更新；</li>
+<li>搜索引擎通过 sitemap 和页面元数据理解站点；</li>
+<li>社交平台通过分享元数据获得标题、摘要和封面。</li>
+</ul>
+<p>它们不提供实时互动，却显著提升内容被发现和再次访问的可能性。对于以公开文章为核心的产品，这正是静态生成擅长的部分。</p>
+<h2 id="能力七：把“可发布”也当作产品能力"><a href="#能力七：把“可发布”也当作产品能力" class="headerlink" title="能力七：把“可发布”也当作产品能力"></a>能力七：把“可发布”也当作产品能力</h2><p>没有后端不代表不需要可靠性。</p>
+<p>仓库的 <code>tools/audit-site.js</code> 会检查关键文件、SEO 标签、内部链接、sitemap 目标、图片尺寸、文章元数据、相关推荐、脚手架和模板泄漏。<code>npm run check</code> 与 <code>npm run check:vercel</code> 分别验证 GitHub Pages 子路径和 Vercel 根路径。</p>
+<p>此外，图片优化只处理 <code>public</code> 构建产物：保留源码图片，压缩写入临时文件，并且只有体积确实下降时才替换结果。</p>
+<p>读者看不到这些工具，但它们直接决定了搜索入口是否失效、图片是否拖慢页面、链接是否能打开。发布质量本身就是产品体验的一部分。</p>
+<h2 id="哪些能力不应该硬塞进静态站"><a href="#哪些能力不应该硬塞进静态站" class="headerlink" title="哪些能力不应该硬塞进静态站"></a>哪些能力不应该硬塞进静态站</h2><p>维护策略已经明确排除了没有真实场景的评论、社交和统计组件，也避免为了装饰引入外部依赖。</p>
+<p>如果要做账号、私密文章、跨设备同步、可靠评论、支付、实时通知或服务端分析，就应该承认它们需要后端或成熟托管服务。可以使用第三方能力，但要同时评估隐私、可用性、成本和迁移风险。</p>
+<p>一个静态站最危险的方向，不是能力少，而是为了显得完整，把一堆无人使用、无法验证的组件拼到页面上。</p>
+<h2 id="如何判断下一项能力值不值得做"><a href="#如何判断下一项能力值不值得做" class="headerlink" title="如何判断下一项能力值不值得做"></a>如何判断下一项能力值不值得做</h2><p>可以用四个问题做筛选：</p>
+<ol>
+<li>它解决的是读者真实任务，还是页面看起来不够热闹？</li>
+<li>数据能否在构建期确定，或者只在本地浏览器保存？</li>
+<li>失败时是否会破坏核心阅读流程？</li>
+<li>能否进入现有双构建与审计流程？</li>
+</ol>
+<p>搜索、推荐、专题和 RSS 都能通过这组判断；凭空增加登录入口或空评论区则不能。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>没有后端的博客仍然可以成为一个完整的内容产品：它能帮助读者理解、发现、搜索、连续阅读、订阅和有限离线访问，也能通过自动审计维持发布质量。</p>
+<p>真正的限制不是“静态”二字，而是不能处理需要可信服务端状态的场景。只要把构建期、浏览器端和服务端的责任分清，静态架构就不是简陋版本，而是一种成本低、边界明确、很适合长期技术写作的选择。</p>
+
+    </div>
+    
+      <aside class="post-toc" aria-label="文章目录">
+        <h3>目录</h3>
+        <div class="toc-inner">
+          <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%88%E6%98%8E%E7%A1%AE%E2%80%9C%E6%B2%A1%E6%9C%89%E5%90%8E%E7%AB%AF%E2%80%9D%E6%84%8F%E5%91%B3%E7%9D%80%E4%BB%80%E4%B9%88"><span class="toc-number">1.</span> <span class="toc-text">先明确“没有后端”意味着什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%BD%E5%8A%9B%E4%B8%80%EF%BC%9A%E8%AE%A9%E8%AF%BB%E8%80%85%E5%BF%AB%E9%80%9F%E7%90%86%E8%A7%A3%E7%AB%99%E7%82%B9"><span class="toc-number">2.</span> <span class="toc-text">能力一：让读者快速理解站点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%BD%E5%8A%9B%E4%BA%8C%EF%BC%9A%E4%B8%8D%E4%BE%9D%E8%B5%96%E5%A4%96%E9%83%A8%E6%9C%8D%E5%8A%A1%E7%9A%84%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2"><span class="toc-number">3.</span> <span class="toc-text">能力二：不依赖外部服务的全文搜索</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%BD%E5%8A%9B%E4%B8%89%EF%BC%9A%E5%9C%A8%E6%96%87%E7%AB%A0%E6%9C%AB%E5%B0%BE%E6%8F%90%E4%BE%9B%E8%BF%9E%E7%BB%AD%E9%98%85%E8%AF%BB"><span class="toc-number">4.</span> <span class="toc-text">能力三：在文章末尾提供连续阅读</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%BD%E5%8A%9B%E5%9B%9B%EF%BC%9A%E6%8F%90%E4%BE%9B%E6%9C%89%E9%99%90%E4%BD%86%E8%AF%9A%E5%AE%9E%E7%9A%84%E7%A6%BB%E7%BA%BF%E9%9F%A7%E6%80%A7"><span class="toc-number">5.</span> <span class="toc-text">能力四：提供有限但诚实的离线韧性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%BD%E5%8A%9B%E4%BA%94%EF%BC%9A%E6%8A%8A%E9%98%85%E8%AF%BB%E7%BB%86%E8%8A%82%E5%81%9A%E6%88%90%E7%A8%B3%E5%AE%9A%E4%BA%A4%E4%BA%92"><span class="toc-number">6.</span> <span class="toc-text">能力五：把阅读细节做成稳定交互</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%BD%E5%8A%9B%E5%85%AD%EF%BC%9A%E8%AE%A2%E9%98%85%E3%80%81%E5%88%86%E4%BA%AB%E4%B8%8E%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E%E5%8F%91%E7%8E%B0"><span class="toc-number">7.</span> <span class="toc-text">能力六：订阅、分享与搜索引擎发现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%BD%E5%8A%9B%E4%B8%83%EF%BC%9A%E6%8A%8A%E2%80%9C%E5%8F%AF%E5%8F%91%E5%B8%83%E2%80%9D%E4%B9%9F%E5%BD%93%E4%BD%9C%E4%BA%A7%E5%93%81%E8%83%BD%E5%8A%9B"><span class="toc-number">8.</span> <span class="toc-text">能力七：把“可发布”也当作产品能力</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%AA%E4%BA%9B%E8%83%BD%E5%8A%9B%E4%B8%8D%E5%BA%94%E8%AF%A5%E7%A1%AC%E5%A1%9E%E8%BF%9B%E9%9D%99%E6%80%81%E7%AB%99"><span class="toc-number">9.</span> <span class="toc-text">哪些能力不应该硬塞进静态站</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E4%B8%8B%E4%B8%80%E9%A1%B9%E8%83%BD%E5%8A%9B%E5%80%BC%E4%B8%8D%E5%80%BC%E5%BE%97%E5%81%9A"><span class="toc-number">10.</span> <span class="toc-text">如何判断下一项能力值不值得做</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">11.</span> <span class="toc-text">结论</span></a></li></ol>
+        </div>
+      </aside>
+    
+  </div>
+  
+    <section class="related-posts" aria-labelledby="related-title">
+      <div class="section-title">
+        <h2 id="related-title">相关推荐</h2>
+        <a href="/ryuho/archives/">完整归档</a>
+      </div>
+      <div class="related-grid">
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/28/%E9%9D%99%E6%80%81%E7%AB%99%E7%82%B9%E7%9A%84SEO%E4%B8%8D%E5%8F%AA%E6%98%AF%E5%8A%A0%E5%87%A0%E4%B8%AAmeta%E6%A0%87%E7%AD%BE/">
+              <span class="related-score">同主题</span>
+              <h3>静态站点的 SEO，不只是加几个 meta 标签</h3>
+              <p>以本站布局、sitemap、robots、RSS、结构化数据和双部署路径为依据，复盘静态博客如何建立从页面语义到可抓取性的完整 SEO 链路。</p>
+              <time datetime="2026-07-28T04:30:00.000Z">2026-07-28</time>
+            </a>
+          </article>
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/28/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BB%B4%E6%8A%A4%E4%B8%80%E6%AE%B5%E6%97%B6%E9%97%B4%E5%90%8E%E6%88%91%E4%BF%9D%E7%95%99%E4%BA%86%E4%BB%80%E4%B9%88%E5%88%A0%E6%8E%89%E4%BA%86%E4%BB%80%E4%B9%88/">
+              <span class="related-score">同主题</span>
+              <h3>个人博客维护一段时间后，我保留了什么、删掉了什么</h3>
+              <p>基于当前仓库可以验证的配置、主题和维护策略，复盘这个博客保留的核心能力、已经移除或关闭的内容，以及背后的范围判断。</p>
+              <time datetime="2026-07-28T08:00:00.000Z">2026-07-28</time>
+            </a>
+          </article>
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/28/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2%E6%9C%80%E5%AE%B9%E6%98%93%E7%A7%AF%E7%B4%AF%E7%9A%84%E4%BA%94%E7%B1%BB%E7%BB%B4%E6%8A%A4%E5%80%BA%E5%8A%A1/">
+              <span class="related-score">同主题</span>
+              <h3>技术博客最容易积累的五类维护债务</h3>
+              <p>从内容、链接、依赖、构建配置和界面功能五个方面，分析技术博客会如何积累维护债务，以及如何用现有 Hexo 工程的规则持续偿还。</p>
+              <time datetime="2026-07-28T07:00:00.000Z">2026-07-28</time>
+            </a>
+          </article>
+        
+      </div>
+    </section>
+  
+  <footer class="post-end">
+    <div class="post-end-card">
+      <h2>读完这篇</h2>
+      <dl class="post-facts">
+        <div>
+          <dt>字数</dt>
+          <dd>3066</dd>
+        </div>
+        <div>
+          <dt>阅读</dt>
+          <dd>7 分钟</dd>
+        </div>
+        
+          <div>
+            <dt>分类</dt>
+            <dd>
+              
+                <a href="/ryuho/categories/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/">工程实践</a>
+              
+            </dd>
+          </div>
+        
+      </dl>
+      <div class="post-end-actions">
+        <a class="text-action" href="/ryuho/">回到首页</a>
+        <a class="text-action" href="/ryuho/tags/">浏览标签</a>
+      </div>
+    </div>
+  </footer>
+
+  
+
+  <nav class="post-nav" aria-label="文章翻页">
+    
+      <a href="/ryuho/2026/07/28/%E4%B8%BA%E4%BB%80%E4%B9%88%E6%88%91%E6%B2%A1%E6%9C%89%E7%9B%B4%E6%8E%A5%E4%BD%BF%E7%94%A8%E6%88%90%E7%86%9FHexo%E4%B8%BB%E9%A2%98/">上一篇：为什么我没有直接使用成熟 Hexo 主题</a>
+    
+    
+      <a href="/ryuho/2026/07/28/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE%E5%A6%82%E4%BD%95%E5%86%99%E5%87%BA%E5%8F%AF%E4%BF%A1%E7%9A%84%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/">下一篇：个人项目如何写出可信的项目复盘</a>
+    
+  </nav>
+</article>
+
+  </main>
+  <footer class="site-footer">
+  <div class="container footer-inner">
+    <span>© 2026 Ghost-Author. 记录 AI 工程与长期思考。</span>
+    <span>
+      <a href="/ryuho/atom.xml">RSS</a>
+      
+        · <a href="mailto:liupggg@gmail.com">Email</a>
+      
+      · <a href="/ryuho/archives/">归档</a>
+    </span>
+  </div>
+</footer>
+
+  <button class="back-to-top" type="button" aria-label="回到顶部">↑</button>
+</body>
+</html>

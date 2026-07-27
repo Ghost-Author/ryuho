@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>从 0 到 49 项检查：质量门禁是怎样逐步长出来的 | Ghost-Author</title>
+  <meta name="description" content="基于本站当前 audit-site.js 的 49 项检查，解释静态博客质量门禁如何按产物、页面、内容、链接和双部署边界分层，而不虚构逐次提交历史。">
+  
+    <meta name="keywords" content="工程实践, Hexo, CI/CD, 质量工程, AI 工程, 系统设计">
+  
+  
+  <meta name="author" content="Ghost-Author">
+  <meta name="generator" content="Hexo">
+  <meta name="theme-color" content="#ff7bb2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#211827" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="从 0 到 49 项检查：质量门禁是怎样逐步长出来的 | Ghost-Author">
+  <meta property="og:description" content="基于本站当前 audit-site.js 的 49 项检查，解释静态博客质量门禁如何按产物、页面、内容、链接和双部署边界分层，而不虚构逐次提交历史。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://ghost-author.github.io/ryuho/2026/07/28/%E4%BB%8E0%E5%88%B049%E9%A1%B9%E6%A3%80%E6%9F%A5-%E8%B4%A8%E9%87%8F%E9%97%A8%E7%A6%81%E6%98%AF%E6%80%8E%E6%A0%B7%E9%80%90%E6%AD%A5%E9%95%BF%E5%87%BA%E6%9D%A5%E7%9A%84/">
+  <meta property="og:site_name" content="Ghost-Author">
+  
+    <meta property="og:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  
+    <meta name="twitter:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  
+    <meta property="article:published_time" content="2026-07-28T05:00:00.000Z">
+    
+      <meta property="article:modified_time" content="2026-07-27T23:52:31.943Z">
+    
+    
+      
+        <meta property="article:tag" content="工程实践">
+      
+        <meta property="article:tag" content="Hexo">
+      
+        <meta property="article:tag" content="CI/CD">
+      
+        <meta property="article:tag" content="质量工程">
+      
+    
+  
+  <link rel="alternate" type="application/atom+xml" title="Ghost-Author" href="https://ghost-author.github.io/ryuho/atom.xml">
+  <link rel="canonical" href="https://ghost-author.github.io/ryuho/2026/07/28/%E4%BB%8E0%E5%88%B049%E9%A1%B9%E6%A3%80%E6%9F%A5-%E8%B4%A8%E9%87%8F%E9%97%A8%E7%A6%81%E6%98%AF%E6%80%8E%E6%A0%B7%E9%80%90%E6%AD%A5%E9%95%BF%E5%87%BA%E6%9D%A5%E7%9A%84/">
+  <link rel="manifest" href="/ryuho/site.webmanifest">
+  <link rel="apple-touch-icon" href="/ryuho/images/avatar.png">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = saved || (prefersDark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="/ryuho/css/style.css">
+  <script src="/ryuho/js/main.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/ryuho/sw.js').catch(function () {});
+      });
+    }
+  </script>
+  
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"BlogPosting","headline":"从 0 到 49 项检查：质量门禁是怎样逐步长出来的","name":"从 0 到 49 项检查：质量门禁是怎样逐步长出来的","description":"基于本站当前 audit-site.js 的 49 项检查，解释静态博客质量门禁如何按产物、页面、内容、链接和双部署边界分层，而不虚构逐次提交历史。","url":"https://ghost-author.github.io/ryuho/2026/07/28/%E4%BB%8E0%E5%88%B049%E9%A1%B9%E6%A3%80%E6%9F%A5-%E8%B4%A8%E9%87%8F%E9%97%A8%E7%A6%81%E6%98%AF%E6%80%8E%E6%A0%B7%E9%80%90%E6%AD%A5%E9%95%BF%E5%87%BA%E6%9D%A5%E7%9A%84/","image":"https://ghost-author.github.io/ryuho/images/hero.jpg","keywords":"工程实践, Hexo, CI/CD, 质量工程, AI 工程, 系统设计","author":{"@type":"Person","name":"Ghost-Author"},"publisher":{"@type":"Person","name":"Ghost-Author"},"datePublished":"2026-07-28T05:00:00.000Z","dateModified":"2026-07-27T23:52:31.943Z"}
+  </script>
+</head>
+<body>
+  <div class="reading-progress" aria-hidden="true"></div>
+  <a class="skip-link" href="#content">跳到正文</a>
+  <header class="site-header">
+  
+  <div class="container header-inner">
+    <a class="logo" href="/ryuho/">
+      <span class="logo-dot"></span>
+      <span>Ghost-Author</span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="/ryuho/" >首页</a>
+      <a href="/ryuho/search/" >搜索</a>
+      <a href="/ryuho/series/" >专题</a>
+      <a href="/ryuho/projects/" >项目</a>
+      <a href="/ryuho/about/" >关于</a>
+      <a href="/ryuho/tags/" >标签</a>
+      <a href="/ryuho/categories/" >分类</a>
+      <a href="/ryuho/archives/" >归档</a>
+    </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换深色模式" aria-pressed="false">
+      <span aria-hidden="true" data-theme-icon>☾</span>
+    </button>
+  </div>
+</header>
+
+  <main class="container" id="content" tabindex="-1">
+    <article class="post post-layout">
+  
+  <header class="post-header">
+    <h1>从 0 到 49 项检查：质量门禁是怎样逐步长出来的</h1>
+    <div class="post-meta-line">
+      <time datetime="2026-07-28T05:00:00.000Z">2026-07-28</time>
+      <span>7 分钟阅读</span>
+      <span>3318 字</span>
+      
+    </div>
+  </header>
+  
+    <img class="post-hero" src="/ryuho/images/hero.jpg" alt="" width="1920" height="1080" loading="eager" decoding="async">
+  
+  
+    <div class="post-meta">
+      
+        <a class="tag" href="/ryuho/tags/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/">
+          <span class="tag-name">工程实践</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/Hexo/">
+          <span class="tag-name">Hexo</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/CI-CD/">
+          <span class="tag-name">CI/CD</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/%E8%B4%A8%E9%87%8F%E5%B7%A5%E7%A8%8B/">
+          <span class="tag-name">质量工程</span>
+        </a>
+      
+    </div>
+  
+  <div class="post-actions" aria-label="文章操作">
+    <button class="text-action" type="button" data-copy-link data-copy-text="复制链接" data-copied-text="已复制">复制链接</button>
+    <a class="text-action" href="/ryuho/archives/">查看归档</a>
+  </div>
+  <div class="post-body">
+    <div class="post-content">
+      <p>“这个项目有 49 项检查”听起来像一个结果，但数字本身没有多少意义。真正重要的是：为什么要检查这些事情，它们之间如何分层，以及新增规则时怎样避免把审计脚本变成一堆难以维护的断言。</p>
+<p>需要先说明边界：本文依据的是本站当前 <code>tools/audit-site.js</code> 的实现和现有复盘，讨论这套规则所体现的演进逻辑。仓库没有为每一项检查保存一份逐次加入的完整叙事，因此这里不会声称“第几次提交增加了第几项”，也不会为数字编造时间线。</p>
+<p>从工程上看，当前 49 项检查可以理解为从“有产物”到“敢发布”的五层质量问题。</p>
+<h2 id="背景：Hexo-只负责生成，不负责证明可发布"><a href="#背景：Hexo-只负责生成，不负责证明可发布" class="headerlink" title="背景：Hexo 只负责生成，不负责证明可发布"></a>背景：Hexo 只负责生成，不负责证明可发布</h2><p>最初可用的判断往往只有一个：<code>hexo generate</code> 是否以成功状态退出。</p>
+<p>这能证明模板大体可执行，却不能证明：</p>
+<ul>
+<li>首页、搜索索引或专题页一定生成。</li>
+<li>页面没有泄漏 <code>undefined</code> 或空模板文案。</li>
+<li>canonical、description 和分享元数据完整。</li>
+<li>内部链接、图片与 sitemap 目标真实存在。</li>
+<li>GitHub Pages 子路径与 Vercel 根路径都正确。</li>
+<li>文章源文件不是只有标题的提纲。</li>
+</ul>
+<p>这些都是确定性问题，也都适合自动检查。质量门禁的价值，是把“构建完成”拆成一组可以失败、可以定位、可以重复验证的发布条件。</p>
+<h2 id="第一层：15-个必需产物先回答“有没有”"><a href="#第一层：15-个必需产物先回答“有没有”" class="headerlink" title="第一层：15 个必需产物先回答“有没有”"></a>第一层：15 个必需产物先回答“有没有”</h2><p>当前脚本把 15 个文件或页面列为必需产物，并逐项计入检查：</p>
+<ul>
+<li>首页、404、RSS、sitemap、robots、manifest 和 service worker</li>
+<li>专题总页、AI 工程专题、博客工程化专题</li>
+<li>项目页、搜索页和搜索索引</li>
+<li>主题 CSS 与 JavaScript</li>
+</ul>
+<p>这一层最朴素，却是后续所有行为检查的前提。生成器没有加载、页面被误删、输出路径变化或构建流程漏掉资源时，错误会直接指向具体文件。</p>
+<p>为什么每个文件单独算一项，而不是合并成“核心文件都存在”？因为失败输出需要可定位。审计的目标不是获得一个漂亮数字，而是让维护者看到 <code>required file: search-index.json</code> 就能立刻缩小问题范围。</p>
+<h2 id="第二层：入口与核心能力回答“能不能用”"><a href="#第二层：入口与核心能力回答“能不能用”" class="headerlink" title="第二层：入口与核心能力回答“能不能用”"></a>第二层：入口与核心能力回答“能不能用”</h2><p>文件存在不等于能力成立。首页可能没有项目入口，搜索页可能请求了错误索引路径，service worker 文件可能存在却没有预缓存核心路由。</p>
+<p>因此当前脚本继续验证：</p>
+<ul>
+<li>首页具备核心 SEO 标签，并链接 manifest、项目页和两条专题。</li>
+<li>首页注册 service worker。</li>
+<li>404 页面包含 <code>noindex, follow</code>。</li>
+<li>搜索页用相对路径读取 <code>../search-index.json</code>。</li>
+<li>service worker 包含专题、项目、搜索索引、CSS 与 JavaScript 等核心预缓存目标。</li>
+<li>robots 包含 sitemap，且地址没有重复 <code>/ryuho/ryuho/</code>。</li>
+<li>manifest 具有名称、短名称、起始地址、图标和 maskable 图标。</li>
+<li>sitemap 至少包含一个 URL。</li>
+</ul>
+<p>这些规则体现了门禁从“文件级”走向“行为契约”。它们没有启动浏览器模拟全部交互，而是检查当前实现中最关键、最容易发生回归的输出信号。</p>
+<p>例如搜索采用相对索引路径，是为了同时适配 <code>/ryuho/search/</code> 和 <code>/search/</code>。审计检查的不是某个代码风格，而是双部署成立所依赖的约束。</p>
+<h2 id="第三层：源码与渲染结果回答“内容是否可发布”"><a href="#第三层：源码与渲染结果回答“内容是否可发布”" class="headerlink" title="第三层：源码与渲染结果回答“内容是否可发布”"></a>第三层：源码与渲染结果回答“内容是否可发布”</h2><p>静态博客的缺陷不只来自模板。文章可能缺少摘要、标签和分类，脚手架也可能不断生成空字段。</p>
+<p>当前审计会解析 <code>source/_posts</code> 的 front matter，检查每篇文章至少包含：</p>
+<ul>
+<li>title 与 date</li>
+<li>长度达到项目最低要求的 description</li>
+<li>至少两个 tags</li>
+<li>至少一个 category</li>
+<li>cover</li>
+<li>去除代码和标签后不是过短的正文</li>
+</ul>
+<p>它还检查 starter 文件名已经移除，scaffold 不会继续产生空 description、cover、tags 或 categories。这样规则不仅拦截当前坏内容，也约束未来内容的起点。</p>
+<p>渲染结果方面，脚本扫描所有 HTML，阻止 <code>undefined</code>、<code>null</code>、默认 Hexo 欢迎语和空日记字段泄漏。文章页必须包含相关推荐，以及 <code>article:tag</code> 和 Twitter 分享图片。HTML 还不能引用临时 CDN 地址。</p>
+<p>这些检查刻意只判断机器能确定的底线。它们不能判断观点是否新颖，也不能证明文章真的有 1800 字就一定值得阅读。内容洞察仍由作者负责，门禁只阻止明显不完整的页面上线。</p>
+<h2 id="第四层：全站一致性回答“承诺是否真实”"><a href="#第四层：全站一致性回答“承诺是否真实”" class="headerlink" title="第四层：全站一致性回答“承诺是否真实”"></a>第四层：全站一致性回答“承诺是否真实”</h2><p>SEO 标签和链接最容易出现“字符串存在，但目标错误”的假通过。于是审计在遍历 <code>public</code> 时建立文件与目录集合，再检查全部 HTML。</p>
+<p>当前全站检查包括：</p>
+<ul>
+<li>非 404 页面都有 canonical。</li>
+<li>所有页面都有 description。</li>
+<li>非 404 页面都有 Open Graph URL。</li>
+<li>manifest 图标真实存在，声明类型与文件签名一致。</li>
+<li>HTML 图片声明 width 和 height。</li>
+<li>首页“阅读最新文章”指向真实文章，而不是归档兜底。</li>
+<li>站点具有工程实践与 AI 写作信号。</li>
+<li>评论配置没有占位 ID。</li>
+<li>所有内部链接和资源都能解析。</li>
+<li>sitemap 中列出的目标都存在。</li>
+</ul>
+<p>这里的“一项检查”可能扫描很多页面。例如“html pages have canonical URLs”只计一项，但会汇总所有缺少 canonical 的文件。因此 49 不是页面数乘规则数，也不是测试用例执行次数，而是当前脚本最终汇报的 49 个发布条件。</p>
+<p>这种计数方式让结果稳定且可读。文章增加后，HTML 扫描数量会增长，但规则总数不必跟着增长。</p>
+<h2 id="第五层：同一套规则验证两种部署"><a href="#第五层：同一套规则验证两种部署" class="headerlink" title="第五层：同一套规则验证两种部署"></a>第五层：同一套规则验证两种部署</h2><p>本站提供两条检查命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm run check<br>npm run check:vercel<br></code></pre></td></tr></table></figure>
+
+<p>前者使用 GitHub Pages 的 <code>/ryuho/</code> root，后者合并 Vercel 配置并使用 <code>/</code>。两条流程都会清理、生成、优化图片，再执行同一个 <code>audit-site.js</code>。</p>
+<p>这项设计比维护两份审计更重要。规则相同，配置不同，才能把路径差异暴露为可验证输入，而不是让两个环境逐渐拥有各自的例外。</p>
+<p>审计内部会从 manifest 的 <code>start_url</code> 推导站点 base，再把 URL 转换成 <code>public</code> 相对路径。绝对站内地址、根路径地址和相对地址都经过统一解析。这样“内部链接可达”既能覆盖 Vercel，也能覆盖 GitHub Pages 子目录。</p>
+<h2 id="取舍：为什么不用完整测试框架"><a href="#取舍：为什么不用完整测试框架" class="headerlink" title="取舍：为什么不用完整测试框架"></a>取舍：为什么不用完整测试框架</h2><p>当前审计使用 Node.js 标准库、正则和文件系统遍历，没有引入浏览器测试框架或 HTML 解析依赖。</p>
+<p>它的优势是依赖少、执行路径短、在本地与 CI 中容易运行。对确定性的静态产物检查，读取文件已经能够覆盖大部分风险。</p>
+<p>代价也很明确：正则不能完整理解任意 HTML，脚本不会验证真实布局、键盘交互、网络缓存行为或搜索结果主观质量。当前项目通过人工浏览补充这些判断，而不是把所有问题都塞进一个脚本。</p>
+<p>另一个取舍是只把稳定契约写成规则。一个临时页面文案、某篇文章的推荐顺序或首页某个装饰元素，不应轻易变成发布阻断项。门禁越严格，维护成本越高；只有当失败能够明确代表不可发布状态时，才值得加入。</p>
+<h2 id="验证与维护：数字增长不是目标"><a href="#验证与维护：数字增长不是目标" class="headerlink" title="验证与维护：数字增长不是目标"></a>验证与维护：数字增长不是目标</h2><p>当前脚本最终输出每项 <code>PASS</code> 或 <code>FAIL</code>，失败时附上相关文件或路径，并在存在任意失败时用非零状态退出。CI 因此可以在部署前停止。</p>
+<p>维护这套门禁时，更合理的问题不是“怎样从 49 增长到 60”，而是：</p>
+<ul>
+<li>当前是否还有只能靠记忆完成的确定性检查？</li>
+<li>某个真实回归是否能被稳定复现并低成本检测？</li>
+<li>新规则是否同时适用于两套部署？</li>
+<li>失败信息能否直接帮助定位？</li>
+<li>规则是否会因无关内容变化频繁误报？</li>
+</ul>
+<p>如果答案不明确，就不应为了数量增加断言。质量门禁的成熟表现不是项目永远添加检查，而是知道哪些风险值得自动阻断，哪些仍应交给人工判断。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>从 0 到 49 项检查，可以看作判断层次的变化：先确认构建产物存在，再确认核心入口可用；随后检查内容源和渲染结果，进一步验证全站链接、SEO 与资源一致性，最后让同一套契约在两种部署根路径下都成立。</p>
+<p>本文没有为每条规则虚构提交历史。能够从当前实现确认的是，15 项检查对应必需产物，其余规则覆盖页面能力、内容质量和全站一致性，共同组成当前 49 项发布条件。</p>
+<p>数字只是脚本输出。真正让项目变得可靠的，是每项检查都有明确风险、失败可定位、结果可重复，而且始终知道自动化的边界。</p>
+
+    </div>
+    
+      <aside class="post-toc" aria-label="文章目录">
+        <h3>目录</h3>
+        <div class="toc-inner">
+          <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF%EF%BC%9AHexo-%E5%8F%AA%E8%B4%9F%E8%B4%A3%E7%94%9F%E6%88%90%EF%BC%8C%E4%B8%8D%E8%B4%9F%E8%B4%A3%E8%AF%81%E6%98%8E%E5%8F%AF%E5%8F%91%E5%B8%83"><span class="toc-number">1.</span> <span class="toc-text">背景：Hexo 只负责生成，不负责证明可发布</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E5%B1%82%EF%BC%9A15-%E4%B8%AA%E5%BF%85%E9%9C%80%E4%BA%A7%E7%89%A9%E5%85%88%E5%9B%9E%E7%AD%94%E2%80%9C%E6%9C%89%E6%B2%A1%E6%9C%89%E2%80%9D"><span class="toc-number">2.</span> <span class="toc-text">第一层：15 个必需产物先回答“有没有”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E5%B1%82%EF%BC%9A%E5%85%A5%E5%8F%A3%E4%B8%8E%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9B%9E%E7%AD%94%E2%80%9C%E8%83%BD%E4%B8%8D%E8%83%BD%E7%94%A8%E2%80%9D"><span class="toc-number">3.</span> <span class="toc-text">第二层：入口与核心能力回答“能不能用”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E5%B1%82%EF%BC%9A%E6%BA%90%E7%A0%81%E4%B8%8E%E6%B8%B2%E6%9F%93%E7%BB%93%E6%9E%9C%E5%9B%9E%E7%AD%94%E2%80%9C%E5%86%85%E5%AE%B9%E6%98%AF%E5%90%A6%E5%8F%AF%E5%8F%91%E5%B8%83%E2%80%9D"><span class="toc-number">4.</span> <span class="toc-text">第三层：源码与渲染结果回答“内容是否可发布”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E5%B1%82%EF%BC%9A%E5%85%A8%E7%AB%99%E4%B8%80%E8%87%B4%E6%80%A7%E5%9B%9E%E7%AD%94%E2%80%9C%E6%89%BF%E8%AF%BA%E6%98%AF%E5%90%A6%E7%9C%9F%E5%AE%9E%E2%80%9D"><span class="toc-number">5.</span> <span class="toc-text">第四层：全站一致性回答“承诺是否真实”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%94%E5%B1%82%EF%BC%9A%E5%90%8C%E4%B8%80%E5%A5%97%E8%A7%84%E5%88%99%E9%AA%8C%E8%AF%81%E4%B8%A4%E7%A7%8D%E9%83%A8%E7%BD%B2"><span class="toc-number">6.</span> <span class="toc-text">第五层：同一套规则验证两种部署</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%96%E8%88%8D%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E7%94%A8%E5%AE%8C%E6%95%B4%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6"><span class="toc-number">7.</span> <span class="toc-text">取舍：为什么不用完整测试框架</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E4%B8%8E%E7%BB%B4%E6%8A%A4%EF%BC%9A%E6%95%B0%E5%AD%97%E5%A2%9E%E9%95%BF%E4%B8%8D%E6%98%AF%E7%9B%AE%E6%A0%87"><span class="toc-number">8.</span> <span class="toc-text">验证与维护：数字增长不是目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">9.</span> <span class="toc-text">结论</span></a></li></ol>
+        </div>
+      </aside>
+    
+  </div>
+  
+    <section class="related-posts" aria-labelledby="related-title">
+      <div class="section-title">
+        <h2 id="related-title">相关推荐</h2>
+        <a href="/ryuho/archives/">完整归档</a>
+      </div>
+      <div class="related-grid">
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/27/%E4%BB%8E%E8%83%BD%E6%9E%84%E5%BB%BA%E5%88%B0%E6%95%A2%E5%8F%91%E5%B8%83-%E4%B8%BAHexo%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B%E8%B4%A8%E9%87%8F%E9%97%A8%E7%A6%81/">
+              <span class="related-score">同主题</span>
+              <h3>从能构建到敢发布：为 Hexo 博客建立质量门禁</h3>
+              <p>复盘一个 Hexo 博客如何从“可以生成静态页面”演进到同时验证内容、链接、SEO、图片和双部署路径的 47 项发布门禁。</p>
+              <time datetime="2026-07-27T02:00:00.000Z">2026-07-27</time>
+            </a>
+          </article>
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/28/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E4%B9%9F%E9%9C%80%E8%A6%81%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7/">
+              <span class="related-score">同主题</span>
+              <h3>为什么个人博客也需要可观测性</h3>
+              <p>从构建日志、审计结果、部署差异和维护信号出发，讨论个人静态博客如何建立不过度设计的工程可观测性。</p>
+              <time datetime="2026-07-28T03:00:00.000Z">2026-07-28</time>
+            </a>
+          </article>
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/28/%E9%9D%99%E6%80%81%E7%AB%99%E7%82%B9%E5%AE%A1%E8%AE%A1%E5%99%A8%E5%BA%94%E8%AF%A5%E6%A3%80%E6%9F%A5%E4%BB%80%E4%B9%88/">
+              <span class="related-score">同主题</span>
+              <h3>静态站点审计器应该检查什么</h3>
+              <p>从检查对象、路径归一化、失败信息和能力边界出发，拆解一个静态站点审计器应如何建立可靠且可维护的检查模型。</p>
+              <time datetime="2026-07-28T01:00:00.000Z">2026-07-28</time>
+            </a>
+          </article>
+        
+      </div>
+    </section>
+  
+  <footer class="post-end">
+    <div class="post-end-card">
+      <h2>读完这篇</h2>
+      <dl class="post-facts">
+        <div>
+          <dt>字数</dt>
+          <dd>3318</dd>
+        </div>
+        <div>
+          <dt>阅读</dt>
+          <dd>7 分钟</dd>
+        </div>
+        
+          <div>
+            <dt>分类</dt>
+            <dd>
+              
+                <a href="/ryuho/categories/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/">工程实践</a>
+              
+            </dd>
+          </div>
+        
+      </dl>
+      <div class="post-end-actions">
+        <a class="text-action" href="/ryuho/">回到首页</a>
+        <a class="text-action" href="/ryuho/tags/">浏览标签</a>
+      </div>
+    </div>
+  </footer>
+
+  
+
+  <nav class="post-nav" aria-label="文章翻页">
+    
+      <a href="/ryuho/2026/07/28/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE%E5%A6%82%E4%BD%95%E5%86%99%E5%87%BA%E5%8F%AF%E4%BF%A1%E7%9A%84%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/">上一篇：个人项目如何写出可信的项目复盘</a>
+    
+    
+      <a href="/ryuho/2026/07/28/%E9%9D%99%E6%80%81%E7%AB%99%E7%82%B9%E7%9A%84SEO%E4%B8%8D%E5%8F%AA%E6%98%AF%E5%8A%A0%E5%87%A0%E4%B8%AAmeta%E6%A0%87%E7%AD%BE/">下一篇：静态站点的 SEO，不只是加几个 meta 标签</a>
+    
+  </nav>
+</article>
+
+  </main>
+  <footer class="site-footer">
+  <div class="container footer-inner">
+    <span>© 2026 Ghost-Author. 记录 AI 工程与长期思考。</span>
+    <span>
+      <a href="/ryuho/atom.xml">RSS</a>
+      
+        · <a href="mailto:liupggg@gmail.com">Email</a>
+      
+      · <a href="/ryuho/archives/">归档</a>
+    </span>
+  </div>
+</footer>
+
+  <button class="back-to-top" type="button" aria-label="回到顶部">↑</button>
+</body>
+</html>

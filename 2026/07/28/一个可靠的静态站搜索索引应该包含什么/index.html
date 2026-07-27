@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>一个可靠的静态站搜索索引应该包含什么 | Ghost-Author</title>
+  <meta name="description" content="从文档字段、正文清洗、摘要回退、URL 语义和版本演进出发，分析静态博客搜索索引的数据契约应该如何设计。">
+  
+    <meta name="keywords" content="工程实践, Hexo, 搜索, 数据设计, AI 工程, 系统设计">
+  
+  
+  <meta name="author" content="Ghost-Author">
+  <meta name="generator" content="Hexo">
+  <meta name="theme-color" content="#ff7bb2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#211827" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="一个可靠的静态站搜索索引应该包含什么 | Ghost-Author">
+  <meta property="og:description" content="从文档字段、正文清洗、摘要回退、URL 语义和版本演进出发，分析静态博客搜索索引的数据契约应该如何设计。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://ghost-author.github.io/ryuho/2026/07/28/%E4%B8%80%E4%B8%AA%E5%8F%AF%E9%9D%A0%E7%9A%84%E9%9D%99%E6%80%81%E7%AB%99%E6%90%9C%E7%B4%A2%E7%B4%A2%E5%BC%95%E5%BA%94%E8%AF%A5%E5%8C%85%E5%90%AB%E4%BB%80%E4%B9%88/">
+  <meta property="og:site_name" content="Ghost-Author">
+  
+    <meta property="og:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  
+    <meta name="twitter:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  
+    <meta property="article:published_time" content="2026-07-28T02:30:00.000Z">
+    
+      <meta property="article:modified_time" content="2026-07-27T23:52:31.943Z">
+    
+    
+      
+        <meta property="article:tag" content="工程实践">
+      
+        <meta property="article:tag" content="Hexo">
+      
+        <meta property="article:tag" content="搜索">
+      
+        <meta property="article:tag" content="数据设计">
+      
+    
+  
+  <link rel="alternate" type="application/atom+xml" title="Ghost-Author" href="https://ghost-author.github.io/ryuho/atom.xml">
+  <link rel="canonical" href="https://ghost-author.github.io/ryuho/2026/07/28/%E4%B8%80%E4%B8%AA%E5%8F%AF%E9%9D%A0%E7%9A%84%E9%9D%99%E6%80%81%E7%AB%99%E6%90%9C%E7%B4%A2%E7%B4%A2%E5%BC%95%E5%BA%94%E8%AF%A5%E5%8C%85%E5%90%AB%E4%BB%80%E4%B9%88/">
+  <link rel="manifest" href="/ryuho/site.webmanifest">
+  <link rel="apple-touch-icon" href="/ryuho/images/avatar.png">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = saved || (prefersDark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="/ryuho/css/style.css">
+  <script src="/ryuho/js/main.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/ryuho/sw.js').catch(function () {});
+      });
+    }
+  </script>
+  
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"BlogPosting","headline":"一个可靠的静态站搜索索引应该包含什么","name":"一个可靠的静态站搜索索引应该包含什么","description":"从文档字段、正文清洗、摘要回退、URL 语义和版本演进出发，分析静态博客搜索索引的数据契约应该如何设计。","url":"https://ghost-author.github.io/ryuho/2026/07/28/%E4%B8%80%E4%B8%AA%E5%8F%AF%E9%9D%A0%E7%9A%84%E9%9D%99%E6%80%81%E7%AB%99%E6%90%9C%E7%B4%A2%E7%B4%A2%E5%BC%95%E5%BA%94%E8%AF%A5%E5%8C%85%E5%90%AB%E4%BB%80%E4%B9%88/","image":"https://ghost-author.github.io/ryuho/images/hero.jpg","keywords":"工程实践, Hexo, 搜索, 数据设计, AI 工程, 系统设计","author":{"@type":"Person","name":"Ghost-Author"},"publisher":{"@type":"Person","name":"Ghost-Author"},"datePublished":"2026-07-28T02:30:00.000Z","dateModified":"2026-07-27T23:52:31.943Z"}
+  </script>
+</head>
+<body>
+  <div class="reading-progress" aria-hidden="true"></div>
+  <a class="skip-link" href="#content">跳到正文</a>
+  <header class="site-header">
+  
+  <div class="container header-inner">
+    <a class="logo" href="/ryuho/">
+      <span class="logo-dot"></span>
+      <span>Ghost-Author</span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="/ryuho/" >首页</a>
+      <a href="/ryuho/search/" >搜索</a>
+      <a href="/ryuho/series/" >专题</a>
+      <a href="/ryuho/projects/" >项目</a>
+      <a href="/ryuho/about/" >关于</a>
+      <a href="/ryuho/tags/" >标签</a>
+      <a href="/ryuho/categories/" >分类</a>
+      <a href="/ryuho/archives/" >归档</a>
+    </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换深色模式" aria-pressed="false">
+      <span aria-hidden="true" data-theme-icon>☾</span>
+    </button>
+  </div>
+</header>
+
+  <main class="container" id="content" tabindex="-1">
+    <article class="post post-layout">
+  
+  <header class="post-header">
+    <h1>一个可靠的静态站搜索索引应该包含什么</h1>
+    <div class="post-meta-line">
+      <time datetime="2026-07-28T02:30:00.000Z">2026-07-28</time>
+      <span>8 分钟阅读</span>
+      <span>3536 字</span>
+      
+    </div>
+  </header>
+  
+    <img class="post-hero" src="/ryuho/images/hero.jpg" alt="" width="1920" height="1080" loading="eager" decoding="async">
+  
+  
+    <div class="post-meta">
+      
+        <a class="tag" href="/ryuho/tags/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/">
+          <span class="tag-name">工程实践</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/Hexo/">
+          <span class="tag-name">Hexo</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/%E6%90%9C%E7%B4%A2/">
+          <span class="tag-name">搜索</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/%E6%95%B0%E6%8D%AE%E8%AE%BE%E8%AE%A1/">
+          <span class="tag-name">数据设计</span>
+        </a>
+      
+    </div>
+  
+  <div class="post-actions" aria-label="文章操作">
+    <button class="text-action" type="button" data-copy-link data-copy-text="复制链接" data-copied-text="已复制">复制链接</button>
+    <a class="text-action" href="/ryuho/archives/">查看归档</a>
+  </div>
+  <div class="post-body">
+    <div class="post-content">
+      <p>静态博客的站内搜索通常由两部分组成：构建阶段生成索引，浏览器加载索引并完成匹配。界面和排序规则容易被看见，但真正决定搜索是否可靠的，是两者之间那份 JSON 数据。</p>
+<p>这个博客的 <code>scripts/search-index.js</code> 很短。它遍历 Hexo 文章，提取标题、正文、摘要、路径、日期、标签和分类，最终生成 <code>search-index.json</code>。代码简单并不意味着数据可以随意设计；恰恰因为没有后端兜底，索引文件本身就是稳定的数据契约。</p>
+<p>本文只讨论索引的字段和边界，不再重复为什么选择浏览器原生搜索或零 CDN 依赖。</p>
+<h2 id="先从消费者需要什么反推字段"><a href="#先从消费者需要什么反推字段" class="headerlink" title="先从消费者需要什么反推字段"></a>先从消费者需要什么反推字段</h2><p>当前搜索页需要完成三件事：</p>
+<ol>
+<li>判断查询词是否命中标题、标签、分类或正文。</li>
+<li>根据命中字段计算相关性分数。</li>
+<li>展示标题、摘要、日期和文章链接。</li>
+</ol>
+<p>因此每条文档包含：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;...&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;...&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;...&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;excerpt&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;...&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;url&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;...&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2026-07-28&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;tags&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;工程实践&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;Hexo&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;categories&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;工程实践&quot;</span><span class="hljs-punctuation">]</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>字段设计没有照搬 Markdown front matter，而是面向搜索消费者重新组织。例如 tags 和 categories 在 Hexo 内部是集合对象，生成索引时被转换成纯字符串数组；date 也从日期对象格式化为稳定的 <code>YYYY-MM-DD</code>。</p>
+<p>浏览器因此不需要了解 Hexo 数据类型，只处理普通 JSON。</p>
+<h2 id="id-用于身份，url-用于导航"><a href="#id-用于身份，url-用于导航" class="headerlink" title="id 用于身份，url 用于导航"></a>id 用于身份，url 用于导航</h2><p><code>id</code> 和 <code>url</code> 看起来都能标识一篇文章，但职责不同。</p>
+<p>id 来自 <code>post._id</code>，表达索引内部的文档身份。当前前端还没有用它做去重或缓存更新，但保留这个字段为后续增量处理提供了稳定位置。</p>
+<p>url 使用 <code>post.path</code>，表达文章在站点中的相对位置。它故意不生成带域名的绝对地址，因为同一份源码要部署到 GitHub Pages 子路径和 Vercel 根路径。搜索页位于 <code>/search/</code>，结果通过 <code>../$&#123;doc.url&#125;</code> 解析，索引不绑定任何一个生产域名。</p>
+<p>这说明身份与位置不应混为一谈。以后 permalink 变化时，导航地址可能改变，但不必因此把所有消费逻辑都改成依赖 URL 作为主键。</p>
+<h2 id="title-是展示字段，也是最高价值的检索字段"><a href="#title-是展示字段，也是最高价值的检索字段" class="headerlink" title="title 是展示字段，也是最高价值的检索字段"></a>title 是展示字段，也是最高价值的检索字段</h2><p>title 既用于结果标题，也承担最高权重匹配。生成器对缺失标题回退为空字符串，防止序列化时报错；但源码审计会在更早阶段阻止无标题文章发布。</p>
+<p>这种“双层防御”值得保留：</p>
+<ul>
+<li>生成器保证面对异常数据时仍能产生结构合法的 JSON；</li>
+<li>审计器保证生产内容不依赖这种回退长期运行。</li>
+</ul>
+<p>如果只在生成器里直接抛错，失败上下文可能不如统一元数据审计清楚；如果只静默回退，搜索结果则可能出现无法辨认的空标题。</p>
+<h2 id="content-应该是可检索文本，而不是页面-HTML"><a href="#content-应该是可检索文本，而不是页面-HTML" class="headerlink" title="content 应该是可检索文本，而不是页面 HTML"></a>content 应该是可检索文本，而不是页面 HTML</h2><p>Hexo 的 <code>post.content</code> 已经是渲染后的 HTML。索引生成器通过：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/&lt;[^&gt;]+&gt;/g</span>, <span class="hljs-string">&#x27;&#x27;</span>)<br><span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/\s+/g</span>, <span class="hljs-string">&#x27; &#x27;</span>)<br><span class="hljs-title function_">trim</span>()<br></code></pre></td></tr></table></figure>
+
+<p>把它转换成连续纯文本。</p>
+<p>这一步同时解决几个问题：</p>
+<ul>
+<li>HTML 标签不参与关键词匹配；</li>
+<li>多个换行和缩进不会扩大索引；</li>
+<li>浏览器搜索逻辑不必重复解析 DOM；</li>
+<li>摘要截取面对的是相对稳定的文本。</li>
+</ul>
+<p>但这是一种轻量清洗，不是完整 HTML 解析器。代码示例中的文本仍可能进入索引，HTML 实体也没有在生成器中专门解码。对当前由可信 Markdown 生成的小站足够直接；如果后续内容包含复杂嵌入、数学公式或大量代码，应该考虑使用可靠的文本提取器，而不是继续叠加正则。</p>
+<h2 id="excerpt-必须有清楚的来源优先级"><a href="#excerpt-必须有清楚的来源优先级" class="headerlink" title="excerpt 必须有清楚的来源优先级"></a>excerpt 必须有清楚的来源优先级</h2><p>搜索结果不适合展示完整正文，所以生成器先从清洗后的 content 截取 200 个字符，正文更长时追加省略号。真正写入 excerpt 时，优先采用 <code>post.description</code>：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">description &gt; 自动正文摘要<br></code></pre></td></tr></table></figure>
+
+<p>这个顺序把人工判断放在自动回退之前。description 通常能更准确地说明问题、方案和文章价值，自动摘要只负责保证旧文章或异常内容仍有可展示文本。</p>
+<p>消费者端仍保留最后一层回退：如果 excerpt 为空，就从 content 截取 150 个字符。这形成三个层级：</p>
+<ol>
+<li>作者编写的 description；</li>
+<li>构建期生成的 200 字摘要；</li>
+<li>浏览器端临时截取。</li>
+</ol>
+<p>正常文章应停在第一层，后两层只用于容错。多个回退必须使用相同语义，否则不同页面可能展示完全不同的“摘要”。</p>
+<h2 id="tags-与-categories-应保留数组语义"><a href="#tags-与-categories-应保留数组语义" class="headerlink" title="tags 与 categories 应保留数组语义"></a>tags 与 categories 应保留数组语义</h2><p>把标签拼成一个长字符串也能搜索，但数组更适合作为数据契约。</p>
+<p>数组可以明确区分两个标签，消费者需要展示标签、计算交集或调整单个标签权重时不必重新拆分字符串。分类同理，即使当前文章通常只有一个分类，也不应在索引层提前假设它永远是单值。</p>
+<p>当前搜索页在匹配前才执行：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js">(doc.<span class="hljs-property">tags</span> || []).<span class="hljs-title function_">join</span>(<span class="hljs-string">&#x27; &#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>这是合理的职责位置：索引保存结构，具体消费者决定如何匹配。</p>
+<p>这种结构还与文章页相关推荐形成一致内容信号。搜索可以强调标题与标签，推荐可以按共同标签和分类计分，两者共享相同的文章元数据，却不需要共享一套算法。</p>
+<h2 id="date-为什么使用展示友好的稳定格式"><a href="#date-为什么使用展示友好的稳定格式" class="headerlink" title="date 为什么使用展示友好的稳定格式"></a>date 为什么使用展示友好的稳定格式</h2><p>搜索结果只显示日期，不进行复杂时区计算，因此索引输出 <code>YYYY-MM-DD</code>，而不是序列化完整日期对象。</p>
+<p>这样可以避免浏览器因时区转换把文章显示到前一天，也减少无用字节。代价是失去了时分秒信息，不能直接用于同一天多篇文章的精确排序。</p>
+<p>当前生成器已经按 <code>-date</code> 遍历文章，JSON 顺序天然是倒序；前端排序只按匹配分数，没有用日期打破同分。若未来需要确定的二级排序，契约应增加完整时间戳或显式排序字段，而不是从简化日期中猜测。</p>
+<h2 id="索引顺序是不是契约的一部分"><a href="#索引顺序是不是契约的一部分" class="headerlink" title="索引顺序是不是契约的一部分"></a>索引顺序是不是契约的一部分</h2><p>生成器先执行：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js">locals.<span class="hljs-property">posts</span>.<span class="hljs-title function_">sort</span>(<span class="hljs-string">&#x27;-date&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>然后依次写入 documents。虽然 JSON Schema 没有声明顺序语义，但当前结果的初始顺序确实代表发布时间倒序。</p>
+<p>前端使用稳定排序实现时，同分文档通常会保留这一顺序，但不应把这种语言实现细节当成长期保证。更可靠的方式是在搜索排序中明确加入日期二级比较，或者在契约文档中声明 documents 已按时间倒序。</p>
+<p>这也是索引设计的重要经验：隐含规则同样会被消费者依赖。发现它时，应当选择“正式声明”或“明确消除”，不能长期保持模糊。</p>
+<h2 id="体积与召回率之间如何取舍"><a href="#体积与召回率之间如何取舍" class="headerlink" title="体积与召回率之间如何取舍"></a>体积与召回率之间如何取舍</h2><p>当前索引保存每篇文章的完整纯文本，因此正文中的任意关键词都有机会命中。代价是文章越多，JSON 越大，浏览器首次搜索前要下载和解析更多内容。</p>
+<p>可以减少体积的方法包括：</p>
+<ul>
+<li>只保留标题、描述、标签和分类；</li>
+<li>限制正文长度；</li>
+<li>在构建期生成词项表；</li>
+<li>对内容做分片或按分类加载。</li>
+</ul>
+<p>但每种优化都会降低召回率或增加实现复杂度。当前站点文章规模较小，全量正文索引仍然清楚可控。是否升级不应由“索引看起来不够高级”决定，而应根据实际文件体积、加载时间和查询效果判断。</p>
+<h2 id="如何验证索引契约"><a href="#如何验证索引契约" class="headerlink" title="如何验证索引契约"></a>如何验证索引契约</h2><p>现有审计首先确认 <code>search-index.json</code> 必须生成，搜索页必须通过相对路径加载它，所有站内资源也需要在两种 root 下可达。</p>
+<p>更针对数据契约的验证可以继续保持轻量：</p>
+<ul>
+<li>顶层必须包含 documents 数组；</li>
+<li>每条文档都具有固定字段和正确类型；</li>
+<li>url 不得包含生产域名或开头错误的部署前缀；</li>
+<li>title、excerpt 不得为空；</li>
+<li>tags、categories 必须始终为数组；</li>
+<li>文档数量应与可发布文章数量一致；</li>
+<li>JSON 中不能混入 HTML 标签或 <code>undefined</code>。</li>
+</ul>
+<p>这些规则验证的是生产者与消费者能否继续协作，不评价某个关键词排名是否“足够聪明”。排序质量应该使用独立查询样例测试。</p>
+<h2 id="可复用的结论"><a href="#可复用的结论" class="headerlink" title="可复用的结论"></a>可复用的结论</h2><p>静态搜索索引不是构建过程顺手导出的一份缓存，而是一个面向浏览器消费者的公开数据结构。</p>
+<p>设计时应当明确：</p>
+<ol>
+<li>每个字段由谁生产、由谁消费。</li>
+<li>身份、导航、检索和展示字段分别承担什么职责。</li>
+<li>人工描述与自动摘要采用怎样的回退顺序。</li>
+<li>哪些结构必须保留数组或日期语义。</li>
+<li>URL 是否独立于域名和部署 root。</li>
+<li>顺序、空值和异常内容如何处理。</li>
+<li>何时为了体积牺牲正文召回率。</li>
+</ol>
+<p>可靠不等于字段很多，而是每个字段都有明确语义，缺失时有可预期行为，演进时也知道会影响哪些消费者。</p>
+
+    </div>
+    
+      <aside class="post-toc" aria-label="文章目录">
+        <h3>目录</h3>
+        <div class="toc-inner">
+          <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%88%E4%BB%8E%E6%B6%88%E8%B4%B9%E8%80%85%E9%9C%80%E8%A6%81%E4%BB%80%E4%B9%88%E5%8F%8D%E6%8E%A8%E5%AD%97%E6%AE%B5"><span class="toc-number">1.</span> <span class="toc-text">先从消费者需要什么反推字段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#id-%E7%94%A8%E4%BA%8E%E8%BA%AB%E4%BB%BD%EF%BC%8Curl-%E7%94%A8%E4%BA%8E%E5%AF%BC%E8%88%AA"><span class="toc-number">2.</span> <span class="toc-text">id 用于身份，url 用于导航</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#title-%E6%98%AF%E5%B1%95%E7%A4%BA%E5%AD%97%E6%AE%B5%EF%BC%8C%E4%B9%9F%E6%98%AF%E6%9C%80%E9%AB%98%E4%BB%B7%E5%80%BC%E7%9A%84%E6%A3%80%E7%B4%A2%E5%AD%97%E6%AE%B5"><span class="toc-number">3.</span> <span class="toc-text">title 是展示字段，也是最高价值的检索字段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#content-%E5%BA%94%E8%AF%A5%E6%98%AF%E5%8F%AF%E6%A3%80%E7%B4%A2%E6%96%87%E6%9C%AC%EF%BC%8C%E8%80%8C%E4%B8%8D%E6%98%AF%E9%A1%B5%E9%9D%A2-HTML"><span class="toc-number">4.</span> <span class="toc-text">content 应该是可检索文本，而不是页面 HTML</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#excerpt-%E5%BF%85%E9%A1%BB%E6%9C%89%E6%B8%85%E6%A5%9A%E7%9A%84%E6%9D%A5%E6%BA%90%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-number">5.</span> <span class="toc-text">excerpt 必须有清楚的来源优先级</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tags-%E4%B8%8E-categories-%E5%BA%94%E4%BF%9D%E7%95%99%E6%95%B0%E7%BB%84%E8%AF%AD%E4%B9%89"><span class="toc-number">6.</span> <span class="toc-text">tags 与 categories 应保留数组语义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#date-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8%E5%B1%95%E7%A4%BA%E5%8F%8B%E5%A5%BD%E7%9A%84%E7%A8%B3%E5%AE%9A%E6%A0%BC%E5%BC%8F"><span class="toc-number">7.</span> <span class="toc-text">date 为什么使用展示友好的稳定格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E9%A1%BA%E5%BA%8F%E6%98%AF%E4%B8%8D%E6%98%AF%E5%A5%91%E7%BA%A6%E7%9A%84%E4%B8%80%E9%83%A8%E5%88%86"><span class="toc-number">8.</span> <span class="toc-text">索引顺序是不是契约的一部分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%93%E7%A7%AF%E4%B8%8E%E5%8F%AC%E5%9B%9E%E7%8E%87%E4%B9%8B%E9%97%B4%E5%A6%82%E4%BD%95%E5%8F%96%E8%88%8D"><span class="toc-number">9.</span> <span class="toc-text">体积与召回率之间如何取舍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E9%AA%8C%E8%AF%81%E7%B4%A2%E5%BC%95%E5%A5%91%E7%BA%A6"><span class="toc-number">10.</span> <span class="toc-text">如何验证索引契约</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E5%A4%8D%E7%94%A8%E7%9A%84%E7%BB%93%E8%AE%BA"><span class="toc-number">11.</span> <span class="toc-text">可复用的结论</span></a></li></ol>
+        </div>
+      </aside>
+    
+  </div>
+  
+    <section class="related-posts" aria-labelledby="related-title">
+      <div class="section-title">
+        <h2 id="related-title">相关推荐</h2>
+        <a href="/ryuho/archives/">完整归档</a>
+      </div>
+      <div class="related-grid">
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/27/%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E6%90%9C%E7%B4%A2%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E6%8B%A9%E9%9B%B6CDN%E4%BE%9D%E8%B5%96/">
+              <span class="related-score">同主题</span>
+              <h3>静态博客搜索为什么选择零 CDN 依赖</h3>
+              <p>复盘这个 Hexo 博客如何用构建期 JSON 索引、浏览器原生匹配和简单权重排序，实现不依赖外部 CDN 的站内搜索。</p>
+              <time datetime="2026-07-27T03:30:00.000Z">2026-07-27</time>
+            </a>
+          </article>
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/28/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BB%B4%E6%8A%A4%E4%B8%80%E6%AE%B5%E6%97%B6%E9%97%B4%E5%90%8E%E6%88%91%E4%BF%9D%E7%95%99%E4%BA%86%E4%BB%80%E4%B9%88%E5%88%A0%E6%8E%89%E4%BA%86%E4%BB%80%E4%B9%88/">
+              <span class="related-score">同主题</span>
+              <h3>个人博客维护一段时间后，我保留了什么、删掉了什么</h3>
+              <p>基于当前仓库可以验证的配置、主题和维护策略，复盘这个博客保留的核心能力、已经移除或关闭的内容，以及背后的范围判断。</p>
+              <time datetime="2026-07-28T08:00:00.000Z">2026-07-28</time>
+            </a>
+          </article>
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/28/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2%E6%9C%80%E5%AE%B9%E6%98%93%E7%A7%AF%E7%B4%AF%E7%9A%84%E4%BA%94%E7%B1%BB%E7%BB%B4%E6%8A%A4%E5%80%BA%E5%8A%A1/">
+              <span class="related-score">同主题</span>
+              <h3>技术博客最容易积累的五类维护债务</h3>
+              <p>从内容、链接、依赖、构建配置和界面功能五个方面，分析技术博客会如何积累维护债务，以及如何用现有 Hexo 工程的规则持续偿还。</p>
+              <time datetime="2026-07-28T07:00:00.000Z">2026-07-28</time>
+            </a>
+          </article>
+        
+      </div>
+    </section>
+  
+  <footer class="post-end">
+    <div class="post-end-card">
+      <h2>读完这篇</h2>
+      <dl class="post-facts">
+        <div>
+          <dt>字数</dt>
+          <dd>3536</dd>
+        </div>
+        <div>
+          <dt>阅读</dt>
+          <dd>8 分钟</dd>
+        </div>
+        
+          <div>
+            <dt>分类</dt>
+            <dd>
+              
+                <a href="/ryuho/categories/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/">工程实践</a>
+              
+            </dd>
+          </div>
+        
+      </dl>
+      <div class="post-end-actions">
+        <a class="text-action" href="/ryuho/">回到首页</a>
+        <a class="text-action" href="/ryuho/tags/">浏览标签</a>
+      </div>
+    </div>
+  </footer>
+
+  
+
+  <nav class="post-nav" aria-label="文章翻页">
+    
+      <a href="/ryuho/2026/07/28/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E4%B9%9F%E9%9C%80%E8%A6%81%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7/">上一篇：为什么个人博客也需要可观测性</a>
+    
+    
+      <a href="/ryuho/2026/07/28/%E4%BB%8E%E9%80%9A%E7%94%A8%E4%B8%BB%E9%A2%98%E5%88%B0%E4%B8%AA%E4%BA%BA%E8%A1%A8%E8%BE%BE-%E6%88%91%E5%A6%82%E4%BD%95%E6%94%B9%E9%80%A0Hexo%E4%B8%BB%E9%A2%98/">下一篇：从通用主题到个人表达：我如何改造 Hexo 主题</a>
+    
+  </nav>
+</article>
+
+  </main>
+  <footer class="site-footer">
+  <div class="container footer-inner">
+    <span>© 2026 Ghost-Author. 记录 AI 工程与长期思考。</span>
+    <span>
+      <a href="/ryuho/atom.xml">RSS</a>
+      
+        · <a href="mailto:liupggg@gmail.com">Email</a>
+      
+      · <a href="/ryuho/archives/">归档</a>
+    </span>
+  </div>
+</footer>
+
+  <button class="back-to-top" type="button" aria-label="回到顶部">↑</button>
+</body>
+</html>

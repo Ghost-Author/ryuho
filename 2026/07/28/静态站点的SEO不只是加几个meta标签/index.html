@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>静态站点的 SEO，不只是加几个 meta 标签 | Ghost-Author</title>
+  <meta name="description" content="以本站布局、sitemap、robots、RSS、结构化数据和双部署路径为依据，复盘静态博客如何建立从页面语义到可抓取性的完整 SEO 链路。">
+  
+    <meta name="keywords" content="工程实践, Hexo, SEO, 静态站点, AI 工程, 系统设计">
+  
+  
+  <meta name="author" content="Ghost-Author">
+  <meta name="generator" content="Hexo">
+  <meta name="theme-color" content="#ff7bb2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#211827" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="静态站点的 SEO，不只是加几个 meta 标签 | Ghost-Author">
+  <meta property="og:description" content="以本站布局、sitemap、robots、RSS、结构化数据和双部署路径为依据，复盘静态博客如何建立从页面语义到可抓取性的完整 SEO 链路。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://ghost-author.github.io/ryuho/2026/07/28/%E9%9D%99%E6%80%81%E7%AB%99%E7%82%B9%E7%9A%84SEO%E4%B8%8D%E5%8F%AA%E6%98%AF%E5%8A%A0%E5%87%A0%E4%B8%AAmeta%E6%A0%87%E7%AD%BE/">
+  <meta property="og:site_name" content="Ghost-Author">
+  
+    <meta property="og:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  
+    <meta name="twitter:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  
+    <meta property="article:published_time" content="2026-07-28T04:30:00.000Z">
+    
+      <meta property="article:modified_time" content="2026-07-27T23:52:31.943Z">
+    
+    
+      
+        <meta property="article:tag" content="工程实践">
+      
+        <meta property="article:tag" content="Hexo">
+      
+        <meta property="article:tag" content="SEO">
+      
+        <meta property="article:tag" content="静态站点">
+      
+    
+  
+  <link rel="alternate" type="application/atom+xml" title="Ghost-Author" href="https://ghost-author.github.io/ryuho/atom.xml">
+  <link rel="canonical" href="https://ghost-author.github.io/ryuho/2026/07/28/%E9%9D%99%E6%80%81%E7%AB%99%E7%82%B9%E7%9A%84SEO%E4%B8%8D%E5%8F%AA%E6%98%AF%E5%8A%A0%E5%87%A0%E4%B8%AAmeta%E6%A0%87%E7%AD%BE/">
+  <link rel="manifest" href="/ryuho/site.webmanifest">
+  <link rel="apple-touch-icon" href="/ryuho/images/avatar.png">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = saved || (prefersDark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="/ryuho/css/style.css">
+  <script src="/ryuho/js/main.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/ryuho/sw.js').catch(function () {});
+      });
+    }
+  </script>
+  
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"BlogPosting","headline":"静态站点的 SEO，不只是加几个 meta 标签","name":"静态站点的 SEO，不只是加几个 meta 标签","description":"以本站布局、sitemap、robots、RSS、结构化数据和双部署路径为依据，复盘静态博客如何建立从页面语义到可抓取性的完整 SEO 链路。","url":"https://ghost-author.github.io/ryuho/2026/07/28/%E9%9D%99%E6%80%81%E7%AB%99%E7%82%B9%E7%9A%84SEO%E4%B8%8D%E5%8F%AA%E6%98%AF%E5%8A%A0%E5%87%A0%E4%B8%AAmeta%E6%A0%87%E7%AD%BE/","image":"https://ghost-author.github.io/ryuho/images/hero.jpg","keywords":"工程实践, Hexo, SEO, 静态站点, AI 工程, 系统设计","author":{"@type":"Person","name":"Ghost-Author"},"publisher":{"@type":"Person","name":"Ghost-Author"},"datePublished":"2026-07-28T04:30:00.000Z","dateModified":"2026-07-27T23:52:31.943Z"}
+  </script>
+</head>
+<body>
+  <div class="reading-progress" aria-hidden="true"></div>
+  <a class="skip-link" href="#content">跳到正文</a>
+  <header class="site-header">
+  
+  <div class="container header-inner">
+    <a class="logo" href="/ryuho/">
+      <span class="logo-dot"></span>
+      <span>Ghost-Author</span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="/ryuho/" >首页</a>
+      <a href="/ryuho/search/" >搜索</a>
+      <a href="/ryuho/series/" >专题</a>
+      <a href="/ryuho/projects/" >项目</a>
+      <a href="/ryuho/about/" >关于</a>
+      <a href="/ryuho/tags/" >标签</a>
+      <a href="/ryuho/categories/" >分类</a>
+      <a href="/ryuho/archives/" >归档</a>
+    </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换深色模式" aria-pressed="false">
+      <span aria-hidden="true" data-theme-icon>☾</span>
+    </button>
+  </div>
+</header>
+
+  <main class="container" id="content" tabindex="-1">
+    <article class="post post-layout">
+  
+  <header class="post-header">
+    <h1>静态站点的 SEO，不只是加几个 meta 标签</h1>
+    <div class="post-meta-line">
+      <time datetime="2026-07-28T04:30:00.000Z">2026-07-28</time>
+      <span>7 分钟阅读</span>
+      <span>3264 字</span>
+      
+    </div>
+  </header>
+  
+    <img class="post-hero" src="/ryuho/images/hero.jpg" alt="" width="1920" height="1080" loading="eager" decoding="async">
+  
+  
+    <div class="post-meta">
+      
+        <a class="tag" href="/ryuho/tags/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/">
+          <span class="tag-name">工程实践</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/Hexo/">
+          <span class="tag-name">Hexo</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/SEO/">
+          <span class="tag-name">SEO</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/%E9%9D%99%E6%80%81%E7%AB%99%E7%82%B9/">
+          <span class="tag-name">静态站点</span>
+        </a>
+      
+    </div>
+  
+  <div class="post-actions" aria-label="文章操作">
+    <button class="text-action" type="button" data-copy-link data-copy-text="复制链接" data-copied-text="已复制">复制链接</button>
+    <a class="text-action" href="/ryuho/archives/">查看归档</a>
+  </div>
+  <div class="post-body">
+    <div class="post-content">
+      <p>静态站点做 SEO，最常见的起点是在 <code>&lt;head&gt;</code> 中加入 description、keywords 和 Open Graph。它们确实重要，但只解决了“页面怎样描述自己”的一部分问题。</p>
+<p>一个页面能否被稳定发现，还取决于 URL 是否唯一、内部链接是否可达、sitemap 是否指向真实页面、robots 是否给出正确地址、文章是否有可分享图片、404 是否避免进入索引，以及这些结果在 GitHub Pages 子路径和 Vercel 根路径下是否一致。</p>
+<p>本站没有把 SEO 当成一次模板装修，而是把它拆成内容元数据、页面语义、站点发现、路径生成和产物验证五个层面。</p>
+<h2 id="背景：构建成功不代表搜索引擎看到的是正确页面"><a href="#背景：构建成功不代表搜索引擎看到的是正确页面" class="headerlink" title="背景：构建成功不代表搜索引擎看到的是正确页面"></a>背景：构建成功不代表搜索引擎看到的是正确页面</h2><p>Hexo 能生成 HTML，并不意味着输出自动具备稳定的搜索语义。</p>
+<p>文章缺少 description 时，搜索引擎只能从正文自行截取；canonical 拼错时，同一内容可能出现多个地址；<code>robots.txt</code> 中 sitemap 路径重复了 <code>/ryuho/</code>，文件仍然存在，但入口无效；图片没有绝对地址，社交分享卡片可能无法读取；404 页面如果没有 <code>noindex</code>，错误页也可能被收录。</p>
+<p>这些问题不会阻止浏览器显示正文，也通常不会让 <code>hexo generate</code> 失败。它们只能在生成后的页面和文件中被看见。</p>
+<p>因此，SEO 的工程目标不是“拥有多少标签”，而是让每篇可发布内容都有一致、可解释且可验证的公开身份。</p>
+<h2 id="判断一：元数据先来自内容，而不是模板猜测"><a href="#判断一：元数据先来自内容，而不是模板猜测" class="headerlink" title="判断一：元数据先来自内容，而不是模板猜测"></a>判断一：元数据先来自内容，而不是模板猜测</h2><p>本站要求文章 front matter 包含 title、date、description、tags、categories 和 cover。模板会优先使用这些显式字段，再提供有限回退：</p>
+<ul>
+<li>页面标题由文章标题和站点标题组合。</li>
+<li>description 优先使用页面 description，否则从摘要或正文去除 HTML 后生成。</li>
+<li>最终 description 会合并空白并截取到 160 个字符。</li>
+<li>keywords 由标签、分类和站点关注方向去重组合。</li>
+<li>分享图片优先使用文章 cover，再回退到主题的默认图片或头像。</li>
+</ul>
+<p>回退机制保证普通页面不会因为少量字段缺失而渲染异常，但文章发布仍由源码审计要求显式 description。原因是作者写出的摘要通常比模板截取正文更准确，也能避免代码片段、开场铺垫或目录成为搜索摘要。</p>
+<p>本站审计将 description 少于 24 个字符视为薄弱元数据。这不是搜索引擎规则，而是项目自己的最低发布约束：摘要至少应能说明文章解决什么问题。</p>
+<h2 id="判断二：一个页面需要唯一且适配环境的-URL"><a href="#判断二：一个页面需要唯一且适配环境的-URL" class="headerlink" title="判断二：一个页面需要唯一且适配环境的 URL"></a>判断二：一个页面需要唯一且适配环境的 URL</h2><p>模板为除 404 外的页面输出 canonical，并同时写入 <code>og:url</code> 和结构化数据中的 <code>url</code>。文章若有 permalink 则使用 permalink，否则通过 Hexo 的 <code>full_url_for</code> 生成绝对地址，并移除末尾的 <code>index.html</code>。</p>
+<p>真正需要注意的是本站有两种部署路径：</p>
+<ul>
+<li>GitHub Pages 位于 <code>https://ghost-author.github.io/ryuho</code>，root 是 <code>/ryuho/</code>。</li>
+<li>Vercel 位于站点根路径，root 是 <code>/</code>。</li>
+</ul>
+<p>如果在模板里写死 <code>/ryuho/</code>，Vercel 会错误；如果永远从 <code>/</code> 开始，GitHub Pages 又会丢失子路径。主题因此统一使用 <code>url_for</code> 生成站内地址，使用 <code>full_url_for</code> 生成 SEO 所需的绝对地址。</p>
+<p><code>robots.txt</code> 和 Web App Manifest 也不是静态复制，而是由生成器读取当前 <code>url</code> 与 <code>root</code> 后输出。生成 sitemap 绝对地址时，代码还会判断 URL 是否已经包含 root，避免产生 <code>/ryuho/ryuho/</code>。路径正确性是 SEO 的基础，不是部署完成后的附加修补。</p>
+<h2 id="实践：页面语义覆盖搜索与分享"><a href="#实践：页面语义覆盖搜索与分享" class="headerlink" title="实践：页面语义覆盖搜索与分享"></a>实践：页面语义覆盖搜索与分享</h2><p>当前布局为所有页面输出：</p>
+<ul>
+<li>description 与可用时的 keywords</li>
+<li>canonical</li>
+<li>Open Graph 标题、摘要、类型、URL、站点名和图片</li>
+<li>Twitter 大图卡片与图片</li>
+<li>author、generator 和主题色</li>
+<li>JSON-LD 结构化数据</li>
+</ul>
+<p>文章页还会增加发布时间、更新时间和每个 <code>article:tag</code>。JSON-LD 对文章使用 <code>BlogPosting</code>，其他页面使用 <code>WebSite</code>，并提供标题、描述、URL、图片、关键词、作者和发布日期等当前能够确认的信息。</p>
+<p>这里有一个重要取舍：结构化数据只写站点真实拥有的字段，没有虚构组织、评分、浏览量或评论数量。SEO 不应成为制造信息的借口。缺少的数据宁可不输出，也不要为了看起来完整而编造。</p>
+<p>404 页面则明确输出 <code>noindex, follow</code>。它仍允许链接被继续发现，但不会把错误页面当成正常内容参与索引。</p>
+<h2 id="实践：让搜索引擎能够发现完整站点"><a href="#实践：让搜索引擎能够发现完整站点" class="headerlink" title="实践：让搜索引擎能够发现完整站点"></a>实践：让搜索引擎能够发现完整站点</h2><p>单页元数据之外，本站还生成三类站点级入口。</p>
+<p>第一是 <code>sitemap.xml</code>。它列出站点 URL，审计不仅确认文件存在和包含地址，还会把每个目标路径映射到构建目录，检查页面真实生成。一个格式正确但包含失效链接的 sitemap 仍然不合格。</p>
+<p>第二是 <code>robots.txt</code>。它允许抓取，并提供当前环境下的 sitemap 绝对地址。审计会确认存在 <code>Sitemap:</code>，并专门阻止 GitHub Pages 地址重复 root。</p>
+<p>第三是 Atom RSS。页面 head 中通过绝对地址声明 feed，站点也检查 <code>atom.xml</code> 必须存在。RSS 不等同于搜索排名，但它是内容发现与订阅的稳定入口，也帮助站点保持机器可读的发布记录。</p>
+<p>站内信息架构同样属于 SEO。首页链接专题、项目和最新文章；分类、标签、归档、相关推荐和正文链接构成内部网络。审计会扫描所有 HTML 的 <code>href</code> 与 <code>src</code>，忽略外部域名、邮件和锚点，然后确认站内目标在构建产物中可达。</p>
+<h2 id="取舍：不把-keywords-和“SEO-分数”当目标"><a href="#取舍：不把-keywords-和“SEO-分数”当目标" class="headerlink" title="取舍：不把 keywords 和“SEO 分数”当目标"></a>取舍：不把 keywords 和“SEO 分数”当目标</h2><p>本站会输出 keywords，但没有把它当作核心排名手段。它主要复用已经存在的标签、分类和写作方向，让页面主题保持一致。真正重要的仍是清楚的标题与摘要、稳定 URL、可抓取链接和有实际内容的正文。</p>
+<p>项目也没有引入在线 SEO 扫描服务作为发布依赖。当前检查使用 Node.js 标准库直接读取 <code>public</code>，能在本地和 CI 中重复执行。它无法模拟搜索引擎的全部行为，也不会承诺排名结果，但能阻止确定性的工程错误上线。</p>
+<p>同样，站点没有为每篇文章生成独立社交图片，而是使用文章 cover 或主题默认 hero 图。当前内容规模下，统一图片已经满足分享元数据完整性；只有在文章视觉识别真的成为需求时，才值得增加生成流程。</p>
+<h2 id="验证：从“标签存在”升级为“链路成立”"><a href="#验证：从“标签存在”升级为“链路成立”" class="headerlink" title="验证：从“标签存在”升级为“链路成立”"></a>验证：从“标签存在”升级为“链路成立”</h2><p>当前审计对 SEO 的验证不是只在首页搜索几个字符串。</p>
+<p>它会检查首页是否同时拥有 description、keywords、Open Graph、Twitter Card、canonical、Apple Touch Icon 和 JSON-LD；扫描全部非 404 HTML 是否有 canonical、description 与 Open Graph URL；检查文章页是否公开 <code>article:tag</code> 和 Twitter 图片；确认 404 为 noindex。</p>
+<p>站点级检查还覆盖 robots、sitemap、manifest 图标类型、首页最新文章入口、内部链接、静态资源和 sitemap 目标。两条构建命令分别使用 GitHub Pages 与 Vercel 配置，再运行同一套审计。</p>
+<p>这种验证不能证明搜索引擎一定收录，也不能证明某个关键词会获得排名。它能证明的是：站点向外提供的标题、摘要、URL、发现入口和内部关系在构建产物中彼此一致。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>静态站点的 SEO 不是在模板里堆几个 meta 标签，而是一条从内容源到公开 URL 的完整链路。</p>
+<p>文章需要明确标题、摘要、主题和封面；模板需要输出 canonical、分享元数据与结构化数据；站点需要 sitemap、robots、RSS 和可达的内部链接；多环境部署需要根据当前 root 生成正确地址；最后还要从 <code>public</code> 产物验证这些承诺真的成立。</p>
+<p>SEO 中可控的部分，本质上是内容质量、信息架构和工程正确性。本站不承诺无法验证的排名结果，只把能够确定的基础做好，并让它们在每次发布时自动接受检查。这比一次性“优化标签”更适合长期维护。</p>
+
+    </div>
+    
+      <aside class="post-toc" aria-label="文章目录">
+        <h3>目录</h3>
+        <div class="toc-inner">
+          <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF%EF%BC%9A%E6%9E%84%E5%BB%BA%E6%88%90%E5%8A%9F%E4%B8%8D%E4%BB%A3%E8%A1%A8%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E%E7%9C%8B%E5%88%B0%E7%9A%84%E6%98%AF%E6%AD%A3%E7%A1%AE%E9%A1%B5%E9%9D%A2"><span class="toc-number">1.</span> <span class="toc-text">背景：构建成功不代表搜索引擎看到的是正确页面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E4%B8%80%EF%BC%9A%E5%85%83%E6%95%B0%E6%8D%AE%E5%85%88%E6%9D%A5%E8%87%AA%E5%86%85%E5%AE%B9%EF%BC%8C%E8%80%8C%E4%B8%8D%E6%98%AF%E6%A8%A1%E6%9D%BF%E7%8C%9C%E6%B5%8B"><span class="toc-number">2.</span> <span class="toc-text">判断一：元数据先来自内容，而不是模板猜测</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E4%BA%8C%EF%BC%9A%E4%B8%80%E4%B8%AA%E9%A1%B5%E9%9D%A2%E9%9C%80%E8%A6%81%E5%94%AF%E4%B8%80%E4%B8%94%E9%80%82%E9%85%8D%E7%8E%AF%E5%A2%83%E7%9A%84-URL"><span class="toc-number">3.</span> <span class="toc-text">判断二：一个页面需要唯一且适配环境的 URL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E8%B7%B5%EF%BC%9A%E9%A1%B5%E9%9D%A2%E8%AF%AD%E4%B9%89%E8%A6%86%E7%9B%96%E6%90%9C%E7%B4%A2%E4%B8%8E%E5%88%86%E4%BA%AB"><span class="toc-number">4.</span> <span class="toc-text">实践：页面语义覆盖搜索与分享</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E8%B7%B5%EF%BC%9A%E8%AE%A9%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E%E8%83%BD%E5%A4%9F%E5%8F%91%E7%8E%B0%E5%AE%8C%E6%95%B4%E7%AB%99%E7%82%B9"><span class="toc-number">5.</span> <span class="toc-text">实践：让搜索引擎能够发现完整站点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%96%E8%88%8D%EF%BC%9A%E4%B8%8D%E6%8A%8A-keywords-%E5%92%8C%E2%80%9CSEO-%E5%88%86%E6%95%B0%E2%80%9D%E5%BD%93%E7%9B%AE%E6%A0%87"><span class="toc-number">6.</span> <span class="toc-text">取舍：不把 keywords 和“SEO 分数”当目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%EF%BC%9A%E4%BB%8E%E2%80%9C%E6%A0%87%E7%AD%BE%E5%AD%98%E5%9C%A8%E2%80%9D%E5%8D%87%E7%BA%A7%E4%B8%BA%E2%80%9C%E9%93%BE%E8%B7%AF%E6%88%90%E7%AB%8B%E2%80%9D"><span class="toc-number">7.</span> <span class="toc-text">验证：从“标签存在”升级为“链路成立”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">8.</span> <span class="toc-text">结论</span></a></li></ol>
+        </div>
+      </aside>
+    
+  </div>
+  
+    <section class="related-posts" aria-labelledby="related-title">
+      <div class="section-title">
+        <h2 id="related-title">相关推荐</h2>
+        <a href="/ryuho/archives/">完整归档</a>
+      </div>
+      <div class="related-grid">
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/28/%E6%B2%A1%E6%9C%89%E5%90%8E%E7%AB%AF%E5%8D%9A%E5%AE%A2%E8%BF%98%E8%83%BD%E5%81%9A%E5%88%B0%E5%93%AA%E4%BA%9B%E4%BA%A7%E5%93%81%E5%8C%96%E8%83%BD%E5%8A%9B/">
+              <span class="related-score">同主题</span>
+              <h3>没有后端，博客还能做到哪些产品化能力</h3>
+              <p>以这个 Hexo 博客的真实实现为例，梳理纯静态站点如何获得搜索、推荐、离线访问、订阅和质量保障，以及这些能力的明确边界。</p>
+              <time datetime="2026-07-28T06:00:00.000Z">2026-07-28</time>
+            </a>
+          </article>
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/02/09/%E6%8A%8A%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E5%BD%93%E4%BD%9C%E5%B7%A5%E7%A8%8B%E9%A1%B9%E7%9B%AE%E7%BB%B4%E6%8A%A4/">
+              <span class="related-score">同主题</span>
+              <h3>把个人博客当作工程项目维护</h3>
+              <p>从工程视角维护个人博客：明确定位、收紧发布流程、补齐审计检查，并让内容持续可迭代。</p>
+              <time datetime="2026-02-09T02:00:00.000Z">2026-02-09</time>
+            </a>
+          </article>
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/28/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BB%B4%E6%8A%A4%E4%B8%80%E6%AE%B5%E6%97%B6%E9%97%B4%E5%90%8E%E6%88%91%E4%BF%9D%E7%95%99%E4%BA%86%E4%BB%80%E4%B9%88%E5%88%A0%E6%8E%89%E4%BA%86%E4%BB%80%E4%B9%88/">
+              <span class="related-score">同主题</span>
+              <h3>个人博客维护一段时间后，我保留了什么、删掉了什么</h3>
+              <p>基于当前仓库可以验证的配置、主题和维护策略，复盘这个博客保留的核心能力、已经移除或关闭的内容，以及背后的范围判断。</p>
+              <time datetime="2026-07-28T08:00:00.000Z">2026-07-28</time>
+            </a>
+          </article>
+        
+      </div>
+    </section>
+  
+  <footer class="post-end">
+    <div class="post-end-card">
+      <h2>读完这篇</h2>
+      <dl class="post-facts">
+        <div>
+          <dt>字数</dt>
+          <dd>3264</dd>
+        </div>
+        <div>
+          <dt>阅读</dt>
+          <dd>7 分钟</dd>
+        </div>
+        
+          <div>
+            <dt>分类</dt>
+            <dd>
+              
+                <a href="/ryuho/categories/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/">工程实践</a>
+              
+            </dd>
+          </div>
+        
+      </dl>
+      <div class="post-end-actions">
+        <a class="text-action" href="/ryuho/">回到首页</a>
+        <a class="text-action" href="/ryuho/tags/">浏览标签</a>
+      </div>
+    </div>
+  </footer>
+
+  
+
+  <nav class="post-nav" aria-label="文章翻页">
+    
+      <a href="/ryuho/2026/07/28/%E4%BB%8E0%E5%88%B049%E9%A1%B9%E6%A3%80%E6%9F%A5-%E8%B4%A8%E9%87%8F%E9%97%A8%E7%A6%81%E6%98%AF%E6%80%8E%E6%A0%B7%E9%80%90%E6%AD%A5%E9%95%BF%E5%87%BA%E6%9D%A5%E7%9A%84/">上一篇：从 0 到 49 项检查：质量门禁是怎样逐步长出来的</a>
+    
+    
+      <a href="/ryuho/2026/07/28/%E6%96%87%E7%AB%A0%E7%B3%BB%E5%88%97%E6%A0%87%E7%AD%BE%E5%92%8C%E5%88%86%E7%B1%BB%E5%88%86%E5%88%AB%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98/">下一篇：文章系列、标签和分类分别解决什么问题</a>
+    
+  </nav>
+</article>
+
+  </main>
+  <footer class="site-footer">
+  <div class="container footer-inner">
+    <span>© 2026 Ghost-Author. 记录 AI 工程与长期思考。</span>
+    <span>
+      <a href="/ryuho/atom.xml">RSS</a>
+      
+        · <a href="mailto:liupggg@gmail.com">Email</a>
+      
+      · <a href="/ryuho/archives/">归档</a>
+    </span>
+  </div>
+</footer>
+
+  <button class="back-to-top" type="button" aria-label="回到顶部">↑</button>
+</body>
+</html>

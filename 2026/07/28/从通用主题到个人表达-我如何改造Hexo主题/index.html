@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>从通用主题到个人表达：我如何改造 Hexo 主题 | Ghost-Author</title>
+  <meta name="description" content="复盘一个 Hexo 主题如何从通用页面骨架演进为服务技术写作、专题阅读、内容发现和双部署的个人博客界面。">
+  
+    <meta name="keywords" content="工程实践, Hexo, 前端设计, 信息架构, AI 工程, 系统设计">
+  
+  
+  <meta name="author" content="Ghost-Author">
+  <meta name="generator" content="Hexo">
+  <meta name="theme-color" content="#ff7bb2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#211827" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="从通用主题到个人表达：我如何改造 Hexo 主题 | Ghost-Author">
+  <meta property="og:description" content="复盘一个 Hexo 主题如何从通用页面骨架演进为服务技术写作、专题阅读、内容发现和双部署的个人博客界面。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://ghost-author.github.io/ryuho/2026/07/28/%E4%BB%8E%E9%80%9A%E7%94%A8%E4%B8%BB%E9%A2%98%E5%88%B0%E4%B8%AA%E4%BA%BA%E8%A1%A8%E8%BE%BE-%E6%88%91%E5%A6%82%E4%BD%95%E6%94%B9%E9%80%A0Hexo%E4%B8%BB%E9%A2%98/">
+  <meta property="og:site_name" content="Ghost-Author">
+  
+    <meta property="og:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  
+    <meta name="twitter:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  
+    <meta property="article:published_time" content="2026-07-28T02:00:00.000Z">
+    
+      <meta property="article:modified_time" content="2026-07-27T23:52:31.943Z">
+    
+    
+      
+        <meta property="article:tag" content="工程实践">
+      
+        <meta property="article:tag" content="Hexo">
+      
+        <meta property="article:tag" content="前端设计">
+      
+        <meta property="article:tag" content="信息架构">
+      
+    
+  
+  <link rel="alternate" type="application/atom+xml" title="Ghost-Author" href="https://ghost-author.github.io/ryuho/atom.xml">
+  <link rel="canonical" href="https://ghost-author.github.io/ryuho/2026/07/28/%E4%BB%8E%E9%80%9A%E7%94%A8%E4%B8%BB%E9%A2%98%E5%88%B0%E4%B8%AA%E4%BA%BA%E8%A1%A8%E8%BE%BE-%E6%88%91%E5%A6%82%E4%BD%95%E6%94%B9%E9%80%A0Hexo%E4%B8%BB%E9%A2%98/">
+  <link rel="manifest" href="/ryuho/site.webmanifest">
+  <link rel="apple-touch-icon" href="/ryuho/images/avatar.png">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = saved || (prefersDark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="/ryuho/css/style.css">
+  <script src="/ryuho/js/main.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/ryuho/sw.js').catch(function () {});
+      });
+    }
+  </script>
+  
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"BlogPosting","headline":"从通用主题到个人表达：我如何改造 Hexo 主题","name":"从通用主题到个人表达：我如何改造 Hexo 主题","description":"复盘一个 Hexo 主题如何从通用页面骨架演进为服务技术写作、专题阅读、内容发现和双部署的个人博客界面。","url":"https://ghost-author.github.io/ryuho/2026/07/28/%E4%BB%8E%E9%80%9A%E7%94%A8%E4%B8%BB%E9%A2%98%E5%88%B0%E4%B8%AA%E4%BA%BA%E8%A1%A8%E8%BE%BE-%E6%88%91%E5%A6%82%E4%BD%95%E6%94%B9%E9%80%A0Hexo%E4%B8%BB%E9%A2%98/","image":"https://ghost-author.github.io/ryuho/images/hero.jpg","keywords":"工程实践, Hexo, 前端设计, 信息架构, AI 工程, 系统设计","author":{"@type":"Person","name":"Ghost-Author"},"publisher":{"@type":"Person","name":"Ghost-Author"},"datePublished":"2026-07-28T02:00:00.000Z","dateModified":"2026-07-27T23:52:31.943Z"}
+  </script>
+</head>
+<body>
+  <div class="reading-progress" aria-hidden="true"></div>
+  <a class="skip-link" href="#content">跳到正文</a>
+  <header class="site-header">
+  
+  <div class="container header-inner">
+    <a class="logo" href="/ryuho/">
+      <span class="logo-dot"></span>
+      <span>Ghost-Author</span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="/ryuho/" >首页</a>
+      <a href="/ryuho/search/" >搜索</a>
+      <a href="/ryuho/series/" >专题</a>
+      <a href="/ryuho/projects/" >项目</a>
+      <a href="/ryuho/about/" >关于</a>
+      <a href="/ryuho/tags/" >标签</a>
+      <a href="/ryuho/categories/" >分类</a>
+      <a href="/ryuho/archives/" >归档</a>
+    </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换深色模式" aria-pressed="false">
+      <span aria-hidden="true" data-theme-icon>☾</span>
+    </button>
+  </div>
+</header>
+
+  <main class="container" id="content" tabindex="-1">
+    <article class="post post-layout">
+  
+  <header class="post-header">
+    <h1>从通用主题到个人表达：我如何改造 Hexo 主题</h1>
+    <div class="post-meta-line">
+      <time datetime="2026-07-28T02:00:00.000Z">2026-07-28</time>
+      <span>6 分钟阅读</span>
+      <span>2715 字</span>
+      
+    </div>
+  </header>
+  
+    <img class="post-hero" src="/ryuho/images/hero.jpg" alt="" width="1920" height="1080" loading="eager" decoding="async">
+  
+  
+    <div class="post-meta">
+      
+        <a class="tag" href="/ryuho/tags/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/">
+          <span class="tag-name">工程实践</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/Hexo/">
+          <span class="tag-name">Hexo</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/%E5%89%8D%E7%AB%AF%E8%AE%BE%E8%AE%A1/">
+          <span class="tag-name">前端设计</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/%E4%BF%A1%E6%81%AF%E6%9E%B6%E6%9E%84/">
+          <span class="tag-name">信息架构</span>
+        </a>
+      
+    </div>
+  
+  <div class="post-actions" aria-label="文章操作">
+    <button class="text-action" type="button" data-copy-link data-copy-text="复制链接" data-copied-text="已复制">复制链接</button>
+    <a class="text-action" href="/ryuho/archives/">查看归档</a>
+  </div>
+  <div class="post-body">
+    <div class="post-content">
+      <p>Hexo 主题很容易停留在“能展示文章”的阶段：首页列出标题，文章页渲染 Markdown，再补一个归档和标签页。这样的骨架可以使用，却很难回答这是一个怎样的站点、作者长期关注什么、读者应该从哪里开始。</p>
+<p>这个博客没有继续堆叠第三方主题配置，而是围绕现有 <code>themes/minimal</code> 逐步改造。目标不是做出更复杂的视觉效果，而是让界面真实表达内容定位：AI 工程、系统思考和博客工程化实践，并让搜索、专题、项目、归档与文章阅读形成连续路径。</p>
+<h2 id="先让首页承担定位，而不是只承担列表"><a href="#先让首页承担定位，而不是只承担列表" class="headerlink" title="先让首页承担定位，而不是只承担列表"></a>先让首页承担定位，而不是只承担列表</h2><p>通用博客首页往往把最新文章放在最显眼位置，但第一次访问的人还不知道这些文章为什么值得读。</p>
+<p>当前首页最前面直接输出：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">IT 个人博客 · AI 工程 · 系统思考<br></code></pre></td></tr></table></figure>
+
+<p>标题和副标题之后提供两个明确入口：阅读最新文章、浏览技术分类。搜索框和 RSS 也在首屏出现，对应“寻找已有内容”和“持续接收更新”两种需求。</p>
+<p>这不是营销式首页。它没有把文章藏在多屏介绍之后，紧接着就是“刚刚更新”、专题路径、技术索引和文章列表。首页要表达身份，但博客的主体仍然是内容。</p>
+<h2 id="最新文章不是一个标题，而是一段阅读决策信息"><a href="#最新文章不是一个标题，而是一段阅读决策信息" class="headerlink" title="最新文章不是一个标题，而是一段阅读决策信息"></a>最新文章不是一个标题，而是一段阅读决策信息</h2><p>首页通过 <code>site.posts.sort(&#39;date&#39;, -1)</code> 找到最新文章，并组合：</p>
+<ul>
+<li>发布日期；</li>
+<li>按正文长度估算的阅读时间；</li>
+<li>标题与 description；</li>
+<li>文章标签；</li>
+<li>明确的继续阅读入口。</li>
+</ul>
+<p>阅读时间按去除 HTML 后的字符数除以 500 估算，至少显示一分钟。这不是精密统计，而是稳定、可解释的提示。它帮助读者判断当前是否适合打开长文，同时不引入外部脚本。</p>
+<p>description 优先于正文截取，意味着作者写下的内容概括会贯穿首页、搜索和分享场景。主题不只是展示内容，也在推动内容字段真正被使用。</p>
+<h2 id="专题页解决“按什么顺序读”"><a href="#专题页解决“按什么顺序读”" class="headerlink" title="专题页解决“按什么顺序读”"></a>专题页解决“按什么顺序读”</h2><p>标签和分类适合聚合，却无法表达文章之间的先后关系。于是首页增加“专题路径”，当前包含 AI 工程上线路径和博客工程化实践。</p>
+<p>专题页不是自动生成的标签列表，而是手工维护的阅读路线。这样可以把“评测集、RAG、智能体、可观测性”组织成一条工程顺序，也可以把博客从定位、搜索、离线、图片、推荐到双部署的改造串成完整复盘。</p>
+<p>这里的取舍很明确：</p>
+<ul>
+<li>自动列表维护成本低，但只能按日期或标签排序。</li>
+<li>手工专题需要更新，却能表达作者对知识结构的判断。</li>
+</ul>
+<p>主题提供入口和视觉层级，内容页面负责真正的编排，两者没有被强行塞进一个复杂组件。</p>
+<h2 id="技术索引要帮助扫描，而不是制造标签云"><a href="#技术索引要帮助扫描，而不是制造标签云" class="headerlink" title="技术索引要帮助扫描，而不是制造标签云"></a>技术索引要帮助扫描，而不是制造标签云</h2><p>标签数量增长后，传统标签云会因为字号差异形成视觉噪声，也未必能突出站点定位。</p>
+<p>首页先按一组主题优先级排列标签和分类，例如 AI 工程、RAG、智能体、评测、工程实践、Hexo、CI&#x2F;CD 和 SEO；不在优先列表中的项目再按文章数量排序。</p>
+<p>这是一种编辑型排序。它承认“最常出现”不一定等于“最应该代表本站”。界面通过名称与数量的紧凑列表呈现，读者可以快速扫描，而不是从装饰性的字号大小里猜测重点。</p>
+<p>排序规则留在模板中也有代价：每次定位变化都需要修改主题。当前站点规模下，这比引入额外配置层更直接；当方向列表需要频繁运营时，再迁移到主题配置更合适。</p>
+<h2 id="文章页围绕阅读过程补齐信息"><a href="#文章页围绕阅读过程补齐信息" class="headerlink" title="文章页围绕阅读过程补齐信息"></a>文章页围绕阅读过程补齐信息</h2><p>文章页不只渲染 Markdown。顶部根据实际正文计算字数和阅读时间，显示发布日期与更新日期；正文有目录，页面顶部有阅读进度；文章操作提供复制链接和返回归档。</p>
+<p>正文之后的相关推荐根据共享标签和分类计分：</p>
+<ul>
+<li>每个相同标签加 2 分；</li>
+<li>每个相同分类加 1 分；</li>
+<li>分数相同时按日期倒序；</li>
+<li>最终选择 3 篇。</li>
+</ul>
+<p>如果没有共同主题，仍会回退到最近更新，并在界面上明确标记。这套算法很简单，但比随机推荐更符合技术文章阅读路径，也不需要行为追踪。</p>
+<p>文章底部还重复提供字数、阅读时间、分类以及首页和标签入口。长文读完后，读者不必滚回顶部才能继续浏览。</p>
+<h2 id="全局布局统一处理可访问性与分享信息"><a href="#全局布局统一处理可访问性与分享信息" class="headerlink" title="全局布局统一处理可访问性与分享信息"></a>全局布局统一处理可访问性与分享信息</h2><p><code>layout.ejs</code> 承担所有页面共同的发布能力。</p>
+<p>页面 description 优先读取 front matter，再从正文回退，并压缩空白、限制长度。canonical 根据页面 permalink 或 path 生成；封面同时进入 Open Graph、Twitter Card 和 JSON-LD。文章标签会输出为 <code>article:tag</code>。</p>
+<p>交互层面还包括：</p>
+<ul>
+<li>“跳到正文”的 skip link；</li>
+<li>主内容区域可接收焦点；</li>
+<li>根据系统偏好和本地保存值初始化明暗主题；</li>
+<li>Service Worker 注册失败时不阻塞页面；</li>
+<li>回到顶部按钮和阅读进度；</li>
+<li>图片明确 width、height 与解码策略。</li>
+</ul>
+<p>这些能力放在统一布局中，避免每一种页面各自实现，也让审计器可以按页面性质验证最终输出。</p>
+<h2 id="为什么保留自己的轻量主题"><a href="#为什么保留自己的轻量主题" class="headerlink" title="为什么保留自己的轻量主题"></a>为什么保留自己的轻量主题</h2><p>成熟主题通常提供更多开关、插件和布局，直接采用它们完全合理。当前项目继续维护 <code>minimal</code>，主要因为它已经和内容模型形成了具体耦合：</p>
+<ul>
+<li>首页知道两个真实专题；</li>
+<li>文章页了解标签与分类的推荐权重；</li>
+<li>SEO 与双部署路径统一使用 Hexo helper；</li>
+<li>搜索、项目页和专题页共享现有视觉语言；</li>
+<li>评论只有在配置完整时才启用；</li>
+<li>分析脚本同样由配置决定是否输出。</li>
+</ul>
+<p>代价是每项能力都要自己验证，升级 Hexo 时也需要检查模板兼容性。好处则是界面没有大量不用的功能，任何模块为什么存在都可以从内容需求解释。</p>
+<h2 id="视觉改造中的克制"><a href="#视觉改造中的克制" class="headerlink" title="视觉改造中的克制"></a>视觉改造中的克制</h2><p>个人表达不等于把页面填满个性装饰。技术博客首先需要稳定阅读，所以改造遵循几条约束：</p>
+<ul>
+<li>正文优先，装饰不进入核心阅读区域；</li>
+<li>列表信息足够密集，但每项保持清楚层级；</li>
+<li>专题和项目使用明确入口，不依赖隐藏菜单；</li>
+<li>明暗主题都保持可读；</li>
+<li>移动端不假设存在宽屏侧栏；</li>
+<li>图片尺寸提前声明，减少布局变化。</li>
+</ul>
+<p>首页保留了个人简介、当前关注和站点入口，但它们处于内容发现路径之后，没有抢占文章的主体地位。</p>
+<h2 id="如何验证主题改造"><a href="#如何验证主题改造" class="headerlink" title="如何验证主题改造"></a>如何验证主题改造</h2><p>模板能渲染只是第一步。当前审计会检查：</p>
+<ul>
+<li>所有页面的 description、canonical 与 Open Graph URL；</li>
+<li>首页最新文章入口是否指向真实文章；</li>
+<li>专题、项目、搜索和归档是否可达；</li>
+<li>文章分享信息和相关推荐是否存在；</li>
+<li>图片是否声明尺寸；</li>
+<li>HTML 是否泄漏空值或占位配置；</li>
+<li>GitHub Pages 与 Vercel 两种 root 下链接是否成立。</li>
+</ul>
+<p>自动审计之外，视觉和交互仍需浏览器人工检查。机器可以确认目录存在，却不能判断目录在窄屏下是否舒服；可以确认按钮有链接，却不能证明信息层级自然。</p>
+<h2 id="可复用的结论"><a href="#可复用的结论" class="headerlink" title="可复用的结论"></a>可复用的结论</h2><p>改造主题时，与其先问“还能加什么组件”，不如依次回答：</p>
+<ol>
+<li>第一次访问的人能否理解站点定位？</li>
+<li>读者能否找到最新内容、专题路径和历史文章？</li>
+<li>文章页是否支持从打开到读完的完整过程？</li>
+<li>元数据能否服务搜索、分享和相关推荐？</li>
+<li>所有能力能否在真实部署路径下验证？</li>
+</ol>
+<p>一个好的个人主题，不需要看起来和所有网站都不同。它更重要的价值，是让作者的内容结构和长期判断在页面上自然显现。</p>
+
+    </div>
+    
+      <aside class="post-toc" aria-label="文章目录">
+        <h3>目录</h3>
+        <div class="toc-inner">
+          <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%88%E8%AE%A9%E9%A6%96%E9%A1%B5%E6%89%BF%E6%8B%85%E5%AE%9A%E4%BD%8D%EF%BC%8C%E8%80%8C%E4%B8%8D%E6%98%AF%E5%8F%AA%E6%89%BF%E6%8B%85%E5%88%97%E8%A1%A8"><span class="toc-number">1.</span> <span class="toc-text">先让首页承担定位，而不是只承担列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E6%96%B0%E6%96%87%E7%AB%A0%E4%B8%8D%E6%98%AF%E4%B8%80%E4%B8%AA%E6%A0%87%E9%A2%98%EF%BC%8C%E8%80%8C%E6%98%AF%E4%B8%80%E6%AE%B5%E9%98%85%E8%AF%BB%E5%86%B3%E7%AD%96%E4%BF%A1%E6%81%AF"><span class="toc-number">2.</span> <span class="toc-text">最新文章不是一个标题，而是一段阅读决策信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%93%E9%A2%98%E9%A1%B5%E8%A7%A3%E5%86%B3%E2%80%9C%E6%8C%89%E4%BB%80%E4%B9%88%E9%A1%BA%E5%BA%8F%E8%AF%BB%E2%80%9D"><span class="toc-number">3.</span> <span class="toc-text">专题页解决“按什么顺序读”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E7%B4%A2%E5%BC%95%E8%A6%81%E5%B8%AE%E5%8A%A9%E6%89%AB%E6%8F%8F%EF%BC%8C%E8%80%8C%E4%B8%8D%E6%98%AF%E5%88%B6%E9%80%A0%E6%A0%87%E7%AD%BE%E4%BA%91"><span class="toc-number">4.</span> <span class="toc-text">技术索引要帮助扫描，而不是制造标签云</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E7%AB%A0%E9%A1%B5%E5%9B%B4%E7%BB%95%E9%98%85%E8%AF%BB%E8%BF%87%E7%A8%8B%E8%A1%A5%E9%BD%90%E4%BF%A1%E6%81%AF"><span class="toc-number">5.</span> <span class="toc-text">文章页围绕阅读过程补齐信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E5%B8%83%E5%B1%80%E7%BB%9F%E4%B8%80%E5%A4%84%E7%90%86%E5%8F%AF%E8%AE%BF%E9%97%AE%E6%80%A7%E4%B8%8E%E5%88%86%E4%BA%AB%E4%BF%A1%E6%81%AF"><span class="toc-number">6.</span> <span class="toc-text">全局布局统一处理可访问性与分享信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BF%9D%E7%95%99%E8%87%AA%E5%B7%B1%E7%9A%84%E8%BD%BB%E9%87%8F%E4%B8%BB%E9%A2%98"><span class="toc-number">7.</span> <span class="toc-text">为什么保留自己的轻量主题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%86%E8%A7%89%E6%94%B9%E9%80%A0%E4%B8%AD%E7%9A%84%E5%85%8B%E5%88%B6"><span class="toc-number">8.</span> <span class="toc-text">视觉改造中的克制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E9%AA%8C%E8%AF%81%E4%B8%BB%E9%A2%98%E6%94%B9%E9%80%A0"><span class="toc-number">9.</span> <span class="toc-text">如何验证主题改造</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E5%A4%8D%E7%94%A8%E7%9A%84%E7%BB%93%E8%AE%BA"><span class="toc-number">10.</span> <span class="toc-text">可复用的结论</span></a></li></ol>
+        </div>
+      </aside>
+    
+  </div>
+  
+    <section class="related-posts" aria-labelledby="related-title">
+      <div class="section-title">
+        <h2 id="related-title">相关推荐</h2>
+        <a href="/ryuho/archives/">完整归档</a>
+      </div>
+      <div class="related-grid">
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/28/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E4%B8%8D%E4%BC%9A%E8%B6%8A%E5%86%99%E8%B6%8A%E4%B9%B1%E7%9A%84%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2%E4%BF%A1%E6%81%AF%E6%9E%B6%E6%9E%84/">
+              <span class="related-score">同主题</span>
+              <h3>如何设计一个不会越写越乱的技术博客信息架构</h3>
+              <p>以本站的首页、专题、项目、分类、标签、归档和搜索为例，复盘技术博客如何为不同阅读意图分配入口，并在内容增长时保持结构清楚。</p>
+              <time datetime="2026-07-28T03:30:00.000Z">2026-07-28</time>
+            </a>
+          </article>
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/28/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BB%B4%E6%8A%A4%E4%B8%80%E6%AE%B5%E6%97%B6%E9%97%B4%E5%90%8E%E6%88%91%E4%BF%9D%E7%95%99%E4%BA%86%E4%BB%80%E4%B9%88%E5%88%A0%E6%8E%89%E4%BA%86%E4%BB%80%E4%B9%88/">
+              <span class="related-score">同主题</span>
+              <h3>个人博客维护一段时间后，我保留了什么、删掉了什么</h3>
+              <p>基于当前仓库可以验证的配置、主题和维护策略，复盘这个博客保留的核心能力、已经移除或关闭的内容，以及背后的范围判断。</p>
+              <time datetime="2026-07-28T08:00:00.000Z">2026-07-28</time>
+            </a>
+          </article>
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/28/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2%E6%9C%80%E5%AE%B9%E6%98%93%E7%A7%AF%E7%B4%AF%E7%9A%84%E4%BA%94%E7%B1%BB%E7%BB%B4%E6%8A%A4%E5%80%BA%E5%8A%A1/">
+              <span class="related-score">同主题</span>
+              <h3>技术博客最容易积累的五类维护债务</h3>
+              <p>从内容、链接、依赖、构建配置和界面功能五个方面，分析技术博客会如何积累维护债务，以及如何用现有 Hexo 工程的规则持续偿还。</p>
+              <time datetime="2026-07-28T07:00:00.000Z">2026-07-28</time>
+            </a>
+          </article>
+        
+      </div>
+    </section>
+  
+  <footer class="post-end">
+    <div class="post-end-card">
+      <h2>读完这篇</h2>
+      <dl class="post-facts">
+        <div>
+          <dt>字数</dt>
+          <dd>2715</dd>
+        </div>
+        <div>
+          <dt>阅读</dt>
+          <dd>6 分钟</dd>
+        </div>
+        
+          <div>
+            <dt>分类</dt>
+            <dd>
+              
+                <a href="/ryuho/categories/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/">工程实践</a>
+              
+            </dd>
+          </div>
+        
+      </dl>
+      <div class="post-end-actions">
+        <a class="text-action" href="/ryuho/">回到首页</a>
+        <a class="text-action" href="/ryuho/tags/">浏览标签</a>
+      </div>
+    </div>
+  </footer>
+
+  
+
+  <nav class="post-nav" aria-label="文章翻页">
+    
+      <a href="/ryuho/2026/07/28/%E4%B8%80%E4%B8%AA%E5%8F%AF%E9%9D%A0%E7%9A%84%E9%9D%99%E6%80%81%E7%AB%99%E6%90%9C%E7%B4%A2%E7%B4%A2%E5%BC%95%E5%BA%94%E8%AF%A5%E5%8C%85%E5%90%AB%E4%BB%80%E4%B9%88/">上一篇：一个可靠的静态站搜索索引应该包含什么</a>
+    
+    
+      <a href="/ryuho/2026/07/28/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E5%86%85%E5%AE%B9%E7%94%9F%E4%BA%A7%E6%B5%81%E7%A8%8B%E4%B9%9F%E5%80%BC%E5%BE%97%E5%B7%A5%E7%A8%8B%E5%8C%96/">下一篇：个人博客的内容生产流程也值得工程化</a>
+    
+  </nav>
+</article>
+
+  </main>
+  <footer class="site-footer">
+  <div class="container footer-inner">
+    <span>© 2026 Ghost-Author. 记录 AI 工程与长期思考。</span>
+    <span>
+      <a href="/ryuho/atom.xml">RSS</a>
+      
+        · <a href="mailto:liupggg@gmail.com">Email</a>
+      
+      · <a href="/ryuho/archives/">归档</a>
+    </span>
+  </div>
+</footer>
+
+  <button class="back-to-top" type="button" aria-label="回到顶部">↑</button>
+</body>
+</html>
