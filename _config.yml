@@ -127,4 +127,4 @@ theme_config:
     - name: 'GitHub Pages'
       url: 'https://ghost-author.github.io/ryuho'
     - name: 'Vercel 站点'
-      url: 'https://ghost-author.github.io/ryuho'
+      url: 'https://ryuho-kappa.vercel.app'

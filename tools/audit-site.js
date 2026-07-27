@@ -256,6 +256,13 @@ const postSourceFiles = fs.existsSync(postsDir)
       .map((file) => path.join(postsDir, file))
   : [];
 
+const starterPostFiles = postSourceFiles.filter((file) => /^hello-world\.md$/i.test(path.basename(file)));
+addCheck(
+  'starter post filenames are removed',
+  starterPostFiles.length === 0,
+  starterPostFiles.map((file) => toPosix(path.relative(root, file))).join(', ')
+);
+
 const postMetadataProblems = [];
 postSourceFiles.forEach((file) => {
   const { data, body } = readMarkdownFrontMatter(file);
