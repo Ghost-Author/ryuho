@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>博客工程化实践 | Ghost-Author</title>
+  <meta name="description" content="从定位、信息架构、主题体验到发布门禁，记录这个 Hexo 博客如何被当作长期工程持续维护。">
+  
+    <meta name="keywords" content="AI 工程, 工程实践, 系统设计">
+  
+  
+  <meta name="author" content="Ghost-Author">
+  <meta name="generator" content="Hexo">
+  <meta name="theme-color" content="#ff7bb2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#211827" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="博客工程化实践 | Ghost-Author">
+  <meta property="og:description" content="从定位、信息架构、主题体验到发布门禁，记录这个 Hexo 博客如何被当作长期工程持续维护。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ghost-author.github.io/ryuho/series/blog-engineering/">
+  <meta property="og:site_name" content="Ghost-Author">
+  
+    <meta property="og:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  
+    <meta name="twitter:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Ghost-Author" href="https://ghost-author.github.io/ryuho/atom.xml">
+  <link rel="canonical" href="https://ghost-author.github.io/ryuho/series/blog-engineering/">
+  <link rel="manifest" href="/ryuho/site.webmanifest">
+  <link rel="apple-touch-icon" href="/ryuho/images/avatar.png">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = saved || (prefersDark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="/ryuho/css/style.css">
+  <script src="/ryuho/js/main.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/ryuho/sw.js').catch(function () {});
+      });
+    }
+  </script>
+  
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebSite","headline":"博客工程化实践","name":"博客工程化实践","description":"从定位、信息架构、主题体验到发布门禁，记录这个 Hexo 博客如何被当作长期工程持续维护。","url":"https://ghost-author.github.io/ryuho/series/blog-engineering/","image":"https://ghost-author.github.io/ryuho/images/hero.jpg","keywords":"AI 工程, 工程实践, 系统设计","author":{"@type":"Person","name":"Ghost-Author"},"publisher":{"@type":"Person","name":"Ghost-Author"}}
+  </script>
+</head>
+<body>
+  <div class="reading-progress" aria-hidden="true"></div>
+  <a class="skip-link" href="#content">跳到正文</a>
+  <header class="site-header">
+  
+  <div class="container header-inner">
+    <a class="logo" href="/ryuho/">
+      <span class="logo-dot"></span>
+      <span>Ghost-Author</span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="/ryuho/" >首页</a>
+      <a href="/ryuho/search/" >搜索</a>
+      <a href="/ryuho/series/" aria-current="page">专题</a>
+      <a href="/ryuho/projects/" >项目</a>
+      <a href="/ryuho/about/" >关于</a>
+      <a href="/ryuho/tags/" >标签</a>
+      <a href="/ryuho/categories/" >分类</a>
+      <a href="/ryuho/archives/" >归档</a>
+    </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换深色模式" aria-pressed="false">
+      <span aria-hidden="true" data-theme-icon>☾</span>
+    </button>
+  </div>
+</header>
+
+  <main class="container" id="content" tabindex="-1">
+    <article class="page">
+  <header class="page-header">
+    <h1>博客工程化实践</h1>
+    
+      <p class="page-description">从定位、信息架构、主题体验到发布门禁，记录这个 Hexo 博客如何被当作长期工程持续维护。</p>
+    
+  </header>
+  <div class="page-content">
+    <p>这个专题记录 Ryuho 博客自身的工程化过程。</p>
+<p>它不是一套“最佳 Hexo 配置”，而是一条真实演进路径：先让站点定位清楚，再整理阅读体验，随后补搜索、专题、部署和质量检查，最后主动停止没有需求支撑的功能扩张。</p>
+<h2 id="阅读路径"><a href="#阅读路径" class="headerlink" title="阅读路径"></a>阅读路径</h2><h3 id="1-先明确为什么要维护"><a href="#1-先明确为什么要维护" class="headerlink" title="1. 先明确为什么要维护"></a>1. 先明确为什么要维护</h3><p>个人博客值得长期维护的前提，不是页面足够漂亮，而是它能持续沉淀技术判断、项目经验和写作成果。</p>
+<p>关联阅读：<a href="/ryuho/2026/02/07/%E5%B0%8F%E7%AB%99%E5%BC%80%E5%BC%A0-%E6%8A%8A%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E5%BD%93%E4%BD%9C%E9%95%BF%E6%9C%9F%E5%B7%A5%E7%A8%8B/" title="小站开张：把个人博客当作长期工程">小站开张：把个人博客当作长期工程</a></p>
+<h3 id="2-整理信息架构"><a href="#2-整理信息架构" class="headerlink" title="2. 整理信息架构"></a>2. 整理信息架构</h3><p>首页、分类、标签和关于页承担不同责任。先让读者知道站点关注什么，再考虑更多视觉细节。</p>
+<p>关联阅读：<a href="/ryuho/2026/02/07/%E6%97%A5%E8%AE%B0-2026-02-07/" title="站点整理日志：先把信息架构理顺">站点整理日志：先把信息架构理顺</a></p>
+<h3 id="3-让主题服务阅读"><a href="#3-让主题服务阅读" class="headerlink" title="3. 让主题服务阅读"></a>3. 让主题服务阅读</h3><p>卡片、时间线、深色模式和阅读状态都只是工具。它们的共同目标，是降低浏览和连续阅读成本。</p>
+<p>关联阅读：<a href="/ryuho/2026/02/08/%E6%97%A5%E8%AE%B0-2026-02-08/" title="站点整理日志：让主题服务阅读体验">站点整理日志：让主题服务阅读体验</a></p>
+<h3 id="4-把博客当作工程项目"><a href="#4-把博客当作工程项目" class="headerlink" title="4. 把博客当作工程项目"></a>4. 把博客当作工程项目</h3><p>当内容和页面增多后，构建、部署、SEO、搜索和内容质量需要进入同一条维护流程。</p>
+<p>关联阅读：<a href="/ryuho/2026/02/09/%E6%8A%8A%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E5%BD%93%E4%BD%9C%E5%B7%A5%E7%A8%8B%E9%A1%B9%E7%9B%AE%E7%BB%B4%E6%8A%A4/" title="把个人博客当作工程项目维护">把个人博客当作工程项目维护</a></p>
+<h3 id="5-建立发布门禁"><a href="#5-建立发布门禁" class="headerlink" title="5. 建立发布门禁"></a>5. 建立发布门禁</h3><p>最终的质量基线不是“Hexo 没报错”，而是关键页面、链接、资源、元数据、内容和两套部署配置都经过自动验证。</p>
+<p>关联阅读：<a href="/ryuho/2026/07/27/%E4%BB%8E%E8%83%BD%E6%9E%84%E5%BB%BA%E5%88%B0%E6%95%A2%E5%8F%91%E5%B8%83-%E4%B8%BAHexo%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B%E8%B4%A8%E9%87%8F%E9%97%A8%E7%A6%81/" title="从能构建到敢发布：为 Hexo 博客建立质量门禁">从能构建到敢发布：为 Hexo 博客建立质量门禁</a></p>
+<h3 id="6-用最小依赖解决内容搜索"><a href="#6-用最小依赖解决内容搜索" class="headerlink" title="6. 用最小依赖解决内容搜索"></a>6. 用最小依赖解决内容搜索</h3><p>站内搜索不一定需要大型前端库。构建期索引、简单权重、输出转义和双路径验证，足以覆盖当前内容规模。</p>
+<p>关联阅读：<a href="/ryuho/2026/07/27/%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E6%90%9C%E7%B4%A2%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E6%8B%A9%E9%9B%B6CDN%E4%BE%9D%E8%B5%96/" title="静态博客搜索为什么选择零 CDN 依赖">静态博客搜索为什么选择零 CDN 依赖</a></p>
+<h2 id="这个专题关注什么"><a href="#这个专题关注什么" class="headerlink" title="这个专题关注什么"></a>这个专题关注什么</h2><ul>
+<li>静态站点的多环境路径处理</li>
+<li>内容源文件与构建产物审计</li>
+<li>搜索、RSS、sitemap 和 PWA 的维护边界</li>
+<li>个人项目如何避免功能膨胀</li>
+<li>技术写作如何与工程实践互相促进</li>
+</ul>
+<p>后续只有在这个站点遇到真实问题或形成可复用经验时，才会继续增加文章。</p>
+
+  </div>
+</article>
+
+  </main>
+  <footer class="site-footer">
+  <div class="container footer-inner">
+    <span>© 2026 Ghost-Author. 记录 AI 工程与长期思考。</span>
+    <span>
+      <a href="/ryuho/atom.xml">RSS</a>
+      
+        · <a href="mailto:liupggg@gmail.com">Email</a>
+      
+      · <a href="/ryuho/archives/">归档</a>
+    </span>
+  </div>
+</footer>
+
+  <button class="back-to-top" type="button" aria-label="回到顶部">↑</button>
+</body>
+</html>

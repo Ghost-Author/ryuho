@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>从能构建到敢发布：为 Hexo 博客建立质量门禁 | Ghost-Author</title>
+  <meta name="description" content="复盘一个 Hexo 博客如何从“可以生成静态页面”演进到同时验证内容、链接、SEO、图片和双部署路径的 47 项发布门禁。">
+  
+    <meta name="keywords" content="工程实践, Hexo, CI/CD, 质量工程, AI 工程, 系统设计">
+  
+  
+  <meta name="author" content="Ghost-Author">
+  <meta name="generator" content="Hexo">
+  <meta name="theme-color" content="#ff7bb2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#211827" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="从能构建到敢发布：为 Hexo 博客建立质量门禁 | Ghost-Author">
+  <meta property="og:description" content="复盘一个 Hexo 博客如何从“可以生成静态页面”演进到同时验证内容、链接、SEO、图片和双部署路径的 47 项发布门禁。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://ghost-author.github.io/ryuho/2026/07/27/%E4%BB%8E%E8%83%BD%E6%9E%84%E5%BB%BA%E5%88%B0%E6%95%A2%E5%8F%91%E5%B8%83-%E4%B8%BAHexo%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B%E8%B4%A8%E9%87%8F%E9%97%A8%E7%A6%81/">
+  <meta property="og:site_name" content="Ghost-Author">
+  
+    <meta property="og:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  
+    <meta name="twitter:image" content="https://ghost-author.github.io/ryuho/images/hero.jpg">
+  
+  
+    <meta property="article:published_time" content="2026-07-27T02:00:00.000Z">
+    
+      <meta property="article:modified_time" content="2026-07-27T13:50:01.488Z">
+    
+    
+      
+        <meta property="article:tag" content="工程实践">
+      
+        <meta property="article:tag" content="Hexo">
+      
+        <meta property="article:tag" content="CI/CD">
+      
+        <meta property="article:tag" content="质量工程">
+      
+    
+  
+  <link rel="alternate" type="application/atom+xml" title="Ghost-Author" href="https://ghost-author.github.io/ryuho/atom.xml">
+  <link rel="canonical" href="https://ghost-author.github.io/ryuho/2026/07/27/%E4%BB%8E%E8%83%BD%E6%9E%84%E5%BB%BA%E5%88%B0%E6%95%A2%E5%8F%91%E5%B8%83-%E4%B8%BAHexo%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B%E8%B4%A8%E9%87%8F%E9%97%A8%E7%A6%81/">
+  <link rel="manifest" href="/ryuho/site.webmanifest">
+  <link rel="apple-touch-icon" href="/ryuho/images/avatar.png">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = saved || (prefersDark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="/ryuho/css/style.css">
+  <script src="/ryuho/js/main.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/ryuho/sw.js').catch(function () {});
+      });
+    }
+  </script>
+  
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"BlogPosting","headline":"从能构建到敢发布：为 Hexo 博客建立质量门禁","name":"从能构建到敢发布：为 Hexo 博客建立质量门禁","description":"复盘一个 Hexo 博客如何从“可以生成静态页面”演进到同时验证内容、链接、SEO、图片和双部署路径的 47 项发布门禁。","url":"https://ghost-author.github.io/ryuho/2026/07/27/%E4%BB%8E%E8%83%BD%E6%9E%84%E5%BB%BA%E5%88%B0%E6%95%A2%E5%8F%91%E5%B8%83-%E4%B8%BAHexo%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B%E8%B4%A8%E9%87%8F%E9%97%A8%E7%A6%81/","image":"https://ghost-author.github.io/ryuho/images/hero.jpg","keywords":"工程实践, Hexo, CI/CD, 质量工程, AI 工程, 系统设计","author":{"@type":"Person","name":"Ghost-Author"},"publisher":{"@type":"Person","name":"Ghost-Author"},"datePublished":"2026-07-27T02:00:00.000Z","dateModified":"2026-07-27T13:50:01.488Z"}
+  </script>
+</head>
+<body>
+  <div class="reading-progress" aria-hidden="true"></div>
+  <a class="skip-link" href="#content">跳到正文</a>
+  <header class="site-header">
+  
+  <div class="container header-inner">
+    <a class="logo" href="/ryuho/">
+      <span class="logo-dot"></span>
+      <span>Ghost-Author</span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="/ryuho/" >首页</a>
+      <a href="/ryuho/search/" >搜索</a>
+      <a href="/ryuho/series/" >专题</a>
+      <a href="/ryuho/projects/" >项目</a>
+      <a href="/ryuho/about/" >关于</a>
+      <a href="/ryuho/tags/" >标签</a>
+      <a href="/ryuho/categories/" >分类</a>
+      <a href="/ryuho/archives/" >归档</a>
+    </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换深色模式" aria-pressed="false">
+      <span aria-hidden="true" data-theme-icon>☾</span>
+    </button>
+  </div>
+</header>
+
+  <main class="container" id="content" tabindex="-1">
+    <article class="post post-layout">
+  
+  <header class="post-header">
+    <h1>从能构建到敢发布：为 Hexo 博客建立质量门禁</h1>
+    <div class="post-meta-line">
+      <time datetime="2026-07-27T02:00:00.000Z">2026-07-27</time>
+      <span>5 分钟阅读</span>
+      <span>2083 字</span>
+      
+    </div>
+  </header>
+  
+    <img class="post-hero" src="/ryuho/images/hero.jpg" alt="" width="1920" height="1080" loading="eager" decoding="async">
+  
+  
+    <div class="post-meta">
+      
+        <a class="tag" href="/ryuho/tags/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/">
+          <span class="tag-name">工程实践</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/Hexo/">
+          <span class="tag-name">Hexo</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/CI-CD/">
+          <span class="tag-name">CI/CD</span>
+        </a>
+      
+        <a class="tag" href="/ryuho/tags/%E8%B4%A8%E9%87%8F%E5%B7%A5%E7%A8%8B/">
+          <span class="tag-name">质量工程</span>
+        </a>
+      
+    </div>
+  
+  <div class="post-actions" aria-label="文章操作">
+    <button class="text-action" type="button" data-copy-link data-copy-text="复制链接" data-copied-text="已复制">复制链接</button>
+    <a class="text-action" href="/ryuho/archives/">查看归档</a>
+  </div>
+  <div class="post-body">
+    <div class="post-content">
+      <p>静态博客最容易给人一种错觉：只要 <code>hexo generate</code> 没报错，发布就算成功。</p>
+<p>但“成功生成文件”和“这些文件可以放心上线”是两件不同的事。模板里可能泄漏 <code>undefined</code>，文章可能缺少 description，内部链接可能指向不存在的路径，GitHub Pages 子路径可以正常工作，换到 Vercel 根路径后却全部错位。</p>
+<p>这个博客的工程化改造，最后没有停在“构建通过”，而是建立了一套覆盖站点产物、内容源文件和两种部署配置的发布门禁。</p>
+<h2 id="问题是如何逐步暴露的"><a href="#问题是如何逐步暴露的" class="headerlink" title="问题是如何逐步暴露的"></a>问题是如何逐步暴露的</h2><p>最开始只需要确认一件事：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm run build<br></code></pre></td></tr></table></figure>
+
+<p>如果命令退出码是 0，就认为站点可用。随着页面和功能增加，这个判断越来越不可靠。</p>
+<p>实际遇到的问题包括：</p>
+<ul>
+<li>Hexo 模板渲染报错，但部分页面仍然被生成。</li>
+<li>canonical URL 在子路径部署时出现重复路径。</li>
+<li><code>robots.txt</code> 在 GitHub Pages 和 Vercel 上需要不同的 sitemap 地址。</li>
+<li>manifest 的 <code>start_url</code> 写死后，只适用于一种部署方式。</li>
+<li>首页链接看起来正常，目标页面却没有生成。</li>
+<li>文章正文、标签和描述可以为空，但构建仍然成功。</li>
+<li>图片扩展名和真实文件格式可能不一致。</li>
+<li>搜索、专题和 service worker 新增后，缺少对应回归检查。</li>
+</ul>
+<p>这些问题有一个共同点：它们通常不会被 Hexo 的构建过程视为错误。</p>
+<h2 id="第一层：检查必须存在的产物"><a href="#第一层：检查必须存在的产物" class="headerlink" title="第一层：检查必须存在的产物"></a>第一层：检查必须存在的产物</h2><p>最基础的门禁，是确认关键文件真的生成了：</p>
+<ul>
+<li>首页和 404 页面</li>
+<li>RSS 与 sitemap</li>
+<li>robots 与 Web App Manifest</li>
+<li>本地搜索页和搜索索引</li>
+<li>service worker</li>
+<li>专题页与项目页</li>
+<li>CSS、JavaScript 和核心图片</li>
+</ul>
+<p>这一步很简单，但能立刻发现生成器未加载、路径拼错或页面被意外删除的问题。</p>
+<p>审计脚本没有引入额外测试框架，而是使用 Node.js 标准库读取 <code>public</code> 目录。对这样一个小型静态站点来说，保持工具简单比增加抽象更重要。</p>
+<h2 id="第二层：检查页面是否“像一个可发布页面”"><a href="#第二层：检查页面是否“像一个可发布页面”" class="headerlink" title="第二层：检查页面是否“像一个可发布页面”"></a>第二层：检查页面是否“像一个可发布页面”</h2><p>文件存在还不够。每个 HTML 页面还需要具备基本发布质量：</p>
+<ul>
+<li>canonical URL</li>
+<li>description</li>
+<li>Open Graph URL</li>
+<li>首页结构化数据</li>
+<li>文章分享图片和 article tags</li>
+<li>404 页的 <code>noindex</code></li>
+</ul>
+<p>审计还会扫描生成后的 HTML，阻止 <code>undefined</code>、<code>null</code>、默认 Hexo 文案和空日记模板进入产物。</p>
+<p>这类检查的价值不在于“SEO 分数”，而在于把模板错误从人工浏览变成确定的构建失败。</p>
+<h2 id="第三层：验证链接和资源真正可达"><a href="#第三层：验证链接和资源真正可达" class="headerlink" title="第三层：验证链接和资源真正可达"></a>第三层：验证链接和资源真正可达</h2><p>静态站点很适合做全量内部链接检查，因为所有目标最终都在 <code>public</code> 目录里。</p>
+<p>审计脚本会收集页面中的 <code>href</code> 和 <code>src</code>，忽略邮件、锚点和外部域名，然后把站内 URL 转换成相对产物路径。目标既可能是一个文件，也可能是目录下的 <code>index.html</code>。</p>
+<p>这一层会验证：</p>
+<ul>
+<li>页面之间的导航</li>
+<li>图片与脚本资源</li>
+<li>首页最新文章入口</li>
+<li>sitemap 中列出的 URL</li>
+<li>GitHub Pages <code>/ryuho/</code> 子路径</li>
+<li>Vercel <code>/</code> 根路径</li>
+</ul>
+<p>真正困难的不是写正则，而是正确处理两套 root。解决方式是让 robots、manifest、搜索索引和 service worker 都从 Hexo 当前配置生成，不再维护两份静态文件。</p>
+<h2 id="第四层：把内容质量放进构建流程"><a href="#第四层：把内容质量放进构建流程" class="headerlink" title="第四层：把内容质量放进构建流程"></a>第四层：把内容质量放进构建流程</h2><p>技术博客的质量问题不只来自代码，也来自内容。</p>
+<p>现在每篇文章至少需要：</p>
+<ul>
+<li>title 和 date</li>
+<li>足够具体的 description</li>
+<li>至少两个 tags</li>
+<li>至少一个 category</li>
+<li>可用 cover</li>
+<li>不是提纲或占位文本的正文</li>
+</ul>
+<p>脚手架也接受同样检查，避免新文章从一开始就生成空的元数据字段。</p>
+<p>这不能判断文章观点是否精彩，但能挡住最常见的发布疏漏。内容判断仍然由作者负责，机器只守住可确定的底线。</p>
+<h2 id="双部署如何进入同一套验证"><a href="#双部署如何进入同一套验证" class="headerlink" title="双部署如何进入同一套验证"></a>双部署如何进入同一套验证</h2><p>项目保留了两条发布路径：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm run check<br>npm run check:vercel<br></code></pre></td></tr></table></figure>
+
+<p>第一条使用 GitHub Pages 的 <code>/ryuho/</code> 子路径，第二条合并 Vercel 配置并使用 <code>/</code> 根路径。两条命令最终运行同一个审计脚本。</p>
+<p>目前完整检查包含 47 项规则，会扫描 37 个 HTML 页面。构建后的图片优化还能把核心图片减少约 293 KiB。</p>
+<p>数字本身不是目标。重要的是以后修改模板、文章、搜索或部署配置时，旧能力都有机会被自动验证。</p>
+<h2 id="一次人工抽查仍然有价值"><a href="#一次人工抽查仍然有价值" class="headerlink" title="一次人工抽查仍然有价值"></a>一次人工抽查仍然有价值</h2><p>自动审计建立后，我仍然保留人工抽查。</p>
+<p>有一次所有基础检查都通过了，但 <code>robots.txt</code> 的 sitemap 地址出现了 <code>/ryuho/ryuho/</code>。原因是站点 URL 本身已经带有子路径，生成器又追加了一次 root。</p>
+<p>修复之后，这个具体问题也被加入审计。</p>
+<p>这件事提醒我：自动化规则不是凭空设计出来的。它通常来自一次真实错误，然后把这次错误变成以后不会重复踩的边界。</p>
+<h2 id="最后的取舍"><a href="#最后的取舍" class="headerlink" title="最后的取舍"></a>最后的取舍</h2><p>质量门禁不是越多越好。</p>
+<p>适合自动化的是确定性问题：文件是否存在、路径是否可达、元数据是否完整、资源是否匹配。文章是否有洞察、专题是否值得写、一个功能是否真的服务读者，仍然需要人的判断。</p>
+<p>这个博客进入稳定维护阶段后，不再继续增加没有使用场景的组件。发布流程只保留一个清晰原则：</p>
+<blockquote>
+<p>内容负责提供价值，自动化负责守住底线。</p>
+</blockquote>
+<p>当一次提交同时通过两种部署配置和完整产物审计时，我才真正从“它能构建”走到了“我敢发布”。</p>
+
+    </div>
+    
+      <aside class="post-toc" aria-label="文章目录">
+        <h3>目录</h3>
+        <div class="toc-inner">
+          <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%98%AF%E5%A6%82%E4%BD%95%E9%80%90%E6%AD%A5%E6%9A%B4%E9%9C%B2%E7%9A%84"><span class="toc-number">1.</span> <span class="toc-text">问题是如何逐步暴露的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E5%B1%82%EF%BC%9A%E6%A3%80%E6%9F%A5%E5%BF%85%E9%A1%BB%E5%AD%98%E5%9C%A8%E7%9A%84%E4%BA%A7%E7%89%A9"><span class="toc-number">2.</span> <span class="toc-text">第一层：检查必须存在的产物</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E5%B1%82%EF%BC%9A%E6%A3%80%E6%9F%A5%E9%A1%B5%E9%9D%A2%E6%98%AF%E5%90%A6%E2%80%9C%E5%83%8F%E4%B8%80%E4%B8%AA%E5%8F%AF%E5%8F%91%E5%B8%83%E9%A1%B5%E9%9D%A2%E2%80%9D"><span class="toc-number">3.</span> <span class="toc-text">第二层：检查页面是否“像一个可发布页面”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E5%B1%82%EF%BC%9A%E9%AA%8C%E8%AF%81%E9%93%BE%E6%8E%A5%E5%92%8C%E8%B5%84%E6%BA%90%E7%9C%9F%E6%AD%A3%E5%8F%AF%E8%BE%BE"><span class="toc-number">4.</span> <span class="toc-text">第三层：验证链接和资源真正可达</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E5%B1%82%EF%BC%9A%E6%8A%8A%E5%86%85%E5%AE%B9%E8%B4%A8%E9%87%8F%E6%94%BE%E8%BF%9B%E6%9E%84%E5%BB%BA%E6%B5%81%E7%A8%8B"><span class="toc-number">5.</span> <span class="toc-text">第四层：把内容质量放进构建流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8C%E9%83%A8%E7%BD%B2%E5%A6%82%E4%BD%95%E8%BF%9B%E5%85%A5%E5%90%8C%E4%B8%80%E5%A5%97%E9%AA%8C%E8%AF%81"><span class="toc-number">6.</span> <span class="toc-text">双部署如何进入同一套验证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E6%AC%A1%E4%BA%BA%E5%B7%A5%E6%8A%BD%E6%9F%A5%E4%BB%8D%E7%84%B6%E6%9C%89%E4%BB%B7%E5%80%BC"><span class="toc-number">7.</span> <span class="toc-text">一次人工抽查仍然有价值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%90%8E%E7%9A%84%E5%8F%96%E8%88%8D"><span class="toc-number">8.</span> <span class="toc-text">最后的取舍</span></a></li></ol>
+        </div>
+      </aside>
+    
+  </div>
+  
+    <section class="related-posts" aria-labelledby="related-title">
+      <div class="section-title">
+        <h2 id="related-title">相关推荐</h2>
+        <a href="/ryuho/archives/">完整归档</a>
+      </div>
+      <div class="related-grid">
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/02/09/%E6%8A%8A%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E5%BD%93%E4%BD%9C%E5%B7%A5%E7%A8%8B%E9%A1%B9%E7%9B%AE%E7%BB%B4%E6%8A%A4/">
+              <span class="related-score">同主题</span>
+              <h3>把个人博客当作工程项目维护</h3>
+              <p>从工程视角维护个人博客：明确定位、收紧发布流程、补齐审计检查，并让内容持续可迭代。</p>
+              <time datetime="2026-02-09T02:00:00.000Z">2026-02-09</time>
+            </a>
+          </article>
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/07/27/%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E6%90%9C%E7%B4%A2%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E6%8B%A9%E9%9B%B6CDN%E4%BE%9D%E8%B5%96/">
+              <span class="related-score">同主题</span>
+              <h3>静态博客搜索为什么选择零 CDN 依赖</h3>
+              <p>复盘这个 Hexo 博客如何用构建期 JSON 索引、浏览器原生匹配和简单权重排序，实现不依赖外部 CDN 的站内搜索。</p>
+              <time datetime="2026-07-27T03:30:00.000Z">2026-07-27</time>
+            </a>
+          </article>
+        
+          <article class="related-card">
+            <a href="/ryuho/2026/02/08/%E6%97%A5%E8%AE%B0-2026-02-08/">
+              <span class="related-score">同主题</span>
+              <h3>站点整理日志：让主题服务阅读体验</h3>
+              <p>记录一次博客主题优化：通过更清晰的卡片、时间线和阅读状态，让技术内容更容易被浏览。</p>
+              <time datetime="2026-02-08T04:30:00.000Z">2026-02-08</time>
+            </a>
+          </article>
+        
+      </div>
+    </section>
+  
+  <footer class="post-end">
+    <div class="post-end-card">
+      <h2>读完这篇</h2>
+      <dl class="post-facts">
+        <div>
+          <dt>字数</dt>
+          <dd>2083</dd>
+        </div>
+        <div>
+          <dt>阅读</dt>
+          <dd>5 分钟</dd>
+        </div>
+        
+          <div>
+            <dt>分类</dt>
+            <dd>
+              
+                <a href="/ryuho/categories/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/">工程实践</a>
+              
+            </dd>
+          </div>
+        
+      </dl>
+      <div class="post-end-actions">
+        <a class="text-action" href="/ryuho/">回到首页</a>
+        <a class="text-action" href="/ryuho/tags/">浏览标签</a>
+      </div>
+    </div>
+  </footer>
+
+  
+
+  <nav class="post-nav" aria-label="文章翻页">
+    
+      <a href="/ryuho/2026/07/27/%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E6%90%9C%E7%B4%A2%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E6%8B%A9%E9%9B%B6CDN%E4%BE%9D%E8%B5%96/">上一篇：静态博客搜索为什么选择零 CDN 依赖</a>
+    
+    
+      <a href="/ryuho/2026/07/18/AI%E5%BA%94%E7%94%A8%E4%B8%8A%E7%BA%BF%E5%90%8E%E8%A6%81%E7%9C%8B%E8%A7%81%E4%BB%80%E4%B9%88/">下一篇：AI 应用上线后，要先看见什么</a>
+    
+  </nav>
+</article>
+
+  </main>
+  <footer class="site-footer">
+  <div class="container footer-inner">
+    <span>© 2026 Ghost-Author. 记录 AI 工程与长期思考。</span>
+    <span>
+      <a href="/ryuho/atom.xml">RSS</a>
+      
+        · <a href="mailto:liupggg@gmail.com">Email</a>
+      
+      · <a href="/ryuho/archives/">归档</a>
+    </span>
+  </div>
+</footer>
+
+  <button class="back-to-top" type="button" aria-label="回到顶部">↑</button>
+</body>
+</html>
